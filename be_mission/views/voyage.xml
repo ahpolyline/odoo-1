@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+           <!-- Top menu item -->
+         <menuitem name="Voyage" id="be_mission_voyage" groups="be_mission.group_create_voyage" sequence="20"/>
+
+        <!-- Voyage vacance -->
+        <menuitem name="Voyage Vacance" id="be_mission_voyage_vacance" parent="be_mission_voyage" sequence="10"/>
+        <!-- Treeview Voyage vacance -->
+        <record model="ir.ui.view" id="mission_voyage_vacance_treeview">
+          <field name="name">Frais.billet</field>
+          <field name="model">voyage.vacance</field>
+          <field name="arch" type="xml">
+            <tree>
+              <field name="currency_id" invisible="1"/>
+              <field name="name" />
+              <field name="employee_id" />
+              <field name="date_a" />
+              <field name="date_r" />
+              <field name="montant_b" widget="monetary"/>
+              <field name="montant_bm" widget="monetary"/>
+              <field name="montant_bmt" widget="monetary"/>
+              <field name="montant_total" sum="Total" widget="monetary"/>
+            </tree>
+          </field>
+        </record>
+
+        <!-- form view voyage vacance -->
+        <record id="form_view_voyage_vacance" model="ir.ui.view">
+          <field name="name">voyage_vacance_view_form</field>
+          <field name="model">voyage.vacance</field>
+          <field name="arch" type="xml">
+            <form string="Frais Billet Avion">
+             <header>
+                <button name="valider" type="object" string="Validé" states="draft"
+                        class="btn-primary" />
+                <field name="state" widget="statusbar" string="confirmé"
+                       statusbar_visible="draft,valider"
+                       />
+              </header>
+                <sheet>
+              <div class="oe_title">
+                  <h1>
+                    <field name="name" readonly="1"/>
+                  </h1>
+                </div>
+              <group>
+                <group attrs="{'readonly':[('state', '!=', 'draft')]}" >
+                  <field name="employee_id"/>
+                  <field name="beneficiaire" />
+                  <field name="trajet"/>
+                  <field name="nature"/>
+                </group>
+                <group attrs="{'readonly':[('state', '!=', 'draft')]}" >
+                  <field name="date_a"/>
+                  <field name="date_r"/>
+                     <label for="test_cr" string="Test COVID / Date"/>
+                      <div class="o_row" name="test_cr" >
+                          <field name="test_cr"/>
+                          <field name="date_cr" attrs="{'invisible':[('test_cr', 'not in',('oui'))]}"/>
+                      </div>
+
+                </group>
+              </group>
+              <group attrs="{'readonly':[('state', '!=', 'draft')]}" >
+                <group></group>
+                <group class="oe_subtotal_footer">
+                  <field name="montant_b" widget="monetary"/>
+                  <field name="montant_bm" widget="monetary"/>
+                  <field name="montant_bmt" widget="monetary"/>
+                    <field name="autres_frais" widget="monetary"/>
+                  <field name="montant_total" widget="monetary"/>
+                </group>
+                <field name="currency_id" invisible="1"/>
+              </group>
+            </sheet>
+              <div class="oe_chatter">
+                <field name="message_follower_ids" widget="mail_followers"/>
+                <field name="message_ids" widget="mail_thread"/>
+              </div>
+            </form>
+          </field>
+        </record>
+
+        <!-- action voyage vacance -->
+        <record model="ir.actions.act_window" id="voyage_vacance_action_window">
+          <field name="name">Frais Billet d'Avion</field>
+          <field name="res_model">voyage.vacance</field>
+          <field name="view_id" ref="mission_voyage_vacance_treeview"/>
+          <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Frais Billet d'Avion" id="be_menu_voyage_vacance" parent="be_mission_voyage_vacance" action="voyage_vacance_action_window"/>
+
+    </data>
+</odoo>

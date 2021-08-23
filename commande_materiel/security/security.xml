@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+         <record id="commande_materiel_aprobation_root" model="ir.module.category">
+            <field name="name">Commande Mareiels</field>
+            <field name="description">Commande Materiel Mangers</field>
+        </record>
+
+        <record id="group_commande_materiel_employee" model="res.groups">
+            <field name="name">Responsable de Stock</field>
+            <field name="category_id" ref="commande_materiel.commande_materiel_aprobation_root"/>
+        </record>
+        <record id="group_commande_materiel_csa" model="res.groups">
+            <field name="name">CSA</field>
+            <field name="category_id" ref="commande_materiel.commande_materiel_aprobation_root"/>
+        </record>
+        <record id="group_commande_materiel_daf" model="res.groups">
+            <field name="name">DAF</field>
+             <field name="implied_ids" eval="[(4, ref('group_commande_materiel_csa'))]" />
+            <field name="category_id" ref="commande_materiel.commande_materiel_aprobation_root"/>
+        </record>
+        <record id="group_commande_materiel_respo_depart" model="res.groups">
+            <field name="name">Responsables Département</field>
+            <field name="category_id" ref="commande_materiel.commande_materiel_aprobation_root"/>
+        </record>
+
+        <record id="commande_materiel_own_rule" model="ir.rule">
+            <field name="name">Employee commande Material Own</field>
+            <field name="model_id" ref="model_commande_materiel"/>
+            <field name="domain_force">[('employee_id.user_id','=',user.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="commande_materiel_line_employee_rule" model="ir.rule">
+            <field name="name">Employee Commande materiel Lines</field>
+            <field name="model_id" ref="model_commande_materiel_line"/>
+            <field name="domain_force">[('commande_id.employee_id.user_id','=',user.id)]</field>
+            <field name="groups" eval="[(4, ref('commande_materiel.group_commande_materiel_respo_depart'))]"/>
+        </record>
+
+        <record id="commande_materiel_depart_rule" model="ir.rule">
+            <field name="name">Departement commande Material Own</field>
+            <field name="model_id" ref="model_commande_materiel"/>
+            <field name="domain_force">[('department_id.manager_id.user_id','=',user.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="commande_materiel_line_depart_rule" model="ir.rule">
+            <field name="name">Departement Commande materiel Lines</field>
+            <field name="model_id" ref="model_commande_materiel_line"/>
+            <field name="domain_force">[('commande_id.department_id.manager_id.user_id','=',user.id)]</field>
+            <field name="groups" eval="[(4, ref('commande_materiel.group_commande_materiel_respo_depart'))]"/>
+        </record>
+
+        <record id="commande_materiel_all_rule" model="ir.rule">
+            <field name="name">Commande materiel All</field>
+            <field name="model_id" ref="model_commande_materiel"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="groups" eval="[(4, ref('commande_materiel.group_commande_materiel_daf')),
+                                        (4, ref('commande_materiel.group_commande_materiel_csa'))]"/>
+        </record>
+
+        <record id="commande_materiel_line_all_rule" model="ir.rule">
+            <field name="name">Material Commande materiel Line All</field>
+            <field name="model_id" ref="model_commande_materiel_line"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="groups" eval="[(4, ref('commande_materiel.group_commande_materiel_daf')),
+                                        (4, ref('commande_materiel.group_commande_materiel_csa'))]"/>
+        </record>
+
+
+        <!-- Hide inventory for user -->
+        <record id="stock.menu_stock_root" model="ir.ui.menu">
+            <field name="groups_id" eval="[(5,ref('stock.group_stock_user'))]"/>
+        </record>
+
+    </data>
+</odoo>

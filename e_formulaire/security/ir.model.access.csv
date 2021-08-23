@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_e_formulaire,e_formulaire,model_e_formulaire,base.group_user,1,1,1,1
+access_e_formulaire_type,e_formulaire_type,model_e_formulaire_type,base.group_user,1,1,1,1
+access_res_partner_formulaire_user,res.partner.e.formulaire.user,base.model_res_partner,e_formulaire.group_e_formulaire_user,1,0,0,0
+access_res_partner_fomulaire_manager,res.partner.e.formulaire.manager,base.model_res_partner,e_formulaire.group_e_formulaire_manager,1,1,1,0
+access_e_formulaire_manager,access.e_formulaire.manager,model_e_formulaire,e_formulaire.group_e_formulaire_manager,1,1,1,1

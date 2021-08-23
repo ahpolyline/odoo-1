@@ -1,0 +1,223 @@
+<odoo>
+  <data>
+
+    <!-- Frm veiew commande materiel-->
+    <record id="commande_materiel_form_view_view_form" model="ir.ui.view">
+        <field name="name">commande_materiel_form_view_view_form</field>
+        <field name="model">commande.materiel</field>
+        <field name="arch" type="xml">
+            <form string="Commande Matriéls">
+              <style>
+                  .o_form_view .o_form_statusbar > .o_statusbar_status > .o_arrow_button.btn-primary.disabled {
+                     background: #f9dfa6;
+                  }
+                  .o_form_view .o_form_statusbar > .o_statusbar_status > .o_arrow_button.btn-primary.disabled::after {
+                     border-left-color: #f9dfa6;
+                  }
+              </style>
+
+              <header>
+                <button name="confirme_user" type="object" string="Confirmé" states="draft"
+                        class="btn-primary" groups="base.group_user"/>
+                <button name="confirme_depart" type="object" string="Confirmé" states="en_cours,annuler"
+                        class="btn-primary" groups="commande_materiel.group_commande_materiel_respo_depart,commande_materiel.group_commande_materiel_csa"/>
+                <button name="confirme_manager" type="object" string="Confirmé" states="accepter" class="btn-primary"
+                        groups="commande_materiel.group_commande_materiel_csa,commande_materiel.group_commande_materiel_daf" />
+                <button name="request_stock" type="object" string="Créer Transfert Interne" attrs="{'invisible': [('state','!=','approuver')]}" class="btn-primary"
+                        groups="commande_materiel.group_commande_materiel_csa,commande_materiel.group_commande_materiel_daf"/>
+                <button name="reject_commande" type="object" string="Rejet"  attrs="{'invisible':[('state', 'not in', ('en_cours','accepter'))]}"
+                        groups="commande_materiel.group_commande_materiel_daf,commande_materiel.group_commande_materiel_csa,commande_materiel.group_commande_materiel_respo_depart" />
+                <button name="recu_user" type="object" string="Reçu" attrs="{'invisible': ['|',('pick_confirmed', '=', False),('state' , '!=', 'picking')]}"
+                        class="btn-primary" groups="base.group_user" />
+                <button name="annulee_commande" type="object" string="Annulé" states="draft"/>
+                <field name="state" widget="statusbar" string="confirmé"
+                       statusbar_visible="draft,en_cours,accepter,approuver,recu"
+                       />
+              </header>
+                <sheet>
+                     <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" icon="fa-truck"
+                                name="show_picking" groups="base.group_user">
+                                <field  name="picking_count" string="Transfert Interne" widget="statinfo" />
+                        </button>
+                    </div>
+                   <div class="oe_title">
+                        <div class="oe_title">
+                        <h1>
+                            <field name="name"/><br/>
+                        </h1>
+                        </div>
+                   </div>
+                  <div>
+                    <group>
+                      <group>
+                          <field name="pick_confirmed" invisible="1" />
+                          <field name="change_commande_line" invisible="1"/>
+                          <field name="employee_id" readonly="1" />
+                          <field name="department_id" readonly="1" />
+                      </group>
+                      <group>
+                        <field name="date" readonly="1"/>
+                        <field name="date_recep" attrs="{'invisible':[('state', '!=', 'recu')]}"/>
+                      </group>
+                    </group>
+                    <notebook>
+                      <page string="Ligne des Commandes">
+                        <field name="commande_line_ids" attrs="{'readonly': ['|', ('state', 'in', ('recu','en_cours')),('change_commande_line', '=', False)]}">
+                          <tree editable="bottom">
+                            <field name="product_id" />
+                            <field name="description" />
+                            <field name="qty" />
+                            <field name="uom" />
+                              <field name="commande_picking" invisible="1"/>
+                          </tree>
+                        </field>
+                      </page>
+
+
+                       <page string="Détails de Transfert" attrs="{'invisible':[('state', '!=', 'approuver')]}" groups="commande_materiel.group_commande_materiel_csa,commande_materiel.group_commande_materiel_employee">
+                                <group>
+                                    <group>
+                                            <field name="location_id"/>
+                                    </group>
+                                    <group>
+                                        <field name="dest_location_id" />
+                                        <field name="delivery_picking_id" string="Transfert N:"/>
+                                        <field name="custom_picking_type_id" string="Type d\'opération" groups="base.group_user"/>
+                                    </group>
+                                </group>
+                            </page>
+
+                      <page string="Autres Informations">
+                        <group>
+                          <group>
+                            <field name="employee_confirme_par_id" />
+                            <field name="employee_accepter_par_id" />
+                            <field name="employee_aprouver_par_id" />
+                            <field name="employee_rejeter_par_id" />
+                          </group>
+                          <group>
+                            <field name="date_confirm" />
+                            <field name="date_accept" />
+                            <field name="date_appr" />
+                            <field name="date_reject" />
+                          </group>
+                        </group>
+                      </page>
+                       
+
+                    </notebook>
+                    <group>
+                      <group>
+                          <field name="commentaire" attrs="{'readonly':[('state', '!=', 'draft')]}" placeholder=""/>
+                      </group>
+                      <group>
+                          <field name="satisfaction" attrs="{'invisible':[('state', 'not in', ('recu','picking'))],'readonly':[('state', '!=', 'picking')]}" />
+                          <field name="motifrejet" groups="commande_materiel.group_commande_materiel_csa,commande_materiel.group_commande_materiel_respo_depart,commande_materiel.group_commande_materiel_daf"
+                                 attrs="{'invisible':[('state', 'not in', ('en_cours','accepter','rejeter'))],'readonly':[('state', '==', 'rejeter')]}" />
+                      </group>
+                    </group>
+
+                  </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="commande_materiel_list">
+      <field name="name">commande_materiel.list</field>
+      <field name="model">commande.materiel</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name" string="Numéro"/>
+          <field name="employee_id"/>
+          <field name="department_id" string="Département"/>
+          <field name="date" />
+          <field name="state" string="Statut"/>
+        </tree>
+      </field>
+    </record>
+
+        <record model="ir.ui.view" id="view_commande_materiel_graph">
+            <field name="name">commande.mareriel.graph</field>
+            <field name="model">commande.materiel</field>
+            <field name="arch" type="xml">
+                <graph string="Commandes" sample="1">
+                    <field name="employee_id"/>
+                    <field name="commande_line_ids" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_commande_materiel_pivot">
+            <field name="name">commande.materiel.pivot</field>
+            <field name="model">commande.materiel</field>
+            <field name="arch" type="xml">
+                <pivot string="Commandes" sample="1">
+                    <field name="date" type="row"/>
+                    <field name="name" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="commande_materiel_action_window">
+      <field name="name">Liste des Commandes</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">commande.materiel</field>
+      <field name="view_mode">tree,form,pivot,graph</field>
+    </record>
+
+    <record id="commande_materiel_action_view_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="commande_materiel.commande_materiel_list"/>
+            <field name="act_window_id" ref="commande_materiel_action_window"/>
+        </record>
+
+        <record id="commande_materiel_action_view_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="commande_materiel.commande_materiel_form_view_view_form"/>
+            <field name="act_window_id" ref="commande_materiel_action_window"/>
+        </record>
+
+        <record id="commande_materiel_action_view_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="5"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="commande_materiel.view_commande_materiel_pivot"/>
+            <field name="act_window_id" ref="commande_materiel_action_window"/>
+        </record>
+
+        <record id="commande_materiel_action_view_graph" model="ir.actions.act_window.view">
+            <field name="sequence" eval="6"/>
+            <field name="view_mode">graph</field>
+            <field name="view_id" ref="commande_materiel.view_commande_materiel_graph"/>
+            <field name="act_window_id" ref="commande_materiel_action_window"/>
+        </record>
+
+    <menuitem name="Expression de Besoins" id="commande_materiel_menu_root" sequence="20"/>
+    <menuitem name="Les Commandes" id="commande_materiel_commande" parent="commande_materiel_menu_root" sequence="20"
+              action="commande_materiel_action_window"/>
+
+    <record model="ir.actions.act_window" id="commande_materiel_action_window_to_validate">
+      <field name="name">Liste des Commandes à Confirmer</field>
+      <field name="res_model">commande.materiel</field>
+      <field name="view_mode">tree,form</field>
+        <field name="context">{'create': False}</field>
+        <field name="domain">[('state', 'not in', ('draft','rejeter','recu','annuler'))]</field>
+    </record>
+
+
+    <menuitem name="Les Commandes à Confirmer" id="commande_materiel_commande_to_validate" parent="commande_materiel_menu_root" sequence="30"
+              action="commande_materiel_action_window_to_validate"
+              groups="commande_materiel.group_commande_materiel_daf,commande_materiel.group_commande_materiel_respo_depart,commande_materiel.group_commande_materiel_csa" />
+
+      <menuitem name="Inventory" id="stock.menu_stock_root" sequence="30"
+        groups="commande_materiel.group_commande_materiel_employee"
+        web_icon="stock,static/description/icon.png"/>
+
+  </data>
+</odoo>

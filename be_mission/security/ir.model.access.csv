@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_be_mission_externe,be_mission.mission_externe,model_mission_externe,base.group_user,1,1,1,1
+access_be_mission_interne,be_mission.mission_interne,model_mission_interne,base.group_user,1,1,1,1
+access_be_mission_ordinaire,be_mission.mission_ordinaire,model_mission_ordinaire,base.group_user,1,1,1,1
+access_be_reporting_ticket,be_mission.reporting_ticket,model_reporting_ticket,base.group_user,1,1,1,1
+access_be_voyage_vacance,be_mission.voyage_vacance,model_voyage_vacance,base.group_user,1,1,1,1

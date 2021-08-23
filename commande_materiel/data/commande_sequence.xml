@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="commande_materiels_seq" model="ir.sequence">
+            <field name="name">Commande materiels sequence</field>
+            <field name="code">commande.materiel.seq</field>
+            <field name="prefix">CM</field>
+            <field name="padding">4</field>
+        </record>
+
+    </data>
+</odoo>

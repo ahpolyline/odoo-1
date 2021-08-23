@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_commande_materiel,commande_materiel,model_commande_materiel,base.group_user,1,1,1,1
+access_commande_materiel_line,commande_materiel_line,model_commande_materiel_line,base.group_user,1,1,1,1

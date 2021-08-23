@@ -1,0 +1,750 @@
+<odoo>
+     <data>
+         <!-- Report Mission Externe -->
+          <report
+            id="report_mission_externe"
+            model="mission.externe"
+            string="Ticket Mission Externe"
+            report_type="qweb-pdf"
+            name="be_mission.mission_externe_ticket_template"
+            file="be_mission.mission_externe_ticket_template"
+        />
+
+         <template id="mission_externe_ticket_template">
+             <t t-call="web.html_container">
+                 <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.internal_layout">
+                        <div class="page">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="text-center">
+                                        <h2>
+                                        <strong>
+                                            <p>Mission Externe </p>
+                                            <p t-field="doc.name"/>
+                                        </strong>
+                                        <br/>
+                                        </h2>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <table class="table table-responsive" style="border: 2px solid black;">
+                                        <tr>
+                                            <td><strong>Nom et Prénom :</strong></td>
+                                            <td> <span t-field="doc.person_name"/></td>
+                                        </tr>
+                                        <tr>
+                                           <td><strong>Numéro du Passeport :</strong></td>
+                                            <td> <span t-field="doc.passport"/></td>
+                                       </tr>
+                                        <tr>
+                                           <td><strong>Date d'Expiration :</strong></td>
+                                            <td> <span t-field="doc.date_exp"/></td>
+                                       </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="row" >
+                                <div class="col-6">
+                                    <div class="text-center">
+                                        <strong>
+                                            <h4>
+                                                ARRIVÉ :
+                                            </h4>
+                                        </strong>
+                                    </div>
+                                    <table class="table table-sm" style="page-break-inside: avoid;">
+                                        <tr>
+                                            <td><strong>Date d'Arrivée</strong></td>
+                                            <td class="text-right" colspan="2"> <span t-field="doc.date_arriver"/></td>
+                                        </tr>
+                                        <t t-if="doc.test_ca != 'oui'">
+                                            <tr>
+                                                <td><strong>Test COVID :</strong></td>
+                                                <td class="text-right" colspan="2"> <span t-field="doc.test_ca"/></td>
+                                            </tr>
+                                        </t>
+                                        <t t-else="">
+                                             <tr>
+                                                <td><strong>Test COVID :</strong></td>
+                                                <td> <span t-field="doc.test_ca"/></td>
+                                                <td class="text-right"><strong>Date : </strong><span t-field="doc.date_ca"/></td>
+                                             </tr>
+                                        </t>
+                                        <tr>
+                                            <t t-if="doc.visa != 'oui'">
+                                                <td><strong>VISA :</strong></td>
+                                                <td colspan="2" class="text-right"> <span t-field="doc.visa"/></td>
+                                            </t>
+                                            <t t-else="">
+                                                <td><strong>VISA :</strong></td>
+                                                <td> <span t-field="doc.visa"/></td>
+                                                <td class="text-right"><strong>Date  : </strong><span t-field="doc.date_visa"/></td>
+                                            </t>
+                                        </tr>
+                                        <tr>
+                                            <t t-if="doc.l_invitation != 'oui'">
+                                                <td><strong>Lettre d'invitation :</strong></td>
+                                                <td class="text-right" colspan="2"> <span t-field="doc.l_invitation"/></td>
+                                            </t>
+                                            <t t-else="">
+                                                <td><strong>Lettre d'invitation :</strong></td>
+                                                <td> <span t-field="doc.l_invitation"/></td>
+                                                <td class="text-right" colspan="2"><strong>Date : </strong><span t-field="doc.date_lettre"/></td>
+                                            </t>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Objet Mission :</strong></td>
+                                            <td colspan="2" class="text-center"> <span t-field="doc.objet"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Fonction voyageur :</strong></td>
+                                            <td colspan="2" class="text-center"> <span t-field="doc.post_v"/></td>
+                                        </tr>
+                                         <tr>
+                                            <td><strong>Nom de l'hôtel :</strong></td>
+                                            <td colspan="2" class="text-center"> <span t-field="doc.hotel"/></td>
+                                        </tr>
+                                        <tr>
+                                            <t t-if="doc.frais_h != 'autres'">
+                                                <td><strong>Frais de l'hôtel :</strong></td>
+                                                <td class="text-right" colspan="2"> <span t-field="doc.frais_h"/></td>
+                                            </t>
+                                            <t t-else="">
+                                                <td><strong>Frais hôtel :</strong></td>
+                                                <td> <span t-field="doc.frais_h"/></td>
+                                                <td class="text-center" colspan="2"><strong></strong><span t-field="doc.commentaire"/></td>
+                                            </t>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Durée du séjour :</strong></td>
+                                            <td colspan="2" class="text-center"><span t-field="doc.duree_s"/> <spam t-field="doc.unity_sejour" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Durée du séjour hôtel :</strong></td>
+                                            <td colspan="2" class="text-center"><span t-field="doc.duree_h"/> <spam t-field="doc.unity_sejour_hotel" /></td>
+                                        </tr>
+                                        <t t-if="doc.chauffeur">
+                                            <tr>
+                                                <td><strong>Nom du Chauffeur :</strong></td>
+                                                <td colspan="2" class="text-center"> <span t-field="doc.n_chauffeur"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Contact du Chauffeur :</strong></td>
+                                                <td colspan="2" class="text-center"> <span t-field="doc.chauffeur_cont"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Matricule du Véhicule :</strong></td>
+                                                <td colspan="2" class="text-center"> <span t-field="doc.matricule"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Durée d'util. du Véhicule :</strong></td>
+                                                <td colspan="2" class="text-center"> <span t-field="doc.duree_b"/> <spam t-field="doc.unity_duree_vehicule" /></td>
+                                            </tr>
+                                        </t>
+                                         <tr>
+                                             <td><strong>Nom personne ressource :</strong></td>
+                                             <td colspan="2" class="text-center"> <span t-field="doc.responsable"/></td>
+                                         </tr>
+                                         <tr>
+                                                <td><strong>Fonction personne ressource :</strong></td>
+                                                <td colspan="2" class="text-center"> <span t-field="doc.post"/></td>
+                                            </tr>
+
+                                    </table>
+                                </div>
+                                <div class="col-6">
+                                    <div class="text-center">
+                                        <strong>
+                                            <h4>
+                                                DEPART :
+                                            </h4>
+                                        </strong>
+                                    </div>
+                                    <table class="table table-sm" style="page-break-inside: avoid;">
+                                        <tr>
+                                            <td><strong>Date de Départ</strong></td>
+                                            <td> <span t-field="doc.date_depart"/></td>
+                                        </tr>
+                                        <tr>
+                                            <t t-if="doc.test_cd != 'oui'">
+                                                <td><strong>Test COVID :</strong></td>
+                                                <td colspan="2" class="text-right"> <span t-field="doc.test_cd"/></td>
+                                            </t>
+                                            <t t-else="">
+                                                <td><strong>Test COVID :</strong></td>
+                                                <td> <span t-field="doc.test_cd"/></td>
+                                                <td class="text-right"><strong>Date : </strong><span t-field="doc.date_cd"/></td>
+                                            </t>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Satisfaction</strong></td>
+                                            <td> <span t-field="doc.satisfact"/></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                 </t>
+             </t>
+         </template>
+
+          <!-- Report Mission interne -->
+          <report
+            id="report_mission_interne"
+            model="mission.interne"
+            string="Ticket Mission Interne"
+            report_type="qweb-pdf"
+            name="be_mission.mission_interne_ticket_template"
+            file="be_mission.mission_interne_ticket_template"
+        />
+
+         <template id="mission_interne_ticket_template">
+             <t t-call="web.html_container">
+                 <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.internal_layout">
+                        <div class="page">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="text-center">
+                                        <h2>
+                                        <strong>
+                                            <p>Mission Interne </p>
+                                            <p t-field="doc.name"/>
+                                        </strong>
+                                        <br/>
+                                        </h2>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <table class="table table-responsive" style="border: 2px solid black;">
+                                        <tr>
+                                            <td><strong>Nom et Prénom :</strong></td><td> <span t-field="doc.employee_id"/></td>
+                                        </tr>
+                                        <tr>
+                                           <td><strong>Numéro du Passeport :</strong></td><td> <span t-field="doc.passport"/></td>
+                                       </tr>
+                                        <tr>
+                                           <td><strong>Date d'Expiration :</strong></td><td> <span t-field="doc.date_exp"/></td>
+                                       </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="row" >
+                                <div class="col-6">
+                                    <div class="text-center">
+                                        <strong>
+                                            <h4>
+                                                DEPART :
+                                            </h4>
+                                        </strong>
+                                    </div>
+                                    <table class="table table-sm" style="page-break-inside: avoid;">
+                                        <tr>
+                                            <td><strong>Date de Départ</strong></td>
+                                            <td class="text-right" colspan="2"> <span t-field="doc.date_depart"/></td>
+                                        </tr>
+                                        <t t-if="doc.test_cd != 'oui'">
+                                            <tr>
+                                                <td><strong>Test COVID :</strong></td>
+                                                <td class="text-right" colspan="2"> <span t-field="doc.test_cd"/></td>
+                                            </tr>
+                                        </t>
+                                        <t t-else="">
+                                             <tr>
+                                                <td><strong>Test COVID :</strong></td>
+                                                <td> <span t-field="doc.test_cd"/></td>
+                                                <td class="text-right"><strong>Date : </strong><span t-field="doc.date_cd"/></td>
+                                             </tr>
+                                        </t>
+                                        <tr>
+                                            <t t-if="doc.visa != 'oui'">
+                                                <td><strong>VISA :</strong></td>
+                                                <td colspan="2" class="text-right"> <span t-field="doc.visa"/></td>
+                                            </t>
+                                            <t t-else="">
+                                                <td><strong>VISA :</strong></td>
+                                                <td> <span t-field="doc.visa"/></td>
+                                                <td class="text-right"><strong>Date  : </strong><span t-field="doc.date_visa"/></td>
+                                            </t>
+                                        </tr>
+                                        <tr>
+                                            <t t-if="doc.l_invitation != 'oui'">
+                                                <td><strong>Lettre d'invitation :</strong></td>
+                                                <td class="text-right" colspan="2"> <span t-field="doc.l_invitation"/></td>
+                                            </t>
+                                            <t t-else="">
+                                                <td><strong>Lettre d'invitation :</strong></td>
+                                                <td> <span t-field="doc.l_invitation"/></td>
+                                                <td class="text-right" colspan="2"><strong>Date : </strong><span t-field="doc.date_lettre"/></td>
+                                            </t>
+                                        </tr>
+                                        <tr>
+                                            <t t-if="doc.o_mission != 'oui'">
+                                                <td><strong>Ordre de mission :</strong></td>
+                                                <td class="text-right" colspan="2"> <span t-field="doc.o_mission"/></td>
+                                            </t>
+                                            <t t-else="">
+                                                <td><strong>Ordre de mission :</strong></td>
+                                                <td><span t-field="doc.o_mission"/></td>
+                                                <td class="text-right" colspan="2"><strong>Date : </strong><span t-field="doc.date_mission"/></td>
+                                            </t>
+                                        </tr>
+                                        <tr>
+                                            <t t-if="doc.billet != 'oui'">
+                                                <td><strong>Achat Billet d'avion :</strong></td>
+                                                <td class="text-right" colspan="2"> <span t-field="doc.billet"/></td>
+                                            </t>
+                                            <t t-else="">
+                                                 <td><strong>Achat Billet d'avion :</strong></td>
+                                                <td><span t-field="doc.billet"/></td>
+                                                <td class="text-right" colspan="2"><strong>Date : </strong><span t-field="doc.date_achat_billet"/></td>
+                                            </t>
+                                        </tr>
+                                        <t t-if="doc.vehicule == 'oui'">
+                                            <tr>
+                                                <td><strong>Nom du Chauffeur :</strong></td>
+                                                <td colspan="2" class="text-center"> <span t-field="doc.n_chauffeur"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Contact du Chauffeur :</strong></td>
+                                                <td colspan="2" class="text-center"> <span t-field="doc.chauffeur_cont"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Matricule du Véhicule :</strong></td>
+                                                <td colspan="2" class="text-center"> <span t-field="doc.matricule"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Durée d'utilisation du Véhicule :</strong></td>
+                                                <td colspan="2" class="text-center"> <span t-field="doc.duree_b"/> <spam t-field="doc.unity_duree_vehicule"/></td>
+                                            </tr>
+                                        </t>
+                                         <tr>
+                                            <t t-if="doc.frais_m != 'oui'">
+                                                <td><strong>Frais de Mission :</strong></td>
+                                                <td class="text-right" colspan="2"> <span t-field="doc.frais_m"/></td>
+                                            </t>
+                                            <t t-else="">
+                                                <td><strong>Frais de Mission :</strong></td>
+                                                <td><span t-field="doc.frais_m"/></td>
+                                                <td class="text-right" colspan="2"><strong>Date : </strong><span t-field="doc.date_f"/></td>
+                                            </t>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Commentaire :</strong></td>
+                                            <td colspan="2" class="text-center"> <span t-field="doc.commentaire"/></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-6">
+                                    <div class="text-center">
+                                        <strong>
+                                            <h4>
+                                                RETOUR :
+                                            </h4>
+                                        </strong>
+                                    </div>
+                                    <table class="table table-sm" style="page-break-inside: avoid;">
+                                        <tr>
+                                            <td><strong>Date de Retour</strong></td>
+                                            <td> <span t-field="doc.date_retour"/></td>
+                                        </tr>
+                                        <tr>
+                                            <t t-if="doc.test_cr != 'oui'">
+                                                <td><strong>Test COVID :</strong></td>
+                                                <td colspan="2" class="text-right"> <span t-field="doc.test_cr"/></td>
+                                            </t>
+                                            <t t-else="">
+                                                <td><strong>Test COVID :</strong></td>
+                                                <td> <span t-field="doc.test_cr"/></td>
+                                                <td class="text-right"><strong>Date : </strong><span t-field="doc.date_cr"/></td>
+                                            </t>
+                                        </tr>
+                                       <tr>
+                                            <t t-if="doc.p_financier != 'oui'">
+                                                <td><strong>Point financier ? :</strong></td>
+                                                <td colspan="2" class="text-right"> <span t-field="doc.p_financier"/></td>
+                                            </t>
+                                            <t t-else="">
+                                                <td><strong>Point financier ? :</strong></td>
+                                                <td> <span t-field="doc.p_financier"/></td>
+                                                <td class="text-right"><strong>Date : </strong><span t-field="doc.date_pf"/></td>
+                                            </t>
+                                       </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                 </t>
+             </t>
+         </template>
+
+         <!-- Report Mission ordinaire -->
+          <report
+            id="report_mission_ordinaire"
+            model="mission.ordinaire"
+            string="Ticket Mission Ordinaire"
+            report_type="qweb-pdf"
+            name="be_mission.mission_ordinaire_ticket_template"
+            file="be_mission.mission_ordinaire_ticket_template"
+        />
+
+         <template id="mission_ordinaire_ticket_template">
+             <t t-call="web.html_container">
+                 <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.internal_layout">
+                        <div class="page">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="text-center">
+                                        <h2>
+                                        <strong>
+                                            <p>Mission Interne </p>
+                                            <p t-field="doc.name"/>
+                                        </strong>
+                                        <br/>
+                                        </h2>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <table class="table table-responsive" style="border: 2px solid black;">
+                                        <tr>
+                                            <td><strong>Nom et Prénom :</strong></td><td> <span t-field="doc.employee_id"/></td>
+                                        </tr>
+                                        <tr>
+                                           <td><strong>Passeport / CIN :</strong></td><td> <span t-field="doc.passport"/></td>
+                                       </tr>
+                                        <tr>
+                                           <td><strong>Date d'Expiration :</strong></td><td> <span t-field="doc.date_exp"/></td>
+                                       </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="row" >
+                                <div class="col-6">
+                                    <div class="text-center">
+                                        <strong>
+                                            <h4>
+                                                DEPART :
+                                            </h4>
+                                        </strong>
+                                    </div>
+                                    <table class="table table-sm" style="page-break-inside: avoid;">
+                                        <tr>
+                                            <td><strong>Date de Départ</strong></td>
+                                            <td class="text-right" colspan="2"> <span t-field="doc.date_depart"/></td>
+                                        </tr>
+                                        <tr>
+                                            <t t-if="doc.o_mission != 'oui'">
+                                                <td><strong>Ordre de mission :</strong></td>
+                                                <td class="text-right" colspan="2"> <span t-field="doc.o_mission"/></td>
+                                            </t>
+                                            <t t-else="">
+                                                <td><strong>Ordre de mission :</strong></td>
+                                                <td><span t-field="doc.o_mission"/></td>
+                                                <td class="text-right" colspan="2"><strong>Date : </strong><span t-field="doc.date_mission"/></td>
+                                            </t>
+                                        </tr>
+                                        <t t-if="doc.vehicule == 'oui'">
+                                            <tr>
+                                                <td><strong>Nom du Chauffeur :</strong></td>
+                                                <td colspan="2" class="text-center"> <span t-field="doc.n_chauffeur"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Contact du Chauffeur :</strong></td>
+                                                <td colspan="2" class="text-center"> <span t-field="doc.chauffeur_cont"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Matricule du Véhicule :</strong></td>
+                                                <td colspan="2" class="text-center"> <span t-field="doc.matricule"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Durée d'utilisation du Véhicule :</strong></td>
+                                                <td colspan="2" class="text-center"> <span t-field="doc.duree_b"/> <spam t-field="doc.unity_duree_vehicule"/></td>
+                                            </tr>
+                                            <tr>
+                                            <t t-if="doc.p_carburant != 'oui'">
+                                                <td><strong>Carburant :</strong></td>
+                                                <td class="text-right" colspan="2"> <span t-field="doc.p_carburant"/></td>
+                                            </t>
+                                            <t t-else="">
+                                                <td><strong>Carburant :</strong></td>
+                                                <td><span t-field="doc.p_carburant"/></td>
+                                                <td class="text-right" colspan="2"><strong>Date : </strong><span t-field="doc.date_p_carburant"/></td>
+                                            </t>
+                                        </tr>
+                                        </t>
+                                         <tr>
+                                            <t t-if="doc.frais_m != 'oui'">
+                                                <td><strong>Frais de Mission :</strong></td>
+                                                <td class="text-right" colspan="2"> <span t-field="doc.frais_m"/></td>
+                                            </t>
+                                            <t t-else="">
+                                                <td><strong>Frais de Mission :</strong></td>
+                                                <td><span t-field="doc.frais_m"/></td>
+                                                <td class="text-right" colspan="2"><strong>Date : </strong><span t-field="doc.date_f"/></td>
+                                            </t>
+                                        </tr>
+                                        <tr>
+                                            <t t-if="doc.equipement != 'oui'">
+                                                <td><strong>Equipement ? :</strong></td>
+                                                <td class="text-right" colspan="2"> <span t-field="doc.equipement"/></td>
+                                            </t>
+                                            <t t-else="">
+                                                <td><strong>Equipement ? :</strong></td>
+                                                <td><span t-field="doc.equipement"/></td>
+                                                <td class="text-right" colspan="2"><strong>Date : </strong><span t-field="doc.date_q"/></td>
+                                            </t>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Commentaire :</strong></td>
+                                            <td colspan="2" class="text-center"> <span t-field="doc.commentaire_dep"/></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-6">
+                                    <div class="text-center">
+                                        <strong>
+                                            <h4>
+                                                RETOUR :
+                                            </h4>
+                                        </strong>
+                                    </div>
+                                    <table class="table table-sm" style="page-break-inside: avoid;">
+                                        <tr>
+                                            <td><strong>Date de Retour</strong></td>
+                                            <td> <span t-field="doc.date_retour"/></td>
+                                        </tr>
+                                       <tr>
+                                            <t t-if="doc.p_financier != 'oui'">
+                                                <td><strong>Point financier ? :</strong></td>
+                                                <td colspan="2" class="text-right"> <span t-field="doc.p_financier"/></td>
+                                            </t>
+                                            <t t-else="">
+                                                <td><strong>Point financier ? :</strong></td>
+                                                <td> <span t-field="doc.p_financier"/></td>
+                                                <td class="text-right"><strong>Date : </strong><span t-field="doc.date_pf"/></td>
+                                            </t>
+                                        </tr>
+                                        <tr>
+                                            <t t-if="doc.p_equipement != 'oui'">
+                                                <td><strong>Point Equipement ? :</strong></td>
+                                                <td colspan="2" class="text-right"> <span t-field="doc.p_equipement"/></td>
+                                            </t>
+                                            <t t-else="">
+                                                <td><strong>Point Equipement ?:</strong></td>
+                                                <td> <span t-field="doc.p_equipement"/></td>
+                                                <td class="text-right"><strong>Date : </strong><span t-field="doc.date_p_eq"/></td>
+                                            </t>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Commentaire:</strong></td>
+                                            <td colspan="2" class="text-center"> <span t-field="doc.commentaire_ret"/></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                 </t>
+             </t>
+         </template>
+
+         <!-- Report Reporting ticket -->
+         <report
+             id="report_reporting_ticket"
+             model="reporting.ticket"
+             string="Reporting Ticket"
+             report_type="qweb-pdf"
+             name="be_mission.mission_reporting_ticket_template"
+             file="be_mission.mission_reporting_ticket_template"
+             />
+
+         <template id="mission_reporting_ticket_template">
+             <t t-call="web.html_container">
+                 <t t-foreach="docs" t-as="doc">
+                     <t t-call="web.external_layout">
+                         <div class="page">
+                             <h2>
+                                 <span>Frais Billet d'Avion</span>
+                                 <p t-field="doc.name"/>
+                             </h2>
+                             <div class="row">
+                                 <div class="col-12">
+                                     <table class="table table-sx" style="page-preak-inside: avoid;">
+                                         <tr>
+                                             <td><strong>Nom et Prénom :</strong></td>
+                                             <td class="text-left"><span t-field="doc.employee_id"/></td>
+                                             <td><strong>Date de Voyage :</strong></td>
+                                             <td class="text-right"><span t-field="doc.date_v"/></td>
+                                         </tr>
+                                         <tr>
+                                             <td><strong>Trajet :</strong></td>
+                                             <td class="text-left"><span t-field="doc.trajet"/></td>
+                                             <td><strong>Date de Retour :</strong></td>
+                                             <td class="text-right"><span t-field="doc.date_r"/></td>
+                                         </tr>
+                                         <tr>
+                                             <td><strong>Nature :</strong></td>
+                                             <td class="text-left"><span t-field="doc.nature"/></td>
+                                         </tr>
+                                     </table>
+                                 </div>
+                             </div>
+                             <div class="clearfix">
+                                 <div class="row">
+                                     <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">
+                                         <table class="table table-sm" style="page-break-inside: avoid;">
+                                             <tr class="border-black o_subtotal">
+                                                 <td><strong>Montant Billet:</strong></td>
+                                                 <td class="text-right">
+                                                    <span t-field="doc.montant_b" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                                 </td>
+                                             </tr>
+                                             <tr class="border-black o_subtotal">
+                                                 <td><strong>Montant Billet modifié:</strong></td>
+                                                 <td class="text-right">
+                                                    <span t-field="doc.montant_bm" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                                 </td>
+                                             </tr>
+                                            <tr class="border-black o_subtotal">
+                                                 <td><strong>Montant Billet modifié (Trajet):</strong></td>
+                                                 <td class="text-right">
+                                                    <span t-field="doc.montant_bmt" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                                 </td>
+                                            </tr>
+                                             <tr class="border-black o_total">
+                                                 <td><strong>Montant Total:</strong></td>
+                                                 <td class="text-right">
+                                                     <span class="text-nowrap" t-field="doc.montant_total" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                                </td>
+                                             </tr>
+                                         </table>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </t>
+                 </t>
+             </t>
+         </template>
+
+          <!-- Report Voyage vacance -->
+         <report
+             id="report_voyage_vacance_ticket"
+             model="voyage.vacance"
+             string="Tcket Frais de Billet"
+             report_type="qweb-pdf"
+             name="be_mission.mission_voyage_ticket_ticket_template"
+             file="be_mission.mission_voyage_ticket_ticket_template"
+             />
+
+         <template id="mission_voyage_ticket_ticket_template">
+             <t t-call="web.html_container">
+                 <t t-foreach="docs" t-as="doc">
+                     <t t-call="web.external_layout">
+                         <div class="page">
+                             <h2>
+                                 <span>Frais Billet d'Avion</span>
+                                 <p t-field="doc.name"/>
+                             </h2>
+                             <div class="row">
+                                 <div class="col-12">
+                                     <table class="table table-sx" style="page-preak-inside: avoid;">
+                                         <tr>
+                                             <td><strong>Nom et Prénom :</strong></td>
+                                             <td class="text-left"><span t-field="doc.employee_id"/></td>
+                                             <td><strong>Date de Voyage :</strong></td>
+                                             <td class="text-right"><span t-field="doc.date_a"/></td>
+                                         </tr>
+
+                                              <t t-if="doc.test_cr != 'oui'">
+                                                <tr>
+                                                    <td><strong>Test COVID :</strong></td>
+                                                    <td class="text-left"><span t-field="doc.test_cr"/></td>
+                                                    <td><strong>Date de Retour :</strong></td>
+                                                    <td class="text-right"><span t-field="doc.date_r"/></td>
+                                                </tr>
+                                              <tr>
+                                                 <td><strong>Bénéficiaire :</strong></td>
+                                                 <td class="text-left"><span t-field="doc.beneficiaire"/></td>
+
+                                             </tr>
+                                            </t>
+                                            <t t-else="">
+                                                 <tr>
+                                                    <td><strong>Test COVID :</strong></td>
+                                                    <td> <span t-field="doc.test_cr"/></td>
+                                                     <td><strong>Date de Retour :</strong></td>
+                                                     <td class="text-right"><span t-field="doc.date_r"/></td>
+                                                 </tr>
+                                                <tr>
+                                                    <td><strong>Date de Test :</strong></td>
+                                                    <td class="text-left"><span t-field="doc.date_cr"/></td>
+                                                </tr>
+                                                <tr>
+                                                  <td><strong>Bénéficiaire :</strong></td>
+                                                 <td class="text-left"><span t-field="doc.beneficiaire"/></td>
+                                                </tr>
+                                            </t>
+                                         <tr>
+                                             <td><strong>Trajet :</strong></td>
+                                             <td class="text-left"><span t-field="doc.trajet"/></td>
+                                         </tr>
+                                         <tr>
+                                             <td><strong>Nature :</strong></td>
+                                             <td class="text-left"><span t-field="doc.nature"/></td>
+                                         </tr>
+                                     </table>
+                                 </div>
+                             </div>
+                             <div class="clearfix">
+                                 <div class="row">
+                                     <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">
+                                         <table class="table table-sm" style="page-break-inside: avoid;">
+                                             <tr class="border-black o_subtotal">
+                                                 <td><strong>Montant Billet:</strong></td>
+                                                 <td class="text-right">
+                                                    <span t-field="doc.montant_b" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                                 </td>
+                                             </tr>
+                                             <tr class="border-black o_subtotal">
+                                                 <td><strong>Montant Billet modifié:</strong></td>
+                                                 <td class="text-right">
+                                                    <span t-field="doc.montant_bm" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                                 </td>
+                                             </tr>
+                                            <tr class="border-black o_subtotal">
+                                                 <td><strong>Montant Billet modifié (Trajet):</strong></td>
+                                                 <td class="text-right">
+                                                    <span t-field="doc.montant_bmt" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                                 </td>
+                                            </tr>
+                                             <tr class="border-black o_subtotal">
+                                                 <td><strong>Autres Frais:</strong></td>
+                                                 <td class="text-right">
+                                                    <span t-field="doc.autres_frais" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                                 </td>
+                                            </tr>
+                                             <tr class="border-black o_total">
+                                                 <td><strong>Montant Total:</strong></td>
+                                                 <td class="text-right">
+                                                     <span class="text-nowrap" t-field="doc.montant_total" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                                </td>
+                                             </tr>
+                                         </table>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </t>
+                 </t>
+             </t>
+         </template>
+     </data>
+</odoo>

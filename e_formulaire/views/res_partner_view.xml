@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="res_partner_view_search" model="ir.ui.view">
+            <field name="name">res.partner.search.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='inactive']" position="before">
+                   <filter string="Entreprise" name="customer" domain="[('entreprise','=', True)]"/>
+                   <separator/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="base.view_partner_tree" model="ir.ui.view">
+            <field name="name">res.partner.tree.view</field>
+            <field name="model">res.partner</field>
+
+            <field name="arch" type="xml">
+                <tree string="Contacts" sample="1" multi_edit="0">
+                    <field name="display_name" string="Name"/>
+                    <field name="function" invisible="1"/>
+                    <field name="phone" class="o_force_ltr" optional="show"/>
+                    <field name="email" optional="show"/>
+                    <field name="user_id" optional="hide" widget="many2one_avatar_user" domain="[('share', '=', False)]"/>
+                    <field name="city" optional="show"/>
+                    <field name="state_id" optional="hide" readonly="1"/>
+                    <field name="country_id" optional="show" readonly="1"/>
+                    <field name="vat" string="IFU" optional="show" readonly="1"/>
+                    <field name="rccm" string="RCCM" optional="show" readonly="1"/>
+                    <field name="category_id" optional="hide" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                    <field name="company_id" invisible="1" groups="base.group_multi_company" readonly="1"/>
+                    <field name="is_company" invisible="1"/>
+                    <field name="parent_id" invisible="1" readonly="1"/>
+                    <field name="active" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="res_partner_form_inherit" model="ir.ui.view">
+            <field name="name">res_partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='vat']" position="attributes">
+                <attribute name="string">IFU</attribute>
+                </xpath>
+                <xpath expr="//field[@name='vat']" position="after">
+                    <field name="rccm"/>
+                    <field name="entreprise"/>
+                </xpath>
+
+                <xpath expr="//page[@name='contact_addresses']" position="after">
+                    <page string="Autres infos">
+                        <group>
+                            <group>
+                                <field name="invest"/>
+                            </group>
+                            <group>
+                                <field name="cout"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page string="e-Formulaire">
+                        <field name="e_formulaire_ids">
+
+                        </field>
+                    </page>
+                </xpath>
+                <xpath expr="//page[@name='sales_purchases']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="action_partner_config_settings" model="ir.actions.act_window">
+            <field name="name">Entreprise</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="context">{'search_default_customer': 1,'res_partner_search_mode': 'customer', 'default_is_company': True, 'default_entreprise': True}</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        </data>
+</odoo>

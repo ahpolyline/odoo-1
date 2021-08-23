@@ -1,0 +1,177 @@
+<odoo>
+    <data>
+
+        <report
+            id="report_commande_materiel"
+            model="commande.materiel"
+            string="Rapport Expression des Besoins"
+            report_type="qweb-pdf"
+            name="commande_materiel.commande_materiel_report"
+            file="commande_materiel.commande_materiel_report"
+            />
+
+
+        <template id="commande_materiel_report">
+
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.internal_layout">
+                        <div class="page">
+                            <div class="text-center">
+                                <h2>
+                                  <strong><p>Expression de Besoin <span t-field="doc.name"/> - <span t-field="doc.state"/> </p></strong>
+                                </h2>
+                                <br/>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <table class="table table-sm">
+                                        <tr class="text-center" style="border: 1px solid black;">
+                                          <td style="border: 1px solid black;"><strong>Employée: </strong></td>
+                                          <td style="border: 1px solid black;"><strong>Département: </strong></td>
+                                          <td style="border: 1px solid black;"><strong>Date: </strong></td>
+                                          <td style="border: 1px solid black;"><strong>Date de réception: </strong></td>
+                                        </tr>
+                                        <tr class="text-center" style="border: 1px solid black;">
+                                          <td style="border: 1px solid black;"><spam t-field="doc.employee_id"/></td>
+                                          <td style="border: 1px solid black;"><spam t-field="doc.department_id"/></td>
+                                          <td style="border: 1px solid black;"><spam t-field="doc.date"/></td>
+                                          <td style="border: 1px solid black;"><spam t-field="doc.date_recep"/></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <br/>
+                            <br/>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="text-center">
+                                        <strong>
+                                            <h4>
+                                                Lignes des commandes
+                                            </h4>
+                                        </strong>
+                                    </div>
+                                    <table class="table table-sm o_main_table" name="commande_line_ids">
+                                        <thead style="border: 1px solid black;">
+                                            <th class="text-left"><span>Description</span></th>
+                                            <th class="text-center"><span>Quantité</span></th>
+                                            <th class="text-center"><span>Unité</span></th>
+                                        </thead>
+                                        <tbody class="invoice-tbody">
+                                            <t t-foreach="doc.commande_line_ids" t-as="line">
+                                               <tr style="">
+                                                   <td class="text-left">
+                                                       <spam t-field="line.description"/>
+                                                   </td>
+                                                   <td class="text-center">
+                                                       <spam t-field="line.qty"/>
+                                                   </td>
+                                                   <td class="text-right">
+                                                       <spam t-field="line.uom"/>
+                                                   </td>
+
+                                               </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="text-center">
+                                        <strong>
+                                            <h4>
+                                                Autres informations
+                                            </h4>
+                                        </strong>
+                                    </div>
+                                    <table class="table table-sm o_main_table">
+                                        <thead style="border: 1px solid black;">
+                                            <th colaps="2" class="text-left"><span>Actions</span></th>
+                                            <th class="text-center"><span>Date</span></th>
+                                        </thead>
+                                        <tbody class="invoice-tbody">
+                                            <tr style="">
+                                                <td class="text-left">
+                                                    <strong>Confirmée par: </strong> <spam t-field="doc.employee_confirme_par_id"/>
+                                                </td>
+                                                <td class="text-center">
+                                                    <spam t-field="doc.date_confirm"/>
+                                                </td>
+                                            </tr>
+                                            <tr style="">
+                                               <td class="text-left">
+                                                   <strong>Acceptée par: </strong> <spam t-field="doc.employee_accepter_par_id"/>
+                                               </td>
+                                               <td class="text-center">
+                                                   <spam t-field="doc.date_accept"/>
+                                               </td>
+                                            </tr>
+                                            <tr style="">
+                                               <td class="text-left">
+                                                   <strong>Approuvée par: </strong> <spam t-field="doc.employee_aprouver_par_id"/>
+                                               </td>
+                                               <td class="text-center">
+                                                   <spam t-field="doc.date_appr"/>
+                                               </td>
+                                            </tr>
+                                            <t t-if="doc.state=='rejeter'">
+                                                <tr style="">
+                                                   <td class="text-left">
+                                                       <strong>Rejetée par: </strong> <spam t-field="doc.employee_rejeter_par_id"/>
+                                                   </td>
+                                                   <td class="text-center">
+                                                       <spam t-field="doc.date_reject"/>
+                                                   </td>
+                                                </tr>
+                                                <tr style="">
+                                                   <td class="text-left">
+                                                       <strong>Motif de Rejet: </strong> <spam t-field="doc.motifrejet"/>
+                                                   </td>
+
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <br/>
+                            <div style="border: 1px solid black;" />
+                            <br/>
+                            <br/>
+                            <div class="row mt32 mb32">
+                             <div class="col-6">
+                                <strong>Signature Employée :____________________</strong>
+                             </div>
+                             <div class="col-6">
+                                <strong>Date:____________________</strong>
+                             </div>
+                         </div>
+                            <div class="row mt32 mb32">
+                             <div class="col-6">
+                                <strong>Signature Responsable de Départment :____________________</strong>
+                             </div>
+                             <div class="col-6">
+                                <strong>Date:____________________</strong>
+                             </div>
+                         </div>
+                            <div class="row mt32 mb32">
+                             <div class="col-6">
+                                <strong>Signature de l'approbateur:____________________</strong>
+                             </div>
+                             <div class="col-6">
+                                <strong>Date:____________________</strong>
+                             </div>
+                         </div>
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+
+
+    </data>
+</odoo>
