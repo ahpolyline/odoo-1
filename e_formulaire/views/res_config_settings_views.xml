@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_company_form_view_inherit_form_qr" model="ir.ui.view">
+        <field name="name">res.company.form.inherit.formulaire.qr</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group>
+                    <field name="form_qr_type"/>
+                    <field name="form_field_ids"
+                           attrs="{'required':[('form_qr_type','=','by_info')],'invisible':[('form_qr_type','!=','by_info')]}">
+                        <tree editable="bottom">
+                            <field name="sequence" widget="handle" />
+                            <field name="field_id"  />
+                        </tree>
+                    </field>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

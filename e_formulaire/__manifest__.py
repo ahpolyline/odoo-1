@@ -16,28 +16,29 @@
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
-    'category': 'Uncategorized',
+    'category': 'Project',
     'version': '0.1',
 
     # any module necessary for this one to work correctly
     'depends': ['base',
-                'mail',
+                'project',
                 'hr',
-                'website'
+                'website',
                 ],
 
     # always loaded
     'data': [
-        'data/e_formulaire_sequence.xml',
-
-        'security/security.xml',
         'security/ir.model.access.csv',
+        'data/e_formulaire_data.xml',
+        'data/email_template.xml',
 
-        'views/e_form_template.xml',
-        'views/e_form_views.xml',
-        'views/e_form_type_view.xml',
+        'views/e_formulaire_template.xml',
+        'views/e_formulaire_view.xml',
         'views/res_partner_view.xml',
-        'views/e_form_menu_view.xml',
+        'views/e_demandes_view.xml',
+        'views/hr_employee_view.xml',
+        'views/res_partner_view.xml',
+        'views/e_stages_view.xml',
 
     ],
     # only loaded in demonstration mode
@@ -47,4 +48,5 @@
     'application': True,
     'installable': True,
     'auto_install': False,
+    #'post_init_hook': 'load_translations',
 }

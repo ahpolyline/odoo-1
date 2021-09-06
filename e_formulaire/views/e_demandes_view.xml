@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Inherit Kanban View Tasks -->
+        <record id="view_task_kanban_inherit" model="ir.ui.view">
+            <field name="name">view.task.kanban.inherit</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_kanban"/>
+            <field name="arch" type="xml">
+
+               <xpath expr="/kanban" position="attributes">
+                    <attribute name="create">false</attribute>
+                   <attribute name="quick_create_view">false</attribute>
+                   <attribute name="on_create">false</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='name']" position="after">
+                     <field name="custome_code"/>
+                </xpath>
+
+                <xpath expr="//field[@name='project_id']" position="attributes">
+                     <attribute name="invisible">1</attribute>
+                </xpath>
+
+
+            </field>
+        </record>
+
+        <!-- Inherit Form View Tasks -->
+        <record id="view_task_form2_inherit" model="ir.ui.view">
+            <field name="name">view.task.form.inherit</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                  <xpath expr="/form" position="attributes">
+                     <attribute name="create">false</attribute>
+                </xpath>
+                <field name="stage_id" position="before">
+                    <button type="object" name="confirm1" class="oe_highlight" string="Confirmer"
+                            attrs="{'invisible': [('stage_id','!=',3)]}"
+                    />
+                    <button type="object" name="confirm2" class="oe_highlight" string="Confirmer"
+                            attrs="{'invisible': [('stage_id','!=',8)]}"
+                    />
+                    <button type="object" name="action_approve" class="oe_highlight" string="Approuver"
+                            attrs="{'invisible': [('stage_id','!=',4)]}"
+                    />
+                    <button type="object" name="btn_send_mail"
+                            string="Send Mail"
+                            attrs="{'invisible': [('stage_id','!=',5)]}"
+                    />
+                    <button name="%(e_formulaire.dii_attestation_pdf_report)d" class="oe_highlight" string="Imprimer" type="action"
+                            attrs="{'invisible': [('stage_id','!=',5)]}"
+                    />
+                </field>
+
+                <xpath expr="//field[@name='kanban_state']" position="replace">
+                       <div class="float-right">
+                        <field  name="qr_image" widget="image" width="100" height="100"/>
+                    </div>
+                </xpath>
+
+
+                <button name="action_assign_to_me" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </button>
+                <xpath expr="//field[@name='name']" position="attributes">
+                     <attribute name="readonly">1</attribute>
+                </xpath>
+                 <xpath expr="//field[@name='priority']" position="attributes">
+                     <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='stage_id']" position="attributes">
+                     <attribute name="readonly">1</attribute>
+                </xpath>
+
+                <xpath expr="/form/sheet/group/group" position="replace">
+                   <group>
+                        <field name="project_id" readonly="1" string="Type de Formulaire"
+                               domain="[('active', '=', True), ('company_id', '=', company_id)]"/>
+                       <field name="number" invisible="1"/>
+                        <field
+                            name="parent_id" invisible="1"
+                            domain="[('parent_id', '=', False)]"
+                            attrs="{'invisible' : [('allow_subtasks', '=', False)]}"
+                        />
+                        <field name="date_deadline" invisible="1"/>
+                        <field name="recurring_task" invisible="1"/>
+                        <field name="tag_ids" invisible="1" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}"/>
+                       <field name="date_request" readonly="1"/>
+                       <field name="date_approbation" readonly="1"/>
+                       <field name="duree_validite" readonly="1"/>
+                       <field name="date_exper" readonly="1"/>
+                       <field name="user_id" string="Créer par" invisible="1"
+                            class="o_task_user_field"
+                            domain="[('share', '=', False)]"/>
+                        <field name="assign_to1" attrs="{'invisible': [('stage_id','!=',3)]}"/>
+                       <field name="assign_to2" attrs="{'invisible': [('stage_id','!=',8)]}"/>
+                        <field name="first_approver_id" widget="many2many_tags"
+                               options="{'color_field': 'color', 'no_create_edit': True}" invisible="1"/>
+                        <field name="secend_approver_id" widget="many2many_tags"
+                               options="{'color_field': 'color', 'no_create_edit': True}" invisible="1"/>
+                        <field name="multi" invisible="1"/>
+                   </group>
+                </xpath>
+                 <xpath expr="/form/sheet/group" position="after">
+                      <group>
+                        <field name="observation" attrs="{'readonly': [('stage_id','=',5)]}"/>
+                    </group>
+                 </xpath>
+                 <xpath expr="//field[@name='partner_id']" position="replace">
+                    <field name="partner_id" widget="res_partner_many2one"
+                           class="o_task_customer_field" domain="[('entreprise','=', True)]" readonly="1"
+                           options="{'no_open': True}"/>
+                    <field name="rccm" />
+                     <field name="ifu" />
+                     <field name="national_societe" />
+                </xpath>
+                 <xpath expr="//page[@name='extra_info']" position="attributes">
+                     <attribute name="invisible">1</attribute>
+                 </xpath>
+
+
+            </field>
+        </record>
+
+         <!-- Inherit Tree View Tasks -->
+        <record id="view_task_tree2_inherit" model="ir.ui.view">
+            <field name="name">view.task.tree2.inherit</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_tree2"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="/tree" position="attributes">
+                    <attribute name="create">false</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='project_id']" position="attributes">
+                    <attribute name="string">Type de Formulaire</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='user_id']" position="replace">
+                    <field name="partner_id" string="Entreprise"/>
+                    <field name="ifu"/>
+                </xpath>
+
+            </field>
+        </record>
+
+         <!-- Change action name -->
+         <record id="project.action_view_all_task" model="ir.actions.act_window">
+            <field name="name">E-Demandes</field>
+        </record>
+
+        <menuitem name="E-Demandes" id="project.menu_project_management" parent="project.menu_main_pm"
+            action="project.action_view_all_task" sequence="2" />
+
+       <template id="dii_report_template">
+             <t t-call="web.html_container">
+                    <t t-foreach="docs" t-as="o">
+                        <t t-call="web.external_layout">
+                            <div class="page">
+                                <h2 class="text-center">AUTORISATION D'INSTALLATION INDUSTRIELLE</h2>
+                <br/>
+                                <div style="width:700px; height:110px;">
+
+                                    <div style="width:100px;height:100px;float:left;">
+                                        <span t-field="o.qr_image" t-options='{"widget": "image"}' />
+                                    </div>
+                                </div>
+                              <div style="text-align: justify">
+                                <p style="font-size:20px">Le Ministre de l'Industrie et du Commerce autorise l'installation, par la Société :<span t-field="o.partner_id.name"/></p>
+                                 <p style="font-size:20px"> à l'adresse ci-après : <span t-field="o.partner_id.street"/>, <span t-field="o.partner_id.city"/> - <span t-field="o.partner_id.zip"/></p>
+                                <p style="font-size:20px;  line-height: 2.5em;">
+                                  Il est fait obligation à la société <span t-field="o.partner_id.name"/> de se conformer à la législation  en vigueur, notamment à l'ordonnance de se conformer à la législation  en vigueur, notamment à l'ordonnance  n° 75-82 du 15 décembre 1975 portant soumission  des entreprises industrielles en régime de -droit commun- aux investigations  de la commission  de contrôle industriel, à l'arrêté n°016/MICPE/DC/SG/DDI/SA du 23 février 2006  portant conditions de réalisation de projets industriels en République du Bénin et à la loi n°98-030 du 12 février 1999 portant loi-cadre sur l'environnement  en République du Bénin.
+                                  </p>
+                                  <p style="font-size:20px;  line-height: 2.5em;">
+                                    La société <span t-field="o.partner_id.name"/> est tenue d'entreprendre la réalisation de son projet dans un délai maximal de deux (02) ans à compter de la date de signature de la présente autorisation, sous peine de se la voir retirer.
+                                  </p><br/>
+                                  <p style="font-size:20px; text-align: right">Cotonou, le <span t-field="o.date_approbation"/></p>
+                                   <p style="font-size:20px; text-align: right">
+                                       <img t-att-src="'data:image/png;base64,%s' % to_text(o.project_id.image_sign)" style="max-height: 70px;"/></p>
+                                    <p style="font-size:20px; text-align: right"><span t-field="o.project_id.responsable_depart.name"/></p>
+                                  </div>
+                            </div>
+                        </t>
+                    </t>
+                </t>
+        </template>
+
+
+
+        <record id="dii_attestation_pdf_report" model="ir.actions.report">
+            <field name="name">Attestation</field>
+           <field name="model">project.task</field>
+           <field name="report_type">qweb-pdf</field>
+           <field name="report_name">e_formulaire.dii_report_template</field>
+           <field name="report_file">e_formulaire.dii_report_template</field>
+           <field name="print_report_name">'Attestation de %s' % (object.name)</field>
+           <field name="binding_model_id" eval="False" />
+        </record>
+
+    </data>
+</odoo>
