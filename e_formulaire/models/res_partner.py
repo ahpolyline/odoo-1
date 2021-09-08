@@ -21,14 +21,13 @@ class ResPartner(models.Model):
     entreprise = fields.Boolean(
         string='Entreprise', 
         required=False)
-    e_formulaire_ids = fields.One2many('e.formulaire', 'partner_id', 'e-Formulaire')
+    formulaire_ids = fields.One2many('project.task', 'partner_id', 'e-Formulaire')
     invest = fields.Selection(string='Investisseement',
                             selection=[('20', 'Investissement < 20'),
                                        ('500', 'Investissement < 500'),
                                        ('501', 'Investissement > 500')], default='20',
                             required=False, )
     cout = fields.Char(string='Coût', compute='_compute_cout', store=True, required=False)
-    # cout = fields.Float(string='Coût', compute='_compute_cout', required=False, digits=(12, 2))
 
     @api.depends('invest')
     def _compute_cout(self):

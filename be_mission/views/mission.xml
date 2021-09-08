@@ -20,9 +20,6 @@
         <form string="Mission">
           <header>
             <!--button name="action_cancel" type="object" string="Annuler" states="draft" /-->
-            <button name="action_arriver" type="object" string="Arrivé" states="draft" class="btn-primary" attrs="{'invisible': [('state','not in','draft')]}"/>
-            <button name="action_depart" type="object" string="Depart" states="arriver" class="btn-primary" attrs="{'invisible': [('state','not in','arriver')]}"/>
-            <button name="action_terminer" type="object" string="Terminé" states="depart" class="btn-primary" attrs="{'invisible': [('state','not in','depart')]}"/>
             <field name="state" widget="statusbar" string="confirmé" statusbar_visible="draft,arriver,depart ,terminer" />
           </header>
           <sheet>
@@ -33,23 +30,23 @@
             </div>
             <group>
               <group>
-                <field name="person_name" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                <field name="passport" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                <field name="person_name" attrs="{'readonly': [('state', '!=', 'draft')]}" required="1"/>
+                <field name="passport" attrs="{'readonly': [('state', '!=', 'draft')]}" required="1"/>
               </group>
               <group>
                 <field name="date" readonly="1"/>
-                <field name="date_exp" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                <field name="date_exp" attrs="{'readonly': [('state', '!=', 'draft')]}" required="1"/>
               </group>
             </group>
             <notebook>
               <page string="Arrivé" attrs="{'invisible': [('state','not in',('draft','arriver','terminer'))]}">
                 <group >
                 <group>
-                  <field name="date_arriver" attrs="{'readonly': [('state', 'not in', ('draft','arriver'))]}"/>
+                  <field name="date_arriver" attrs="{'readonly': [('state', 'not in', ('draft','arriver'))]}" required="1"/>
                    <label for="test_ca" string="Test COVID / Date"/>
                       <div class="o_row" name="test_ca" >
-                          <field name="test_ca" attrs="{'readonly': [('state', 'not in', ('draft','arriver'))]}"/>
-                          <field name="date_ca" attrs="{'invisible':[('test_ca', 'not in',('oui'))],'readonly': [('state', 'not in', ('draft','arriver'))]}"/>
+                          <field name="test_ca" attrs="{'readonly': [('state', 'not in', ('draft','arriver'))]}" required="1"/>
+                          <field name="date_ca" attrs="{'invisible':[('test_ca', 'not in',('oui'))],'readonly': [('state', 'not in', ('draft','arriver'))]}" required="1"/>
                       </div>
               </group>
                  <group>
@@ -106,28 +103,34 @@
             </group>
             <group>
               <group>
-                <field name="responsable" attrs="{'readonly': [('state', 'not in', ('draft','arriver'))]}"/>
+                <field name="responsable" attrs="{'readonly': [('state', 'not in', ('draft','arriver'))]}" required="1"/>
               </group>
               <group>
-                <field name="post" attrs="{'readonly': [('state', 'not in', ('draft','arriver'))]}"/>
+                <field name="post" attrs="{'readonly': [('state', 'not in', ('draft','arriver'))]}" required="1"/>
               </group>
-            </group>
+              <button name="action_arriver" type="object" string="Arrivé" states="draft" class="btn-primary" attrs="{'invisible': [('state','not in','draft')]}" style="background-color:green; position: relative; float: right;"/>
+              <button name="action_depart" type="object" string="Depart" states="arriver" class="btn-primary" attrs="{'invisible': [('state','not in','arriver')]}" style="background-color:green; position: relative; float: right;"/>
+              <button name="action_terminer" type="object" string="Terminé" states="depart" class="btn-primary" attrs="{'invisible': [('state','not in','depart')]}" style="background-color:green; position: relative; float: right;"/>
 
+            </group>
               </page>
+
+
               <page string="Départ" attrs="{'invisible': [('state','not in',('depart','terminer'))]}">
                 <group >
                   <group>
-                    <field name="date_depart" attrs="{'readonly': [('state', '!=', 'depart')]}"/>
+                    <field name="date_depart" attrs="{'readonly': [('state', '!=', 'depart')]}" required="1"/>
                     <label for="test_cd" string="Test COVID / Date"/>
                       <div class="o_row" name="test_cd" >
-                          <field name="test_cd" attrs="{'readonly': [('state', '!=', 'depart')]}"/>
-                          <field name="date_cd" attrs="{'invisible': [('test_cd','not in','oui')],'readonly': [('state', '!=', 'depart')]}"/>
+                          <field name="test_cd" attrs="{'readonly': [('state', '!=', 'depart')]}" required="1"/>
+                          <field name="date_cd" attrs="{'invisible': [('test_cd','not in','oui')],'readonly': [('state', '!=', 'depart')]}" required="1"/>
                       </div>
                   </group>
                   <group>
                     <field name="satisfact" attrs="{'readonly': [('state', '!=', 'depart')]}"/>
                   </group>
                 </group>
+                
               </page>
             </notebook>
 
@@ -194,9 +197,6 @@
         <form string="Mission">
           <header>
             <!--button name="action_cancel" type="object" string="Annuler" states="draft" /-->
-            <button name="action_depart" type="object" string="Départ" states="draft" class="btn-primary" attrs="{'invisible': [('state','not in','draft')]}"/>
-            <button name="action_retour" type="object" string="Retour" states="depart" class="btn-primary" attrs="{'invisible': [('state','not in','depart')]}"/>
-            <button name="action_terminer" type="object" string="Terminé" states="retour" class="btn-primary" attrs="{'invisible': [('state','not in','retour')]}"/>
             <field name="state" widget="statusbar" string="confirmé" statusbar_visible="draft,depart,retour,terminer" />
           </header>
           <sheet>
@@ -207,28 +207,28 @@
             </div>
             <group>
               <group>
-                <field name="employee_id" attrs="{'readonly': [('state', 'not in', ('draft','depart'))]}"/>
+                <field name="employee_id" attrs="{'readonly': [('state', 'not in', ('draft','depart'))]}" required="1"/>
                 <field name="passport" attrs="{'readonly': [('state', 'not in', ('draft','depart'))]}"/>
               </group>
               <group>
                 <field name="date" />
-                <field name="date_exp" attrs="{'readonly': [('state', 'not in', ('draft','depart'))]}"/>
+                <field name="date_exp" attrs="{'readonly': [('state', 'not in', ('draft','depart'))]}" required="1"/>
               </group>
             </group>
             <notebook>
             <page string="Départ" attrs="{'invisible': [('state','not in',('draft','depart','terminer'))]}">
               <group>
               <group>
-               <field name="date_depart" attrs="{'readonly': [('state', 'not in', ('draft','depart'))]}"/>
+               <field name="date_depart" attrs="{'readonly': [('state', 'not in', ('draft','depart'))]}" required="1"/>
                <label for="test_cd" string="Test COVID / Date"/>
                 <div class="o_row" name="test_cd" >
-                    <field name="test_cd" attrs="{'readonly': [('state', 'not in', ('draft','depart'))]}"/>
-                    <field name="date_cd" attrs="{'invisible':[('test_cd', 'not in', 'oui')],'readonly': [('state', 'not in', ('draft','depart'))]}"/>
+                    <field name="test_cd" attrs="{'readonly': [('state', 'not in', ('draft','depart'))]}" required="1"/>
+                    <field name="date_cd" attrs="{'invisible':[('test_cd', 'not in', 'oui')],'readonly': [('state', 'not in', ('draft','depart'))]}" required="1"/>
                 </div>
                 <label for="o_mission" string="Ordre de mission"/>
                 <div class="o_row" name="o_mission">
-                  <field name="o_mission" attrs="{'readonly': [('state', 'not in', ('draft','depart'))]}"/>
-                  <field name="date_mission" attrs="{'invisible':[('o_mission', 'not in', 'oui')],'readonly': [('state', 'not in', ('draft','depart'))]}"/>
+                  <field name="o_mission" attrs="{'readonly': [('state', 'not in', ('draft','depart'))]}" required="1"/>
+                  <field name="date_mission" attrs="{'invisible':[('o_mission', 'not in', 'oui')],'readonly': [('state', 'not in', ('draft','depart'))]}" required="1"/>
                 </div>
                 <label for="billet" string="Achat Billet d\'avion" />
                   <div class="o_row" name="billet">
@@ -276,7 +276,12 @@
             <group>
               <field name="commentaire" string="Commentaire" attrs="{'readonly': [('state', 'not in', ('draft','depart'))]}"/>
             </group>
+             <button name="action_depart" type="object" string="Départ" states="draft" class="btn-primary" attrs="{'invisible': [('state','not in','draft')]}" style="background-color:green; position: relative; float: right;"/>
+             <button name="action_retour" type="object" string="Retour" states="depart" class="btn-primary" attrs="{'invisible': [('state','not in','depart')]}" style="background-color:green; position: relative; float: right;"/>
+            <button name="action_terminer" type="object" string="Terminé" states="retour" class="btn-primary" attrs="{'invisible': [('state','not in','retour')]}" style="background-color:green; position: relative; float: right;"/>
+
             </page>
+
             <page string="Retour" attrs="{'invisible': [('state','not in',('retour','terminer'))]}">
               <group>
                 <group>
@@ -295,9 +300,10 @@
                 <field name="p_financier" attrs="{'readonly': [('state', 'not in', ('retour'))]}"/>
               </group>
               <group>
-                <field name="date_pf" attrs="{'invisible':[('p_financier', 'not in', 'oui')],'readonly': [('state', 'not in', ('retour'))] }" />
+                <field name="date_pf" attrs="{'invisible':[('p_financier', 'not in', 'oui')],'readonly': [('state', 'not in', ('retour'))] }"/>
               </group>
             </group>
+            
             </page>
             </notebook>
           </sheet>
@@ -345,9 +351,6 @@
         <form string="Mission">
           <header>
             <!--button name="action_cancel" type="object" string="Annuler" states="draft" /-->
-            <button name="action_depart" type="object" string="Départ" states="draft" class="btn-primary" attrs="{'invisible': [('state','not in','draft')]}"/>
-            <button name="action_retour" type="object" string="Retour" states="depart" class="btn-primary" attrs="{'invisible': [('state','not in','depart')]}"/>
-            <button name="action_terminer" type="object" string="Terminé" states="retour" class="btn-primary" attrs="{'invisible': [('state','not in','retour')]}"/>
             <field name="state" widget="statusbar" string="confirmé" statusbar_visible="draft,depart,retour,terminer" />
           </header>
           <sheet>
@@ -358,24 +361,24 @@
             </div>
             <group>
               <group>
-                <field name="employee_id" attrs="{'readonly': [('state', 'not in', ('draft','depart'))]}"/>
+                <field name="employee_id" attrs="{'readonly': [('state', 'not in', ('draft','depart'))]}" required="1"/>
                 <field name="passport" attrs="{'readonly': [('state', 'not in', ('draft','depart'))]}"/>
               </group>
               <group>
                 <field name="date" />
-                <field name="date_exp" attrs="{'readonly': [('state', 'not in', ('draft','depart'))]}"/>
+                <field name="date_exp" attrs="{'readonly': [('state', 'not in', ('draft','depart'))]}" required="1"/>
               </group>
             </group>
             <notebook>
               <page string="Départ" attrs="{'invisible': [('state','not in',('draft','depart','terminer'))]}">
                 <group>
                   <group>
-                    <field name="date_depart" attrs="{'readonly': [('state', 'not in', ('draft','depart'))]}"/>
+                    <field name="date_depart" attrs="{'readonly': [('state', 'not in', ('draft','depart'))]}" required="1"/>
 
                     <label for="o_mission" string="Ordre de mission"/>
                     <div class="o_row" name="o_mission">
-                      <field name="o_mission" attrs="{'readonly': [('state', 'not in', ('draft','depart'))]}"/>
-                      <field name="date_mission" attrs="{'invisible':[('o_mission', 'not in', 'oui')],'readonly': [('state', 'not in', ('draft','depart'))]}"/>
+                      <field name="o_mission" attrs="{'readonly': [('state', 'not in', ('draft','depart'))]}" required="1"/>
+                      <field name="date_mission" attrs="{'invisible':[('o_mission', 'not in', 'oui')],'readonly': [('state', 'not in', ('draft','depart'))]}" required="1"/>
                     </div>
                   </group>
                   <group>
@@ -414,7 +417,12 @@
                 <group>
                   <field name="commentaire_dep" string="Commentaire" />
                 </group>
+               <button name="action_depart" type="object" string="Départ" states="draft" class="btn-primary" attrs="{'invisible': [('state','not in','draft')]}" style="background-color:green; position: relative; float: right;"/>
+                <button name="action_retour" type="object" string="Retour" states="depart" class="btn-primary" attrs="{'invisible': [('state','not in','depart')]}" style="background-color:green; position: relative; float: right;"/>
+                <button name="action_terminer" type="object" string="Terminé" states="retour" class="btn-primary" attrs="{'invisible': [('state','not in','retour')]}" style="background-color:green; position: relative; float: right;"/>
+
               </page>
+
               <page string="Retour" attrs="{'invisible': [('state','not in',('retour','terminer'))]}">
                 <group>
                   <group>
@@ -441,6 +449,7 @@
                 <group>
                   <field name="commentaire_ret" string="Commentaire" />
                 </group>
+                
               </page>
             </notebook>
           </sheet>
@@ -489,8 +498,7 @@
       <field name="arch" type="xml">
         <form string="Reporting">
           <header>
-                <button name="valider" type="object" string="Validé" states="draft"
-                        class="btn-primary" />
+                
                 <field name="state" widget="statusbar" string="confirmé"
                        statusbar_visible="draft,valider"
                        />
@@ -503,13 +511,13 @@
             </div>
           <group>
             <group>
-              <field name="employee_id"/>
-              <field name="trajet"/>
-              <field name="nature"/>
+              <field name="employee_id" required="1"/>
+              <field name="trajet" required="1"/>
+              <field name="nature" required="1"/>
             </group>
             <group>
-              <field name="date_v"/>
-              <field name="date_r"/>
+              <field name="date_v" required="1"/>
+              <field name="date_r" required="1"/>
 
             </group>
           </group>
@@ -523,6 +531,8 @@
             </group>
             <field name="currency_id" invisible="1"/>
           </group>
+          <button name="valider" type="object" string="Validé" states="draft"
+                        class="btn-primary" style="background-color:green; position: relative; float: right;"/>
         </sheet>
           <div class="oe_chatter">
             <field name="message_follower_ids" widget="mail_followers"/>

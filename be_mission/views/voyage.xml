@@ -33,8 +33,7 @@
           <field name="arch" type="xml">
             <form string="Frais Billet Avion">
              <header>
-                <button name="valider" type="object" string="Validé" states="draft"
-                        class="btn-primary" />
+                
                 <field name="state" widget="statusbar" string="confirmé"
                        statusbar_visible="draft,valider"
                        />
@@ -47,18 +46,18 @@
                 </div>
               <group>
                 <group attrs="{'readonly':[('state', '!=', 'draft')]}" >
-                  <field name="employee_id"/>
-                  <field name="beneficiaire" />
-                  <field name="trajet"/>
-                  <field name="nature"/>
+                  <field name="employee_id" required="1"/>
+                  <field name="beneficiaire" required="1" />
+                  <field name="trajet" required="1"/>
+                  <field name="nature" required="1"/>
                 </group>
                 <group attrs="{'readonly':[('state', '!=', 'draft')]}" >
-                  <field name="date_a"/>
-                  <field name="date_r"/>
+                  <field name="date_a" required="1"/>
+                  <field name="date_r" required="1"/>
                      <label for="test_cr" string="Test COVID / Date"/>
                       <div class="o_row" name="test_cr" >
-                          <field name="test_cr"/>
-                          <field name="date_cr" attrs="{'invisible':[('test_cr', 'not in',('oui'))]}"/>
+                          <field name="test_cr" required="1"/>
+                          <field name="date_cr" attrs="{'invisible':[('test_cr', 'not in',('oui'))]}" required="1"/>
                       </div>
 
                 </group>
@@ -74,6 +73,8 @@
                 </group>
                 <field name="currency_id" invisible="1"/>
               </group>
+              <button name="valider" type="object" string="Validé" states="draft"
+                        class="btn-primary" style="background-color:green; position: relative; float: right;"/>
             </sheet>
               <div class="oe_chatter">
                 <field name="message_follower_ids" widget="mail_followers"/>

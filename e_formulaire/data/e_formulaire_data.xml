@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+          <!-- Sequences for Task Order Info -->
+        <record id="job_order_seq" model = "ir.sequence">
+            <field name="name">Demande Sequence</field>
+            <field name="code">task.order.seq</field>
+            <field name="prefix">SII/</field>
+            <field name="padding">5</field>
+        </record>
+
+        <!-- Stages or status -->
+        <record id="project_stage_new" model="project.task.type">
+            <field name="sequence">1</field>
+            <field name="name">Nouveau</field>
+
+        </record>
+        <record id="project_stage_en_cours" model="project.task.type">
+            <field name="sequence">10</field>
+            <field name="name">En Cours Niveau 1</field>
+
+        </record>
+         <record id="project_stage_en_cours2" model="project.task.type">
+            <field name="sequence">15</field>
+            <field name="name">En Cours Nivedau 2</field>
+
+        </record>
+        <record id="project_stage_a_approuver" model="project.task.type">
+            <field name="sequence">20</field>
+            <field name="name">A Approuver</field>
+        </record>
+         <record id="project_stage_approuver" model="project.task.type">
+            <field name="sequence">30</field>
+            <field name="name">Approuver</field>
+            <field name="fold" eval="True"/>
+            <field name="is_closed" eval="True"/>
+        </record>
+        <record id="project_stage_3" model="project.task.type">
+            <field name="sequence">40</field>
+            <field name="name">Cancelled</field>
+            <field name="legend_done">Ready to reopen</field>
+            <field name="fold" eval="True"/>
+            <field name="is_closed" eval="True"/>
+        </record>
+
+    </data>
+</odoo>
