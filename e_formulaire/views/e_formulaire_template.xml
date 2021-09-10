@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- Call javascript -->
      <template id="assets_frontend" inherit_id="web.assets_frontend">
         <xpath expr="script[last()]" position="after">
             <script type="text/javascript" src="https://cdn.fedapay.com/checkout.js?v=1.1.7"></script>
         </xpath>
     </template>
-          <!-- webpage record Nos Services -->
+
+    <!-- webpage Nos Services -->
       <template id="e_formulair_nos_service" name="Nos-Service">
         <t t-call="website.layout">
           <div class="oe_structure">
@@ -76,7 +78,66 @@
         </t>
       </template>
 
-  <template id="project.portal_my_tasks" name="My Demande" priority="10">
+    <!-- webpage Obtenir un compte -->
+    <template id="o_formulaire_obtenir_un_compte">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty">
+                <section class="s_title pt32 pb32 o_colored_level" data-vcss="001" data-snippet="s_title" data-name="Title">
+                    <div class="s_allow_columns container">
+                        <h1 style="text-align: center;">
+                            <font style="font-size: 62px;">
+                                <b>Obtenir un compte</b>
+                            </font>
+                        </h1>
+                    </div>
+                </section>
+                <section class="s_text_block pt32 pb32 o_colored_level" data-snippet="s_text_block" data-name="Text" style="">
+                    <div class="s_allow_columns container">
+                        <p>
+                            <span style="font-family: Inter, &quot;Odoo Unicode Support Noto&quot;, serif; font-size: 18px;">e-Formulaire, en dehors de l’espace public accessible par tous les visiteurs, dispose d’un espace privé mis à la disposition non seulement des administrations publiques, mais aussi des opérateurs économiques. Pour accéder à cet espace privé l’utilisateur doit s’authentifier. Un Utilisateur désirant obtenir un compte d’accès à l’espace privé du e-Formulaire doit :</span><br/>
+                        </p>
+                        <p style="font-family: Inter, &quot;Odoo Unicode Support Noto&quot;, serif; font-size: 14px;">
+                            <font style="font-size: 18px;">1. Télécharger le formulaire de demande ci-dessous selon votre profil.</font>
+                        </p>
+                        <p style="font-family: Inter, &quot;Odoo Unicode Support Noto&quot;, serif; font-size: 14px;">
+                            <span style="font-weight: bolder;">
+                                <a href="/web/content/468?unique=de5f9a41e88cce5c86e3312f4590fd2ea828018a&amp;download=true">
+                                    <font style="font-size: 18px;">Obtenir_un_compte.pdf</font>
+                                </a>
+                            </span>
+                            <a href="/web/content/469?unique=8acefa5198e8299815c192250a74d20ae2f1a31a&amp;download=true" class="o_image" title="Formulaire_obtenir_un_compte.pdf" alt="" data-mimetype="application/pdf"/>
+                            <span style="font-weight: bolder;"><br/></span><br/>
+                            <font style="font-size: 18px;">2. Remplir le formulaire de demande et le faire signer par le représentant légal de la société requérante.</font>
+                        </p>
+                        <p style="font-family: Inter, &quot;Odoo Unicode Support Noto&quot;, serif; font-size: 14px;">
+                            <font style="font-size: 18px;">3. Par la suite, scanner et soumettre le formulaire par voie électronique à l’adresse&amp;nbsp;</font>
+                            <a href="mailto:admin@gmail.com" class="btn btn-primary nowrap" data-original-title="" title="" aria-describedby="tooltip393741" style="background-color: rgb(17, 100, 102); border-color: rgb(17, 100, 102); font-size: 14px; border-radius: 2px; font-family: Inter, &quot;Odoo Unicode Support Noto&quot;, serif;">
+                                <font style="font-size: 18px;">admin@gmail.com</font>
+                            </a><br/>
+                        </p>
+                        <p style="font-family: Inter, &quot;Odoo Unicode Support Noto&quot;, serif; font-size: 14px;">
+                            <font style="font-size: 18px;">Cette partie est dédié aux sociétés externes que veulent&amp;nbsp;</font>
+                            <span style="font-weight: bolder;">
+                                <font style="font-size: 18px;">faire une demande d'ouverture de compte
+                                </font>
+                            </span>
+                            <font style="font-size: 18px;">&amp;nbsp;pour leur employé. Un employé interne se chargera d'analyser la demande, puis va créer la société externe et aussi crée l'employé externe. Ensuite, il&amp;nbsp;</font>
+                            <span style="font-weight: bolder;">
+                                <font style="font-size: 18px;">enverra par mail le username ou email + le mot de passe d'accès au compte</font>
+                            </span>
+                            <font style="font-size: 18px;">.</font>
+                        </p>
+                        <p style="font-family: Inter, &quot;Odoo Unicode Support Noto&quot;, serif; font-size: 14px;">
+                            <font style="font-size: 18px;">Nous allons afficher un formulaire en pdf à télécharger par la société, une fois le formulaire remplit, cette société enverra leur demande d'ouverture de compte à l'adresse mail de l'administrateur par exemple.</font>
+                        </p>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <!-- Liste de mes demandes -->
+    <template id="project.portal_my_tasks" name="My Demande" priority="10">
         <t t-call="portal.portal_layout">
             <t t-set="breadcrumbs_searchbar" t-value="False"/>
 
@@ -128,107 +189,8 @@
             </t>
         </t>
     </template>
-    <!-- demande DII-->
-    <template id="demande_autorisation_installationindustrielle" t-name="website.add-demande-autorisation-installationindustrielle">
-        <t t-call="website.layout">
-            <div id="wrap">
-                <div class="container">
-                    <form action="/demande/website_submitted" method="post" class="form-horizontal mt32" enctype="multipart/form-data">
-                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
 
-                        <group>
-                             <div t-attf-class="form-group #{error and 'name' in error and 'has-error' or ''}">
-                                <label class="col-md-3 col-sm-4 control-label" for="name">Type de formulaire</label>
-                                <div class="col-md-7 col-sm-8">
-                                    <input type="text" class="form-control" name="name" t-att-value="'Demande d\'autorisation d\'installation industrielle'" readonly="True"/>
-                                </div>
-                            </div>
-                            <div class="form-group ">
-                                <label class="col-md-3 col-sm-4 control-label" for="your_name">Entreprise</label>
-                                <div class="col-md-7 col-sm-8">
-                                    <input class="form-control" id="entreprise" name="entreprise" type="text" title="Etreprise" t-att-value="request.env.user.partner_id.name" readonly="True"/>
-                                </div>
-                            </div>
-                            <div t-attf-class="form-group #{error and 'ifu' in error and 'has-error' or ''}">
-                                <label class="col-md-3 col-sm-4 control-label" for="ifu">IFU</label>
-                                <div class="col-md-7 col-sm-8">
-                                        <input class="form-control" id="ifu" name="ifu" type="text" title="IFU" t-att-value="request.env.user.partner_id.vat" readonly="True"/>
-                                </div>
-                            </div>
-                             <div t-attf-class="form-group #{error and 'rccm' in error and 'has-error' or ''}">
-                                <label class="col-md-3 col-sm-4 control-label" for="rccm">RCCM</label>
-                                <div class="col-md-7 col-sm-8">
-                                        <input class="form-control" id="rccm" name="rccm" type="text" title="RCCM" t-att-value="request.env.user.partner_id.rccm" readonly="True"/>
-                                </div>
-                            </div>
-
-                            <div t-attf-class="form-group #{error and 'project_code' in error and 'has-error' or ''}">
-                                <label class="col-md-3 col-sm-4 control-label" for="project_code">Code Formulaire</label>
-                                <div class="col-md-7 col-sm-8">
-                                    <input type="hidden" class="form-control" name="project_code" t-att-value="'DII'"/>
-                                </div>
-                            </div>
-                            <div  t-attf-class="form-group #{error and 'attachment' in error and 'has-error' or ''}">
-                                <label class="col-lg-3 col-md-4 col-form-label" for="atachment">Pièces joints</label>
-                                <div class="col-lg-7 col-md-8">
-                                    <input   class="form-control o_website_form_input" name="attachment" id="attachment" type="file" multiple="multiple"/>
-                                </div>
-                            </div>
-
-                             <div t-attf-class="form-group #{error and 'description' in error and 'has-error' or ''}">
-                                <label class="col-md-3 col-sm-4 control-label" for="description">Autres info</label>
-                                <div class="col-md-7 col-sm-8">
-                                     <textarea class="form-control" cols="60" name="description" rows="6"></textarea>
-                                </div>
-                            </div>
-                             <div class="form-group">
-                                <div class="col-sm-offset-5 col-sm-7 pull-right">
-                                  <button type="submit" class="btn btn-success">Soumettre</button>
-
-                                 <a t-attf-href="/add/demande-autorisation-installationindustrielle" class="btn btn-danger">
-                                        Annuler
-                                    </a></div>
-                            </div>
-                        </group>
-                    </form>
-
-                </div>
-            </div>
-        </t>
-    </template>
-
-    <template id="website_thanks" name="Thanks">
-         <t t-call="website.layout">
-                 <div id="wrap">
-                     <div class="oe_structure"/>
-                     <div class="container">
-                        <h2 class="text-center">------------------------------</h2>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="alert alert-success text-center">
-                                    <h5>Votre demande Ref: "<t t-esc="order.number"/>" est créée avec succès.<br/></h5>
-                                    </div>
-                                </div>
-                            </div>
-                          <h2 class="text-center">Merci de régler les frais afin que nous puissions valider votre demande.</h2>
-                        </div>
-                        <div class="col-sm-offset-5 col-sm-7 pull-right">
-                            <button class="pay-btn btn btn-success"
-                                    data-transaction-amount="2000"
-                                    data-transaction-description="Payer ma demande"
-                                    data-customer-email="janetay@gmail.com"
-                                    data-customer-lastname="Tay">
-                                Payer 2000 FCFA
-                            </button>
-                        </div>
-                 </div>
-                 <div class="oe_structure"/>
-                <script type="text/javascript">
-                    FedaPay.init('.pay-btn', { public_key: 'pk_live_wuYQvczK-QcPeJGftJdG1q3J' });
-                </script>
-         </t>
-    </template>
-
+     <!-- Vue d'une demande -->
     <template id="project.portal_my_task" name="My Task">
         <t t-call="portal.portal_layout">
             <t t-set="o_portal_fullwidth_alert" groups="project.group_project_user">
@@ -333,14 +295,118 @@
         </t>
     </template>
 
+    <!-- Formulaire de demande DII-->
+    <template id="demande_autorisation_installationindustrielle" t-name="website.add-demande-autorisation-installationindustrielle">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <div class="container">
+                    <form action="/demande/website_submitted" method="post" class="form-horizontal mt32" enctype="multipart/form-data">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+
+                        <group>
+                             <div t-attf-class="form-group #{error and 'name' in error and 'has-error' or ''}">
+                                <label class="col-md-3 col-sm-4 control-label" for="name">Type de formulaire</label>
+                                <div class="col-md-7 col-sm-8">
+                                    <input type="text" class="form-control" name="name" t-att-value="'Demande d\'autorisation d\'installation industrielle'" readonly="True"/>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label class="col-md-3 col-sm-4 control-label" for="your_name">Entreprise</label>
+                                <div class="col-md-7 col-sm-8">
+                                    <input class="form-control" id="entreprise" name="entreprise" type="text" title="Etreprise" t-att-value="request.env.user.partner_id.name" readonly="True"/>
+                                </div>
+                            </div>
+                            <div t-attf-class="form-group #{error and 'ifu' in error and 'has-error' or ''}">
+                                <label class="col-md-3 col-sm-4 control-label" for="ifu">IFU</label>
+                                <div class="col-md-7 col-sm-8">
+                                        <input class="form-control" id="ifu" name="ifu" type="text" title="IFU" t-att-value="request.env.user.partner_id.vat" readonly="True"/>
+                                </div>
+                            </div>
+                             <div t-attf-class="form-group #{error and 'rccm' in error and 'has-error' or ''}">
+                                <label class="col-md-3 col-sm-4 control-label" for="rccm">RCCM</label>
+                                <div class="col-md-7 col-sm-8">
+                                        <input class="form-control" id="rccm" name="rccm" type="text" title="RCCM" t-att-value="request.env.user.partner_id.rccm" readonly="True"/>
+                                </div>
+                            </div>
+
+                            <div t-attf-class="form-group #{error and 'project_code' in error and 'has-error' or ''}">
+                                <label class="col-md-3 col-sm-4 control-label" for="project_code">Code Formulaire</label>
+                                <div class="col-md-7 col-sm-8">
+                                    <input type="hidden" class="form-control" name="project_code" t-att-value="'DII'"/>
+                                </div>
+                            </div>
+                            <div  t-attf-class="form-group #{error and 'attachment' in error and 'has-error' or ''}">
+                                <label class="col-lg-3 col-md-4 col-form-label" for="atachment">Pièces joints</label>
+                                <div class="col-lg-7 col-md-8">
+                                    <input   class="form-control o_website_form_input" name="attachment" id="attachment" type="file" multiple="multiple"/>
+                                </div>
+                            </div>
+
+                             <div t-attf-class="form-group #{error and 'description' in error and 'has-error' or ''}">
+                                <label class="col-md-3 col-sm-4 control-label" for="description">Autres info</label>
+                                <div class="col-md-7 col-sm-8">
+                                     <textarea class="form-control" cols="60" name="description" rows="6"></textarea>
+                                </div>
+                            </div>
+                             <div class="form-group">
+                                <div class="col-sm-offset-5 col-sm-7 pull-right">
+                                  <button type="submit" class="btn btn-success">Soumettre</button>
+
+                                 <a t-attf-href="/add/demande-autorisation-installationindustrielle" class="btn btn-danger">
+                                        Annuler
+                                    </a></div>
+                            </div>
+                        </group>
+                    </form>
+
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- Page thank you DII demande -->
+    <template id="website_thanks" name="Thanks">
+         <t t-call="website.layout">
+                 <div id="wrap">
+                     <div class="oe_structure"/>
+                     <div class="container">
+                        <h2 class="text-center">------------------------------</h2>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="alert alert-success text-center">
+                                    <h5>Votre demande Ref: "<t t-esc="order.number"/>" est créée avec succès.<br/></h5>
+                                    </div>
+                                </div>
+                            </div>
+                          <h2 class="text-center">Merci de régler les frais afin que nous puissions valider votre demande.</h2>
+                        </div>
+                        <div class="col-sm-offset-5 col-sm-7 pull-right">
+                            <button class="pay-btn btn btn-success"
+                                    data-transaction-amount="2000"
+                                    data-transaction-description="Payer ma demande"
+                                    data-customer-email="janetay@gmail.com"
+                                    data-customer-lastname="Tay">
+                                Payer 2000 FCFA
+                            </button>
+                        </div>
+                 </div>
+                 <div class="oe_structure"/>
+                <script type="text/javascript">
+                    FedaPay.init('.pay-btn', { public_key: 'pk_live_wuYQvczK-QcPeJGftJdG1q3J' });
+                </script>
+         </t>
+    </template>
 
     <data>
-            <record id="website_menu_service_e_formulaire" model="website.menu">
+        <!-- Menu Nos Services-->
+        <record id="website_menu_service_e_formulaire" model="website.menu">
               <field name="name">Nos Services</field>
               <field name="url">/nos-services</field>
               <field name="parent_id" ref="website.main_menu"/>
               <field name="sequence" type="int">50</field>
-          </record>
+        </record>
+
+        <!-- Menu Obtenir un compte -->
         <record id="website_menu_obtenir_un_compte" model="website.menu">
           <field name="name">Obtenir un compte</field>
           <field name="url">/obtenir-un-compte</field>

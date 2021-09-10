@@ -18,6 +18,7 @@ class Task(models.Model):
     _inherit = 'project.task'
     _description = 'e-Demandes'
 
+    state = fields.Selection(related="stage_id.state", store=True)
     info_complementaire = fields.Char(string='Information complémentaire',
                                       required=False)
     observation = fields.Text(string='Observation',
@@ -42,6 +43,9 @@ class Task(models.Model):
                              required=False)
     duree_validite_renouv = fields.Integer(string='Durée de validité renouvellement',
                                            required=False)
+    renouvellement = fields.Selection([('non', 'Non'),
+                                       ('oui', 'Oui')],
+                                       string='Renouvelable', related='project_id.renouvellement', default='non',)
     custome_code = fields.Char(string='Code', related='project_id.custome_code', required=True)
     multi = fields.Boolean(
         string='Multi', related='project_id.multi',
@@ -77,7 +81,8 @@ class Task(models.Model):
                     'Veuillez connecter avec le responsable autorisé de valider cette demande.'))
             else:
                 if rec.assign_to1 and rec.assign_to1 == current_employee:
-                    rec.stage_id = 8  # id stage_id (en cours niveau 2)
+
+                    rec.state = 'encour_2'  # id stage_id (en cours niveau 2)
 
                 elif rec.assign_to1 and rec.assign_to1 != current_employee:
                     raise UserError(_(
@@ -90,13 +95,13 @@ class Task(models.Model):
                         raise UserError(_(
                             'Veuillez connecter avec un responsable autorisé de valider cette demande.'))
                     elif current_employee in rec.first_approver_id:
-                        rec.stage_id = 8  # id stage_id (en cours niveau 2)
+                        rec.state = 'encour_2'  # id stage_id (en cours niveau 2)
 
     def confirm2(self):
         current_employee = self.env['hr.employee'].search([('user_id', '=', self.env.uid)], limit=1)
         for rec in self:
             if rec.assign_to2 and rec.assign_to2 == current_employee:
-                rec.stage_id = 4  # id stage_id (a approuver)
+                rec.state = 'a_approuver'  # id stage_id (a approuver)
 
             elif rec.assign_to2 and rec.assign_to2 != current_employee:
                 raise UserError(_(
@@ -106,68 +111,62 @@ class Task(models.Model):
                     raise UserError(_(
                         'Veuillez connecter avec le responsable niveau 2.'))
                 elif current_employee in rec.secend_approver_id:
-                    rec.stage_id = 4
+                    rec.state = 'a_approuver'
 
     def action_approve(self):
         current_employee = self.env['hr.employee'].search([('user_id', '=', self.env.uid)], limit=1)
         #    template_id = self.env.ref('e_formulaire.email_template_xml_id').id
         for rec in self:
             if current_employee:
-                rec.stage_id = 5  # Status approuver
+                rec.state = 'approuver'  # Status approuver
                 rec.date_approbation = fields.Date.today()
                 rec.date_exper = rec.date_approbation + timedelta(rec.duree_validite)
             else:
                 raise UserError(_(
                     'Veuillez connecter avec le responsable autorisé d\'appreouver cette demande.'))
 
-    def btn_send_mail(self):
-        self.ensure_one()
-        report_template_id = self.env.ref('e_formulaire.dii_attestation_pdf_report')._render_qweb_pdf(self.id)
-        data_record = base64.b64encode(report_template_id[0])
-        ir_values = {
-            'name': "Customer Report",
-            'type': 'binary',
-            'datas': data_record,
-            'store_fname': data_record,
-            'mimetype': 'application/x-pdf',
-        }
-        data_id = self.env['ir.attachment'].create(ir_values)
-        template = self.template_id
-        template.attachment_ids = [(6, 0, [data_id.id])]
-        email_values = {'email_to': self.partner_id.email,
-                        'email_from': self.env.user.email}
-        template.send_mail(self.id, email_values=email_values, force_send=True)
-        template.attachment_ids = [(3, data_id.id)]
-        return True
+    def suspendre(self):
+        for rec in self:
+            if rec.state == 'approuver' or rec.state == 'a_approuver' or rec.state == 'encour_2' or rec.state == 'encour_1':
+                rec.state = 'suspendu'
 
+    @api.model
+    def _alert_renouvellement(self):
+        for alert in self.env['project.tast'].search([('date_exper', '!=', None), ('renouvellement', '==', 'oui')]):
+            remined = alert.date_exper
+            tody = datetime.now().date()
+            if remined == tody and alert:
+                template_id = self.env['ir.model.data'].get_object_reference(
+                             'task_deadline_reminder',
+                             'email_template_edi_deadline_reminder')[1]
     #
     # def btn_send_mail(self):
     #     report_template_id = self.env.ref('e_formulaire.dii_email_template').id
     #     template = self.env['mail.template'].browse(report_template_id)
     #     template.send_mail(self.id, force_send=True)
 
-    @api.model
-    def _demande_alerte(self):
+    # @api.model
+    # def _demande_alerte(self):
 
-        for alert in self.env['project.task'].search([('date_exper', '!=', None),
-                                                      ('task_reminder', '=', True), ('user_id', '!=', None)]):
-
-            reminder_date = task.date_deadline
-            today = datetime.now().date()
-            if reminder_date == today and task:
-                template_id = self.env['ir.model.data'].get_object_reference(
-                    'task_deadline_reminder',
-                    'email_template_edi_deadline_reminder')[1]
-                if template_id:
-                    email_template_obj = self.env['mail.template'].browse(template_id)
-                    values = email_template_obj.generate_email(task.id,
-                                                               ['subject', 'body_html', 'email_from', 'email_to',
-                                                                'partner_to', 'email_cc', 'reply_to', 'scheduled_date'])
-                    msg_id = self.env['mail.mail'].create(values)
-                    if msg_id:
-                        msg_id._send()
-
-        return True
+        # for alert in self.env['project.task'].search([('date_exper', '!=', None),
+        #                                               ('task_reminder', '=', True), ('user_id', '!=', None)]):
+        #
+        #     reminder_date = task.date_deadline
+        #     today = datetime.now().date()
+        #     if reminder_date == today and task:
+        #         template_id = self.env['ir.model.data'].get_object_reference(
+        #             'task_deadline_reminder',
+        #             'email_template_edi_deadline_reminder')[1]
+        #         if template_id:
+        #             email_template_obj = self.env['mail.template'].browse(template_id)
+        #             values = email_template_obj.generate_email(task.id,
+        #                                                        ['subject', 'body_html', 'email_from', 'email_to',
+        #                                                         'partner_to', 'email_cc', 'reply_to', 'scheduled_date'])
+        #             msg_id = self.env['mail.mail'].create(values)
+        #             if msg_id:
+        #                 msg_id._send()
+        #
+        # return True
 
     def _generate_qr_code(self):
         qr_code = ''
@@ -184,3 +183,7 @@ class Task(models.Model):
                     dict_result[field.field_description] = self[field.name]
                 qr_code = html2plaintext(qr_code)
         self.qr_image = GenerateQrCode.generate_qr_code(qr_code)
+
+    def print_dii_report(self):
+        return self.env.ref('e_formulaire.dii_attestation_pdf_report').report_action(self)
+

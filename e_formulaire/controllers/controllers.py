@@ -6,7 +6,7 @@
 import base64
 from collections import OrderedDict
 from operator import itemgetter
-
+from odoo.addons.portal.controllers.web import Home
 from odoo import http, _
 from odoo.exceptions import AccessError, MissingError
 from odoo.http import request
@@ -16,13 +16,25 @@ from odoo.tools import groupby as groupbyelem
 from odoo.osv.expression import OR
 
 
-class CustomerPortal(CustomerPortal):
+class InheritHome(Home):
+    def _login_redirect(self, uid, redirect=None):
+        """ Redirect regular users (employees) to the backend) and others to
+        the frontend
+        """
+        if not redirect and request.params.get('login_success'):
+            if request.env['res.users'].browse(uid).has_group('base.group_user'):
+                redirect = b'/web?' + request.httprequest.query_string
+            else:
+                redirect = '/'
+        return super(InheritHome, self)._login_redirect(uid, redirect=redirect)
+
+class InheritCustomerPortal(CustomerPortal):
 
     def _prepare_home_portal_values(self):
-        values = super(CustomerPortal, self)._prepare_home_portal_values()
+        values = super(InheritCustomerPortal, self)._prepare_home_portal_values()
         partner = request.env.user.partner_id
         project_count = request.env['project.project'].sudo().search_count([])
-        task_count = request.env['project.task'].sudo().search_count([('partner_id','=', partner.id)])
+        task_count = request.env['project.task'].sudo().search_count([('partner_id', '=', partner.id)])
         values.update({
             'project_count': project_count,
             'task_count': task_count,
@@ -43,6 +55,10 @@ class CustomerPortal(CustomerPortal):
     @http.route(['/nos-services'], type='http', auth="user", website=True)
     def nos_services(self):
         return request.render('e_formulaire.e_formulair_nos_service', {})
+
+    @http.route(['/obtenir-un-compte'], type='http', auth="public", website=True)
+    def nos_services(self):
+        return request.render('e_formulaire.o_formulaire_obtenir_un_compte', {})
 
     @http.route(['/add/demande-autorisation-installationindustrielle'], type='http', auth="user", website=True)
     def show_formulaure1(self):
@@ -65,10 +81,11 @@ class CustomerPortal(CustomerPortal):
         }
         partner_id = request.env['res.partner'].sudo().search([('name', '=', post.get('entreprise'))])
         if partner_id:
-             vals.update({
-                 'partner_id': partner_id.id,
-             })
-        project_id = request.env['project.project'].sudo().search([('custome_code', '=', post.get('project_code'))], limit=1)
+            vals.update({
+                'partner_id': partner_id.id,
+            })
+        project_id = request.env['project.project'].sudo().search([('custome_code', '=', post.get('project_code'))],
+                                                                  limit=1)
         if project_id:
             vals.update({
                 'project_id': project_id.id,
@@ -79,7 +96,7 @@ class CustomerPortal(CustomerPortal):
             'raison_sociale': post.get('entreprise'),
             'ifu': post.get('IFU'),
             'rccm': post.get('rccm'),
-            #'date_request': datetime.today(),
+            # 'date_request': datetime.today(),
             'subject': demande_id.name,
             # 'job_number': workorder_id.job_number,
             'number': demande_id.number,
@@ -161,7 +178,7 @@ class CustomerPortal(CustomerPortal):
             })
 
         # # task count
-        task_count = request.env['project.task'].search_count([('partner_id','=', partner.id)])
+        task_count = request.env['project.task'].search_count([('partner_id', '=', partner.id)])
         # # pager
         pager = request.website.pager(
             url="/my/tasks",
@@ -173,7 +190,7 @@ class CustomerPortal(CustomerPortal):
 
         #     order = "stage_id, %s" % order  # force sort on stage first to group by stage in view
         domain = [('partner_id', '=', partner.id)]
-        tasks = request.env['project.task'].search(domain, # order=order,
+        tasks = request.env['project.task'].search(domain,  # order=order,
                                                    limit=self._items_per_page,
                                                    offset=pager['offset'])
         request.session['my_tasks_history'] = tasks.ids[:100]

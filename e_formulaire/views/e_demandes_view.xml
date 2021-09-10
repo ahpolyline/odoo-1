@@ -2,6 +2,22 @@
 <odoo>
     <data>
 
+        <!-- Inherit Search View Task  -->
+         <record id="view_task_search_form" model="ir.ui.view">
+            <field name="name">project.task.search.form</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_search_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <field name="state" />
+                    <filter string="State" name="state" domain="[('state', '!=', False)]" />
+                </xpath>
+                <xpath expr="//search/group" position="inside">
+                    <filter string="State" name="state" context="{'group_by': 'state'}" />
+                </xpath>
+            </field>
+        </record>
+
         <!-- Inherit Kanban View Tasks -->
         <record id="view_task_kanban_inherit" model="ir.ui.view">
             <field name="name">view.task.kanban.inherit</field>
@@ -13,6 +29,7 @@
                     <attribute name="create">false</attribute>
                    <attribute name="quick_create_view">false</attribute>
                    <attribute name="on_create">false</attribute>
+                   <attribute name="default_group_by">state</attribute>
                 </xpath>
 
                 <xpath expr="//field[@name='name']" position="after">
@@ -22,13 +39,11 @@
                 <xpath expr="//field[@name='project_id']" position="attributes">
                      <attribute name="invisible">1</attribute>
                 </xpath>
-
-
             </field>
         </record>
 
         <!-- Inherit Form View Tasks -->
-        <record id="view_task_form2_inherit" model="ir.ui.view">
+         <record id="view_task_form2_inherit" model="ir.ui.view">
             <field name="name">view.task.form.inherit</field>
             <field name="model">project.task</field>
             <field name="inherit_id" ref="project.view_task_form2"/>
@@ -37,22 +52,15 @@
                      <attribute name="create">false</attribute>
                 </xpath>
                 <field name="stage_id" position="before">
-                    <button type="object" name="confirm1" class="oe_highlight" string="Confirmer"
-                            attrs="{'invisible': [('stage_id','!=',3)]}"
-                    />
-                    <button type="object" name="confirm2" class="oe_highlight" string="Confirmer"
-                            attrs="{'invisible': [('stage_id','!=',8)]}"
-                    />
-                    <button type="object" name="action_approve" class="oe_highlight" string="Approuver"
-                            attrs="{'invisible': [('stage_id','!=',4)]}"
-                    />
-                    <button type="object" name="btn_send_mail"
-                            string="Send Mail"
-                            attrs="{'invisible': [('stage_id','!=',5)]}"
-                    />
-                    <button name="%(e_formulaire.dii_attestation_pdf_report)d" class="oe_highlight" string="Imprimer" type="action"
-                            attrs="{'invisible': [('stage_id','!=',5)]}"
-                    />
+                    <field name="state" invisible="1"/>
+                    <button type="object" name="confirm1" class="oe_highlight" string="Confirmer" attrs="{'invisible': [('state','not in','encour_1')]}"/>
+                    <button type="object" name="confirm2" class="oe_highlight" string="Confirmer" attrs="{'invisible': [('state','not in',('encour_2', 'suspendu'))]}"/>
+                    <button type="object" name="action_approve" class="oe_highlight" string="Approuver" attrs="{'invisible': [('state','not in',('a_approuver', 'suspondu'))]}"/>
+                    <button type="object" name="suspendre" class="oe_highlight" string="Suspendre" attrs="{'invisible': [('state', 'in', ('cancelled','suspendu','revoque'))]}"/>
+                    <button type="object" name="print_dii_report" class="oe_highlight" string="Imprimer" attrs="{'invisible': [('state', '!=', 'approuver')]}"/>
+
+                    <field name="state" widget="statusbar" options="{'clickable': '1', 'fold_field': 'fold'}" attrs="{'invisible': [('project_id', '=', False)]}"/>
+
                 </field>
 
                 <xpath expr="//field[@name='kanban_state']" position="replace">
@@ -72,11 +80,12 @@
                      <attribute name="invisible">1</attribute>
                 </xpath>
                 <xpath expr="//field[@name='stage_id']" position="attributes">
-                     <attribute name="readonly">1</attribute>
+                     <attribute name="invisible">1</attribute>
                 </xpath>
 
                 <xpath expr="/form/sheet/group/group" position="replace">
                    <group>
+                       <field name="number" string="Ref:"/>
                         <field name="project_id" readonly="1" string="Type de Formulaire"
                                domain="[('active', '=', True), ('company_id', '=', company_id)]"/>
                        <field name="number" invisible="1"/>
@@ -85,6 +94,7 @@
                             domain="[('parent_id', '=', False)]"
                             attrs="{'invisible' : [('allow_subtasks', '=', False)]}"
                         />
+                       <field name="renouvellement"/>
                         <field name="date_deadline" invisible="1"/>
                         <field name="recurring_task" invisible="1"/>
                         <field name="tag_ids" invisible="1" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}"/>
@@ -95,8 +105,8 @@
                        <field name="user_id" string="Créer par" invisible="1"
                             class="o_task_user_field"
                             domain="[('share', '=', False)]"/>
-                        <field name="assign_to1" attrs="{'invisible': [('stage_id','!=',3)]}"/>
-                       <field name="assign_to2" attrs="{'invisible': [('stage_id','!=',8)]}"/>
+                        <field name="assign_to1" attrs="{'invisible': [('state','!=','encour_1')]}"/>
+                       <field name="assign_to2" attrs="{'invisible': [('state','!=','encour_2')]}"/>
                         <field name="first_approver_id" widget="many2many_tags"
                                options="{'color_field': 'color', 'no_create_edit': True}" invisible="1"/>
                         <field name="secend_approver_id" widget="many2many_tags"
@@ -106,7 +116,7 @@
                 </xpath>
                  <xpath expr="/form/sheet/group" position="after">
                       <group>
-                        <field name="observation" attrs="{'readonly': [('stage_id','=',5)]}"/>
+                        <field name="observation" attrs="{'readonly': [('state','not in',('encour_1','encour_2'))]}"/>
                     </group>
                  </xpath>
                  <xpath expr="//field[@name='partner_id']" position="replace">
@@ -139,6 +149,12 @@
                 <xpath expr="//field[@name='project_id']" position="attributes">
                     <attribute name="string">Type de Formulaire</attribute>
                 </xpath>
+                <xpath expr="//field[@name='stage_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='stage_id']" position="before">
+                    <field name="state"/>
+                </xpath>
 
                 <xpath expr="//field[@name='user_id']" position="replace">
                     <field name="partner_id" string="Entreprise"/>
@@ -156,6 +172,19 @@
         <menuitem name="E-Demandes" id="project.menu_project_management" parent="project.menu_main_pm"
             action="project.action_view_all_task" sequence="2" />
 
+        <!-- rapport Attestation -->
+
+        <record id="dii_attestation_pdf_report" model="ir.actions.report">
+            <field name="name">Attestation</field>
+           <field name="model">project.task</field>
+           <field name="report_type">qweb-pdf</field>
+           <field name="report_name">e_formulaire.dii_report_template</field>
+           <field name="report_file">e_formulaire.dii_report_template</field>
+           <field name="print_report_name">'Attestation de %s' % (object.name)</field>
+            <field name="paperformat_id" ref="e_formulaire.paperformat_AttestA4"/>
+           <field name="binding_model_id" eval="False" />
+        </record>
+
        <template id="dii_report_template">
              <t t-call="web.html_container">
                     <t t-foreach="docs" t-as="o">
@@ -169,9 +198,9 @@
                                     </div>
                                 </div>
                               <div style="text-align: justify">
-                                <p style="font-size:20px">Le Ministre de l'Industrie et du Commerce autorise l'installation, par la Société :<span t-field="o.partner_id.name"/></p>
-                                 <p style="font-size:20px"> à l'adresse ci-après : <span t-field="o.partner_id.street"/>, <span t-field="o.partner_id.city"/> - <span t-field="o.partner_id.zip"/></p>
-                                <p style="font-size:20px;  line-height: 2.5em;">
+                                <p style="font-size:20px line-height: 2.2em;">Le Ministre de l'Industrie et du Commerce autorise l'installation, par la Société :<span t-field="o.partner_id.name"/></p>
+                                 <p style="font-size:20px line-height: 2.2em;"> à l'adresse ci-après : <span t-field="o.partner_id.street"/>, <span t-field="o.partner_id.city"/> - <span t-field="o.partner_id.zip"/></p>
+                                <p style="font-size:20px; line-height: 2.2em;">
                                   Il est fait obligation à la société <span t-field="o.partner_id.name"/> de se conformer à la législation  en vigueur, notamment à l'ordonnance de se conformer à la législation  en vigueur, notamment à l'ordonnance  n° 75-82 du 15 décembre 1975 portant soumission  des entreprises industrielles en régime de -droit commun- aux investigations  de la commission  de contrôle industriel, à l'arrêté n°016/MICPE/DC/SG/DDI/SA du 23 février 2006  portant conditions de réalisation de projets industriels en République du Bénin et à la loi n°98-030 du 12 février 1999 portant loi-cadre sur l'environnement  en République du Bénin.
                                   </p>
                                   <p style="font-size:20px;  line-height: 2.5em;">
@@ -188,33 +217,8 @@
                 </t>
         </template>
 
-</data>
-     <record id="paperformat_AttestA4" model="report.paperformat">
-      <field name="name">Format papier Attestation</field>
-      <field name="default" eval="True"/>
-      <field name="format">A4</field>
-      <field name="page_height">0</field>
-      <field name="page_width">0</field>
-      <field name="orientation">Portrait</field>
-      <field name="margin_top">40</field>
-      <field name="margin_bottom">20</field>
-      <field name="margin_left">7</field>
-      <field name="margin_right">7</field>
-      <field name="header_line" eval="False"/>
-      <field name="header_spacing">35</field>
-      <field name="dpi">90</field>
-    </record>
+    </data>
 
-        <record id="dii_attestation_pdf_report" model="ir.actions.report">
-            <field name="name">Attestation</field>
-           <field name="model">project.task</field>
-           <field name="report_type">qweb-pdf</field>
-           <field name="report_name">e_formulaire.dii_report_template</field>
-           <field name="report_file">e_formulaire.dii_report_template</field>
-           <field name="print_report_name">'Attestation de %s' % (object.name)</field>
-            <field name="paperformat_id" ref="e_formulaire.paperformat_AttestA4"/>
-           <field name="binding_model_id" eval="False" />
-        </record>
 
 
 </odoo>

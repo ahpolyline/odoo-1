@@ -14,31 +14,49 @@
         <record id="project_stage_new" model="project.task.type">
             <field name="sequence">1</field>
             <field name="name">Nouveau</field>
+            <field name="state">draft</field>
 
         </record>
         <record id="project_stage_en_cours" model="project.task.type">
             <field name="sequence">10</field>
             <field name="name">En Cours Niveau 1</field>
+            <field name="state">encour_1</field>
 
         </record>
          <record id="project_stage_en_cours2" model="project.task.type">
             <field name="sequence">15</field>
             <field name="name">En Cours Nivedau 2</field>
+             <field name="state">encour_2</field>
 
         </record>
         <record id="project_stage_a_approuver" model="project.task.type">
             <field name="sequence">20</field>
             <field name="name">A Approuver</field>
+            <field name="state">a_approuver</field>
+        </record>
+         <record id="project_stage_suspendu" model="project.task.type">
+            <field name="sequence">25</field>
+            <field name="name">Suspendu</field>
+            <field name="state">suspendu</field>
         </record>
          <record id="project_stage_approuver" model="project.task.type">
             <field name="sequence">30</field>
             <field name="name">Approuver</field>
+             <field name="state">approuver</field>
+            <field name="fold" eval="True"/>
+            <field name="is_closed" eval="True"/>
+        </record>
+        <record id="project_stage_revoque" model="project.task.type">
+            <field name="sequence">35</field>
+            <field name="name">Révoqué</field>
+             <field name="state">revoque</field>
             <field name="fold" eval="True"/>
             <field name="is_closed" eval="True"/>
         </record>
         <record id="project_stage_3" model="project.task.type">
             <field name="sequence">40</field>
             <field name="name">Cancelled</field>
+            <field name="state">cancelled</field>
             <field name="legend_done">Ready to reopen</field>
             <field name="fold" eval="True"/>
             <field name="is_closed" eval="True"/>

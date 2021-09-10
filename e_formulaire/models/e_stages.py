@@ -5,13 +5,20 @@
 
 from odoo import fields, models
 
+_TASK_STATE = [
+    ("draft", "Nouveau"),
+    ("encour_1", "En Cours Niveau 1"),
+    ("encour_2", "En Cours Niveau 2"),
+    ("suspendu", 'Suspendu'),
+    ("revoque", "Révoqué"),
+    ("a_approuver", "A Approuver"),
+    ("approuver", "Approuver"),
+    ("cancelled", "Cancelled"),
+]
+
 
 class ProjectTaskType(models.Model):
     _inherit = "project.task.type"
 
-    case_default = fields.Boolean(
-        string="Default for New Projects",
-        help="If you check this field, this stage will be proposed by default "
-        "on each new project. It will not assign this stage to existing "
-        "projects.",
-    )
+    case_default = fields.Boolean(string="Default for New Projects", help="Si coché le stage va etre statu d'ouverture.",)
+    state = fields.Selection(_TASK_STATE)

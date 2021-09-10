@@ -110,6 +110,5 @@
          <menuitem action="project.open_view_project_all" id="project.menu_projects" name="E-Formulaire" parent="project.menu_main_pm" sequence="1"/>
          <menuitem action="project.open_view_project_all_config" id="project.menu_projects_config" name="Type de Formulaire" parent="project.menu_project_config" sequence="10"/>
 
-
     </data>
 </odoo>

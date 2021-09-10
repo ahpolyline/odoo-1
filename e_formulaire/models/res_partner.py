@@ -3,7 +3,6 @@
 #   Robin Keunen <robin@coopiteasy.be>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-
 from odoo import fields, models,api, _
 from odoo.addons.base.models.res_partner import WARNING_MESSAGE, WARNING_HELP
 
@@ -18,9 +17,8 @@ class ResPartner(models.Model):
     ifu = fields.Char(
         string='numéro ifu',
         required=False)
-    entreprise = fields.Boolean(
-        string='Entreprise', 
-        required=False)
+    entreprise = fields.Boolean( string='Entreprise', default=True, required=False)
+
     formulaire_ids = fields.One2many('project.task', 'partner_id', 'e-Formulaire')
     invest = fields.Selection(string='Investisseement',
                             selection=[('20', 'Investissement < 20'),
@@ -28,6 +26,7 @@ class ResPartner(models.Model):
                                        ('501', 'Investissement > 500')], default='20',
                             required=False, )
     cout = fields.Char(string='Coût', compute='_compute_cout', store=True, required=False)
+    respensable = fields.Char(string='Responsable', required=False)
 
     @api.depends('invest')
     def _compute_cout(self):

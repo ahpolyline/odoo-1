@@ -20,8 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base',
-                'project',
+    'depends': ['project',
                 'hr',
                 'website',
                 ],
@@ -32,13 +31,15 @@
 
         'data/e_formulaire_data.xml',
         'data/email_template.xml',
-        'data/report_layout.xml',
+        'views/report_layout.xml',
+        'report/e_demande_report.xml',
 
         #'views/form_assets.xml',
         'views/e_formulaire_template.xml',
+        'views/e_demandes_view.xml',
         'views/e_formulaire_view.xml',
         'views/res_partner_view.xml',
-        'views/e_demandes_view.xml',
+
         'views/hr_employee_view.xml',
         'views/res_partner_view.xml',
         'views/e_stages_view.xml',
