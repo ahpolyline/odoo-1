@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="eb80d8a7-8ba9-42b5-bfb2-0d8f8f62c2de" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/e_formulaire/report/e_demande_report.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/commande_materiel/models/commande.py" beforeDir="false" afterPath="$PROJECT_DIR$/commande_materiel/models/commande.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/e_formulaire/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/e_formulaire/__manifest__.py" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/__manifest__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/e_formulaire/controllers/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/controllers/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/e_formulaire/controllers/controllers.py" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/controllers/controllers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/e_formulaire/data/e_formulaire_data.xml" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/data/e_formulaire_data.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/e_formulaire/data/e_formulaire_sequence.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/e_formulaire/data/email_template.xml" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/data/email_template.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/e_formulaire/data/report_layout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/views/report_layout.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/e_formulaire/demo/demo.xml" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/demo/demo.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/e_formulaire/i18n_extra/fr.po" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/i18n_extra/fr.po" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/e_formulaire/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/models/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/e_formulaire/models/e_demande.py" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/models/e_demande.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/e_formulaire/models/e_form.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/e_formulaire/models/e_form_type.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/e_formulaire/models/e_formulaire.py" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/models/e_formulaire.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/e_formulaire/models/e_stages.py" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/models/e_stages.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/e_formulaire/models/res_partner.py" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/models/res_partner.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/e_formulaire/security/ir.model.access.csv" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/security/ir.model.access.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/e_formulaire/security/security.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/e_formulaire/views/e_demandes_view.xml" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/views/e_demandes_view.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/e_formulaire/views/e_form_approbation_view.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/e_formulaire/views/e_form_menu_view.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/e_formulaire/views/e_form_template.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/e_formulaire/views/e_form_type_view.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/e_formulaire/views/e_form_views.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/e_formulaire/views/e_formulaire_template.xml" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/views/e_formulaire_template.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/e_formulaire/views/e_formulaire_view.xml" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/views/e_formulaire_view.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/e_formulaire/views/e_stages_view.xml" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/views/e_stages_view.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/e_formulaire/views/res_partner_view.xml" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/views/res_partner_view.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/e_formulaire/views/templates.xml" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/views/templates.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/e_formulaire/views/views.xml" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/views/views.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="OdooViewEmpty" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1xqkJmoXFTrmOoj9tOKxoEjhNRF" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultOdooViewFileTemplate" value="OdooViewEmpty" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../../odoo14/server/odoo-bin" />
+    <property name="restartRequiresConfirmation" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\ahmed\Desktop\odoo-addons\odoo-1\e_formulaire\views" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="odoo-1" type="PythonConfigurationType" factoryName="Python">
+      <module name="odoo-1" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\odoo14\python\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../../../../odoo14/server" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../../../../../odoo14/server/odoo-bin" />
+      <option name="PARAMETERS" value="--conf C:\Users\ahmed\Desktop\odoo-addons\odoo.conf" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="eb80d8a7-8ba9-42b5-bfb2-0d8f8f62c2de" name="Default Changelist" comment="" />
+      <created>1631089939276</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1631089939276</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+</project>
