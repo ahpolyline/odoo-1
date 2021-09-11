@@ -25,7 +25,7 @@ class InheritHome(Home):
             if request.env['res.users'].browse(uid).has_group('base.group_user'):
                 redirect = b'/web?' + request.httprequest.query_string
             else:
-                redirect = '/'
+                redirect = '/my/tasks'
         return super(InheritHome, self)._login_redirect(uid, redirect=redirect)
 
 class InheritCustomerPortal(CustomerPortal):
@@ -52,9 +52,9 @@ class InheritCustomerPortal(CustomerPortal):
         }
         return self._get_page_view_values(project, access_token, values, 'my_projects_history', False, **kwargs)
 
-    @http.route(['/nos-services'], type='http', auth="user", website=True)
-    def nos_services(self):
-        return request.render('e_formulaire.e_formulair_nos_service', {})
+    # @http.route(['/nos-services'], type='http', auth="user", website=True)
+    # def nos_services(self):
+    #     return request.render('e_formulaire.e_formulair_nos_service', {})
 
     @http.route(['/obtenir-un-compte'], type='http', auth="public", website=True)
     def nos_services(self):
@@ -217,3 +217,13 @@ class InheritCustomerPortal(CustomerPortal):
             attachment.generate_access_token()
         values = self._task_get_page_view_values(task_sudo, access_token, **kw)
         return request.render("project.portal_my_task", values)
+
+    @http.route('/my/demande/<int:task_id>', methods=['POST', 'GET'], csrf=False, type='http', auth="user", website=True)
+    def print_id(self, task_id, access_token=None, report_type=None, download=False, **kw):
+        demande_id = kw['task_id']
+        if demande_id:
+            pdf = request.env.ref('e_formulaire.dii_attestation_pdf_report').sudo()._render_qweb_pdf([demande_id.id])[0]
+            pdfhttpheaders = [('Content-Type', 'application/pdf'), ('Content-Length', len(pdf))]
+            return request.make_response(pdf, headers=pdfhttpheaders)
+        else:
+            return request.redirect('/')

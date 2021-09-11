@@ -65,6 +65,14 @@ class Task(models.Model):
     number = fields.Char(string='Number', readonly=True, )
     qr_image = fields.Binary("QR Code", compute='_generate_qr_code')
 
+    def preview_attest(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_url',
+            'target': 'self',
+            'url': self.get_portal_url(),
+        }
+
     @api.model
     def create(self, vals):
         number = self.env['ir.sequence'].next_by_code('task.order.seq')

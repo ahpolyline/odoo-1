@@ -26,7 +26,7 @@ class ResPartner(models.Model):
                                        ('501', 'Investissement > 500')], default='20',
                             required=False, )
     cout = fields.Char(string='Coût', compute='_compute_cout', store=True, required=False)
-    respensable = fields.Char(string='Responsable', required=False)
+    #resp = fields.Char(string='Responsable', required=False)
 
     @api.depends('invest')
     def _compute_cout(self):

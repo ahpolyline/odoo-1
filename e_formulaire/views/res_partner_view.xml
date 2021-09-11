@@ -24,7 +24,7 @@
                 </xpath>
                 <xpath expr="//field[@name='vat']" position="after">
                     <field name="rccm" />
-                    <field name="respensable"/>
+
                 </xpath>
 
             </field>
@@ -59,7 +59,7 @@
                     </page>
                     </xpath>
                 <xpath expr="//field[@name='phone']" position="before">
-                    <field name="respensable" string="responsable"/>
+
                 </xpath>
                     <xpath expr="//page[@name='sales_purchases']" position="attributes">
                         <attribute name="invisible">1</attribute>

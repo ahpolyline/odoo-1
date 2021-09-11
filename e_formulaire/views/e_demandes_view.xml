@@ -58,6 +58,7 @@
                     <button type="object" name="action_approve" class="oe_highlight" string="Approuver" attrs="{'invisible': [('state','not in',('a_approuver', 'suspondu'))]}"/>
                     <button type="object" name="suspendre" class="oe_highlight" string="Suspendre" attrs="{'invisible': [('state', 'in', ('cancelled','suspendu','revoque'))]}"/>
                     <button type="object" name="print_dii_report" class="oe_highlight" string="Imprimer" attrs="{'invisible': [('state', '!=', 'approuver')]}"/>
+                    <button type="object" name="preview_attest" class="oe_highlight" string="Voir" attrs="{'invisible': [('state', '!=', 'approuver')]}"/>
 
                     <field name="state" widget="statusbar" options="{'clickable': '1', 'fold_field': 'fold'}" attrs="{'invisible': [('project_id', '=', False)]}"/>
 
@@ -174,48 +175,7 @@
 
         <!-- rapport Attestation -->
 
-        <record id="dii_attestation_pdf_report" model="ir.actions.report">
-            <field name="name">Attestation</field>
-           <field name="model">project.task</field>
-           <field name="report_type">qweb-pdf</field>
-           <field name="report_name">e_formulaire.dii_report_template</field>
-           <field name="report_file">e_formulaire.dii_report_template</field>
-           <field name="print_report_name">'Attestation de %s' % (object.name)</field>
-            <field name="paperformat_id" ref="e_formulaire.paperformat_AttestA4"/>
-           <field name="binding_model_id" eval="False" />
-        </record>
 
-       <template id="dii_report_template">
-             <t t-call="web.html_container">
-                    <t t-foreach="docs" t-as="o">
-                        <t t-call="web.external_layout">
-                            <div class="page">
-                                <h2 class="text-center">AUTORISATION D'INSTALLATION INDUSTRIELLE</h2>
-                <br/>
-                                <div style="align-self: center;">
-                                    <div style="width:100px;height:100px; display: block;margin-left: auto;margin-right: auto ">
-                                        <span t-field="o.qr_image" t-options='{"widget": "image"}' />
-                                    </div>
-                                </div>
-                              <div style="text-align: justify">
-                                <p style="font-size:20px line-height: 2.2em;">Le Ministre de l'Industrie et du Commerce autorise l'installation, par la Société :<span t-field="o.partner_id.name"/></p>
-                                 <p style="font-size:20px line-height: 2.2em;"> à l'adresse ci-après : <span t-field="o.partner_id.street"/>, <span t-field="o.partner_id.city"/> - <span t-field="o.partner_id.zip"/></p>
-                                <p style="font-size:20px; line-height: 2.2em;">
-                                  Il est fait obligation à la société <span t-field="o.partner_id.name"/> de se conformer à la législation  en vigueur, notamment à l'ordonnance de se conformer à la législation  en vigueur, notamment à l'ordonnance  n° 75-82 du 15 décembre 1975 portant soumission  des entreprises industrielles en régime de -droit commun- aux investigations  de la commission  de contrôle industriel, à l'arrêté n°016/MICPE/DC/SG/DDI/SA du 23 février 2006  portant conditions de réalisation de projets industriels en République du Bénin et à la loi n°98-030 du 12 février 1999 portant loi-cadre sur l'environnement  en République du Bénin.
-                                  </p>
-                                  <p style="font-size:20px;  line-height: 2.5em;">
-                                    La société <span t-field="o.partner_id.name"/> est tenue d'entreprendre la réalisation de son projet dans un délai maximal de deux (02) ans à compter de la date de signature de la présente autorisation, sous peine de se la voir retirer.
-                                  </p><br/>
-                                  <p style="font-size:20px; text-align: right">Cotonou, le <span t-field="o.date_approbation"/></p>
-                                   <p style="font-size:20px; text-align: right">
-                                       <img t-att-src="'data:image/png;base64,%s' % to_text(o.project_id.image_sign)" style="max-height: 95px; margin-right: 45ps;"/></p>
-                                    <p style="font-size:20px; text-align: right"><span t-field="o.project_id.responsable_depart.name"/></p>
-                                  </div>
-                            </div>
-                        </t>
-                    </t>
-                </t>
-        </template>
 
     </data>
 

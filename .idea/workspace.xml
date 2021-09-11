@@ -1,40 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="eb80d8a7-8ba9-42b5-bfb2-0d8f8f62c2de" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/e_formulaire/report/e_demande_report.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/commande_materiel/models/commande.py" beforeDir="false" afterPath="$PROJECT_DIR$/commande_materiel/models/commande.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/e_formulaire/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/__init__.py" afterDir="false" />
+    <list default="true" id="eb80d8a7-8ba9-42b5-bfb2-0d8f8f62c2de" name="Default Changelist" comment="Page web besoin de compt">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/e_formulaire/__manifest__.py" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/__manifest__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/e_formulaire/controllers/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/controllers/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/e_formulaire/controllers/controllers.py" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/controllers/controllers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/e_formulaire/data/e_formulaire_data.xml" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/data/e_formulaire_data.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/e_formulaire/data/e_formulaire_sequence.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/e_formulaire/data/email_template.xml" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/data/email_template.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/e_formulaire/data/report_layout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/views/report_layout.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/e_formulaire/demo/demo.xml" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/demo/demo.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/e_formulaire/i18n_extra/fr.po" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/i18n_extra/fr.po" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/e_formulaire/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/models/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/e_formulaire/models/e_demande.py" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/models/e_demande.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/e_formulaire/models/e_form.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/e_formulaire/models/e_form_type.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/e_formulaire/models/e_formulaire.py" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/models/e_formulaire.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/e_formulaire/models/e_stages.py" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/models/e_stages.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/e_formulaire/models/res_partner.py" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/models/res_partner.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/e_formulaire/security/ir.model.access.csv" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/security/ir.model.access.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/e_formulaire/security/security.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/e_formulaire/report/e_demande_report.xml" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/report/e_demande_report.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/e_formulaire/views/e_demandes_view.xml" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/views/e_demandes_view.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/e_formulaire/views/e_form_approbation_view.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/e_formulaire/views/e_form_menu_view.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/e_formulaire/views/e_form_template.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/e_formulaire/views/e_form_type_view.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/e_formulaire/views/e_form_views.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/e_formulaire/views/e_formulaire_template.xml" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/views/e_formulaire_template.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/e_formulaire/views/e_formulaire_view.xml" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/views/e_formulaire_view.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/e_formulaire/views/e_stages_view.xml" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/views/e_stages_view.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/e_formulaire/views/res_partner_view.xml" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/views/res_partner_view.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/e_formulaire/views/templates.xml" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/views/templates.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/e_formulaire/views/views.xml" beforeDir="false" afterPath="$PROJECT_DIR$/e_formulaire/views/views.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/e_formulaire10-09-2021.zip" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,6 +78,21 @@
       <option name="presentableId" value="Default" />
       <updated>1631089939276</updated>
     </task>
+    <task id="LOCAL-00001" summary="Page web besoin de compt">
+      <created>1631298510132</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1631298510132</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Page web besoin de compt">
+      <created>1631298774088</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1631298774088</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -114,5 +106,9 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Page web besoin de compt" />
+    <option name="LAST_COMMIT_MESSAGE" value="Page web besoin de compt" />
   </component>
 </project>
