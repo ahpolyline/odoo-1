@@ -53,6 +53,7 @@
                 </xpath>
                 <xpath expr="//field[@name='user_id']" position="replace">
                     <field name="custome_code" />
+                    <field name="type_form"/>
                      <label for="duree_validite" string="Durée de Validitée" />
                     <div class="o_row" name="duree_validite">
                         <field name="duree_validite"/>
@@ -60,6 +61,7 @@
                     </div>
                     <field name="renouvellement"/>
                      <field name="user_id" string="assigné à" placeholder="Employée ?" />
+                    <field name="responsable_depart" invisible="1"/>
                 </xpath>
                 <xpath expr="//field[@name='partner_id']" position="attributes">
                    <attribute name="invisible">1</attribute>
@@ -89,6 +91,14 @@
                                     optional="hide"
                                 />
                                 <field name="description" optional="hide" />
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Demandes">
+                        <field name="tasks">
+                            <tree>
+                                <field name="name"/>
+                                <field name="partner_id"/>
                             </tree>
                         </field>
                     </page>

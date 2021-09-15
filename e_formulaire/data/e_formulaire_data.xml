@@ -15,29 +15,42 @@
             <field name="sequence">1</field>
             <field name="name">Nouveau</field>
             <field name="state">draft</field>
+            <field name="case_default" eval="False"/>
 
         </record>
         <record id="project_stage_en_cours" model="project.task.type">
             <field name="sequence">10</field>
             <field name="name">En Cours Niveau 1</field>
             <field name="state">encour_1</field>
+            <field name="case_default" eval="True"/>
 
         </record>
          <record id="project_stage_en_cours2" model="project.task.type">
             <field name="sequence">15</field>
             <field name="name">En Cours Nivedau 2</field>
              <field name="state">encour_2</field>
+             <field name="case_default" eval="False"/>
 
         </record>
         <record id="project_stage_a_approuver" model="project.task.type">
             <field name="sequence">20</field>
             <field name="name">A Approuver</field>
             <field name="state">a_approuver</field>
+            <field name="case_default" eval="False"/>
         </record>
          <record id="project_stage_suspendu" model="project.task.type">
             <field name="sequence">25</field>
             <field name="name">Suspendu</field>
             <field name="state">suspendu</field>
+             <field name="case_default" eval="False"/>
+        </record>
+         <record id="project_stage_renouv" model="project.task.type">
+            <field name="sequence">27</field>
+            <field name="name">Renouvellement</field>
+             <field name="state">renouvel</field>
+            <field name="fold" eval="False"/>
+            <field name="is_closed" eval="False"/>
+             <field name="case_default" eval="False"/>
         </record>
          <record id="project_stage_approuver" model="project.task.type">
             <field name="sequence">30</field>
@@ -45,6 +58,7 @@
              <field name="state">approuver</field>
             <field name="fold" eval="True"/>
             <field name="is_closed" eval="True"/>
+             <field name="case_default" eval="False"/>
         </record>
         <record id="project_stage_revoque" model="project.task.type">
             <field name="sequence">35</field>
@@ -52,14 +66,16 @@
              <field name="state">revoque</field>
             <field name="fold" eval="True"/>
             <field name="is_closed" eval="True"/>
+            <field name="case_default" eval="False"/>
         </record>
         <record id="project_stage_3" model="project.task.type">
             <field name="sequence">40</field>
-            <field name="name">Cancelled</field>
+            <field name="name">Rejeté</field>
             <field name="state">cancelled</field>
             <field name="legend_done">Ready to reopen</field>
             <field name="fold" eval="True"/>
             <field name="is_closed" eval="True"/>
+            <field name="case_default" eval="False"/>
         </record>
 
     </data>

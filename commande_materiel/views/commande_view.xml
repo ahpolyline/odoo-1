@@ -109,16 +109,16 @@
                       <button name="annulee_commande" type="object" string="Annulé" states="draft" style="background-color:red; position: relative; float: right;"/>
                       <button name="confirme_user" type="object" string="Confirmé" states="draft"
                         class="btn-primary" groups="base.group_user" style="background-color:green; position: relative; float: right;"/>
-                <button name="confirme_depart" type="object" string="Confirmé" states="en_cours,annuler"
-                        class="btn-primary" groups="commande_materiel.group_commande_materiel_respo_depart,commande_materiel.group_commande_materiel_csa" style="background-color:green; position: relative; float: right;"/>
-                <button name="confirme_manager" type="object" string="Confirmé" states="accepter" class="btn-primary"
-                        groups="commande_materiel.group_commande_materiel_csa,commande_materiel.group_commande_materiel_daf" style="background-color:green; position: relative; float: right;"/>
-                <button name="request_stock" type="object" string="Créer Transfert Interne" attrs="{'invisible': [('state','!=','approuver')]}" class="btn-primary"
-                        groups="commande_materiel.group_commande_materiel_csa,commande_materiel.group_commande_materiel_daf" style="background-color:green; position: relative; float: right;"/>
-                <button name="reject_commande" type="object" string="Rejet"  attrs="{'invisible':[('state', 'not in', ('en_cours','accepter'))]}"
-                        groups="commande_materiel.group_commande_materiel_daf,commande_materiel.group_commande_materiel_csa,commande_materiel.group_commande_materiel_respo_depart"  style="background-color:green; position: relative; float: right;"/>
-                <button name="recu_user" type="object" string="Reçu" attrs="{'invisible': ['|',('pick_confirmed', '=', False),('state' , '!=', 'picking')]}"
-                        class="btn-primary" groups="base.group_user" />
+                    <button name="confirme_depart" type="object" string="Confirmé" states="en_cours,annuler"
+                            class="btn-primary" groups="commande_materiel.group_commande_materiel_respo_depart,commande_materiel.group_commande_materiel_csa" style="background-color:green; position: relative; float: right;"/>
+                    <button name="confirme_manager" type="object" string="Confirmé" states="accepter" class="btn-primary"
+                            groups="commande_materiel.group_commande_materiel_csa,commande_materiel.group_commande_materiel_daf" style="background-color:green; position: relative; float: right;"/>
+                    <button name="request_stock" type="object" string="Créer Transfert Interne" attrs="{'invisible': [('state','!=','approuver')]}" class="btn-primary"
+                            groups="commande_materiel.group_commande_materiel_csa,commande_materiel.group_commande_materiel_daf" style="background-color:green; position: relative; float: right;"/>
+                    <button name="reject_commande" type="object" string="Rejet"  attrs="{'invisible':[('state', 'not in', ('en_cours','accepter'))]}"
+                            groups="commande_materiel.group_commande_materiel_daf,commande_materiel.group_commande_materiel_csa,commande_materiel.group_commande_materiel_respo_depart"  style="background-color:green; position: relative; float: right;"/>
+                    <button name="recu_user" type="object" string="Reçu" attrs="{'invisible': ['|',('pick_confirmed', '=', False),('state' , '!=', 'picking')]}"
+                            class="btn-primary" groups="base.group_user" />
 
                 </sheet>
             </form>

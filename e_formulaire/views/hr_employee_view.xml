@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+        <!--
+       <record id="e_formulaire_employee_form_view" model="ir.ui.view">
+            <field name="name">hr.employee.form.view</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
 
+
+                <xpath expr="//group[@name='managers']" position="replace">
+                     <group name="managers" string="Approvers" >
+
+                    <field name="assigne_to1"/>
+                         <tree string="Assigné niveau 1" editable="bottom" mode="tree">
+
+
+
+                         </tree>
+                    <field name="assigne_to2" widget="one2many"/>
+                     </group>
+                </xpath>
+            </field>
+        </record>
+        -->
     </data>
 </odoo>

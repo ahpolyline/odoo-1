@@ -1,30 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <data noupdate="1">
-        <!--Email template -->
+    <record id="availability_create_cron" model="ir.cron">
+        <field name="name">Rappel de renouvellemnt</field>
+        <field name="model_id" ref="project.model_project_task"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_date_experation_reminder()</field>
+        <field name="user_id" ref="base.user_root" />
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+    </record>
+    <!-- envoie email automatique quant il est approuver -->
+    <record id="rule_on_send_approval_send_email" model="base.automation">
+            <field name="name">Envoie d'email d'approbation</field>
+            <field name="model_id" ref="e_formulaire.model_project_task"/>
+            <field name="template_id" ref="e_formulaire.email_dii_email_template"/>
+            <field name="state">email</field>
+            <field name="trigger_field_ids" eval="[(4,ref('e_formulaire.field_project_task__state'))]"/>
+            <field name="trigger">on_write</field>
+            <field name="active" eval="True"/>
+            <field name="filter_domain">[('state', '=', 'approuver')]</field>
+            <field name="filter_pre_domain">[('state', '=', 'approuver')]</field>
+        </record>
+
+    <data noupdate="0">
+        <!-- Email template pour l'approbation' -->
         <record id="email_dii_email_template" model="mail.template">
             <field name="name">Demande DII: Evoyer par email</field>
-            <field name="model_id" ref="e_formulaire.model_project_task"/>
             <field name="email_from">${(object.company_id.email_formatted)}</field>
             <field name="partner_to">${object.partner_id.id}</field>
             <field name="subject">Demande (Ref ${object.number or 'n/a'})</field>
+            <field name="model_id" ref="e_formulaire.model_project_task"/>
+            <field name="report_template" ref="dii_attestation_pdf_report"/>
+            <field name="report_name">Attestation ${object.name}</field>
+            <field name="auto_delate" eval="True"/>
             <field name="body_html" type="html">
                 <div style="margin: 0px; padding: 0px;">
                     <p style="margin: 0px; padding: 0px; font-size: 13px;">
                         Bonjour,
                         Mr, ${object.partner_id.responsable},
                         <br /><br />
-                        Votre demande d'autorisation d'installation industrielle sous ref: ${object.number or 'n/a'} a été approuver.
+                        Votre demande d'autorisation d'installation industrielle sous ref: ${object.number or 'n/a'} a été approuvée.
                         <br /><br />
-                        Ci-joint et l'attestation d'autorisation d'installation industrielle.
                     </p>
                 </div>
             </field>
-            <!--
-            <field name="report_template" ref="e_formulaire.attestation_dii_pdf_report"/>
-            <field name="report_name">Attestation ${(object.number) or ''}</field>
-            -->
+
+
+
+
+        </record>
+
+
+        <!--Email template pour la rounevellement -->
+       <record id="email_template_renouvellement_reminder" model="mail.template">
+            <field name="name">rappel de renouvellement...!!</field>
+            <field name="email_from">${object.company_id.name}&lt;${object.company_id.email}&gt;</field>
+            <field name="email_to">${object.partner_id.email}</field>
+            <field name="subject">rappel de renouvellement de demande</field>
+            <field name="model_id" ref="e_formulaire.model_project_task" />
+            <field name="auto_delete" eval="True" />
+            <field name="body_html"><![CDATA[
+                <div class="page">
+                    <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+                        <p>Bonjour, Mr</p>
+                        <p> Cet e-mail est destiné à vous pour vous rappeler que vous avez des demande énumérées ci-dessous qui doivent être renouveler avac la date d'experation. </p>
+                    </div>
+                    <div>
+                       <table class="table table-condensed">
+                             <thead>
+                                <tr>
+                                    <th style="background-color:#9b9da0 !important;">Demande</th>
+                                    <th style="background-color:#9b9da0 !important;">Type de demande</th>
+                                    <th style="background-color:#9b9da0 !important;">Date d'expération</th>
+
+                                </tr>
+                             </thead>
+                             <tbody>
+                                    <tr>
+                                        <td><span>${object.name}</span></td>
+                                        <td><span>${object.project_id.name}</span></td>
+                                        <td><span>${object.date_exper}</span></td>
+                                    </tr>
+                             </tbody>
+                       </table>
+                    </div>
+                </div>
+                ]]>
+            </field>
         </record>
     </data>
 </odoo>

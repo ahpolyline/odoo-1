@@ -15,6 +15,15 @@ class FormConfig(models.Model):
         ids = self.env["project.task.type"].search([("case_default", "=", True)])
         return ids
 
+    type_form = fields.Selection(
+        string='Type_form',
+        selection=[('1', 'Demande d\'autorisation d\'installation industrielle'),
+                   ('2', 'Demande d\'autorisation de prorogation de succursale'),
+                   ('3', 'Demande d\'agrément d\'importation de produit pétrolier'),
+                   ('4', 'Demande'),
+                   ],
+        required=False, )
+
     type_ids = fields.Many2many(default=lambda self: self._get_default_type_common())
     responsable_depart = fields.Many2one('hr.employee', string='Chef de  Département', index=True, tracking=True)
     employee1_ids = fields.Many2many('hr.employee', 'employee1_form_type_rel', 'form1_type_id', 'emp1_id', string='Approbation Niveau 1')
@@ -32,8 +41,6 @@ class FormConfig(models.Model):
     custome_code = fields.Char(string='Code', required=True)
     digital_signature = fields.Binary(string="Signature")
     image_sign = fields.Binary(string='Signature')
-
-
 
 
 

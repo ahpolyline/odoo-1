@@ -13,7 +13,8 @@ _TASK_STATE = [
     ("revoque", "Révoqué"),
     ("a_approuver", "A Approuver"),
     ("approuver", "Approuver"),
-    ("cancelled", "Cancelled"),
+    ('renouvel', 'Renouvellement'),
+    ("cancelled", "Rejeté"),
 ]
 
 

@@ -1,82 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <!-- Call javascript -->
-     <template id="assets_frontend" inherit_id="web.assets_frontend">
+    <template id="assets_frontend" inherit_id="web.assets_frontend">
         <xpath expr="script[last()]" position="after">
             <script type="text/javascript" src="https://cdn.fedapay.com/checkout.js?v=1.1.7"></script>
         </xpath>
     </template>
-
-<!--    &lt;!&ndash; webpage Nos Services &ndash;&gt;-->
-<!--      <template id="e_formulair_nos_service" name="Nos-Service">-->
-<!--        <t t-call="website.layout">-->
-<!--          <div class="oe_structure">-->
-<!--            <div class="container">-->
-<!--              <section class="s_title pt32 pb32 o_colored_level" data-vcss="001" data-snippet="s_title" data-name="Title">-->
-<!--                <div class="container s_allow_columns">-->
-<!--                  <h1 style="text-align: center;">-->
-<!--                    <font style="font-size: 62px;">Nos services <br/></font>-->
-<!--                  </h1>-->
-<!--                </div>-->
-<!--              </section>-->
-<!--              <section class="s_features pt32 o_colored_level pb168" data-snippet="s_features" data-name="Features" style="">-->
-<!--                <div class="container">-->
-<!--                  <div class="row">-->
-<!--                    <div class="text-center o_colored_level col-lg-3 pb0 pt40" style="">-->
-<!--                      <a href="/my/projects" class="btn btn-primary" data-original-title="" title="" aria-describedby="tooltip64952">-->
-<!--                        <i class="fa fa-3x rounded bg-primary m-3 fa-vcard-o" data-original-title="" title="" aria-describedby="tooltip722350"></i>-->
-<!--                      </a>-->
-<!--                      <h3>-->
-<!--                        <font style="font-size: 18px;">Demande de carte d'immatriculation</font>-->
-<!--                        <br/>-->
-<!--                      </h3>-->
-<!--                      <p>-->
-<!--                        <br/>-->
-<!--                      </p>-->
-<!--                    </div>-->
-<!--                    <div class="text-center o_colored_level col-lg-3 pt40 pb0" style="">-->
-<!--                      <a href="/my/project/1" class="btn btn-primary" data-original-title="" title="" aria-describedby="tooltip835769">-->
-<!--                        <i class="bg-o-color-1 fa fa-3x fa-database m-3 rounded" data-original-title="" title="" aria-describedby="tooltip881976" style=""></i>-->
-<!--                      </a>-->
-<!--                      <h3>-->
-<!--                        <font style="font-size: 18px;">Demande d'agrément d'importation de produit pétrolier</font>-->
-<!--                        <br/>-->
-<!--                      </h3>-->
-<!--                      <p>-->
-<!--                        <br/>-->
-<!--                      </p>-->
-<!--                    </div>-->
-<!--                    <div class="text-center o_colored_level col-lg-3 pb0 pt40">-->
-<!--                      <a href="/my/tasks" class="btn btn-primary">-->
-<!--                        <i class="bg-o-color-1 fa fa-3x fa-building-o m-3 rounded" data-original-title="" title="" aria-describedby="tooltip573311" style=""></i>-->
-<!--                      </a>-->
-<!--                      <h3>-->
-<!--                        <font style="font-size: 18px;">Demande d'autorisation d'installation industrielle</font>-->
-<!--                        <br/>-->
-<!--                      </h3>-->
-<!--                      <p>-->
-<!--                        <br/>-->
-<!--                      </p>-->
-<!--                    </div>-->
-<!--                    <div class="pt32 pb32 text-center o_colored_level col-lg-3">-->
-<!--                      <a href="/my/project/2" class="btn btn-primary">-->
-<!--                        <i class="bg-o-color-1 fa fa-3x fa-line-chart m-3 rounded" data-original-title="" title="" aria-describedby="tooltip573311" style=""></i>-->
-<!--                      </a>-->
-<!--                      <h3>-->
-<!--                        <font style="font-size: 18px;">Demande d'autorisation de prorogation de succursale</font>-->
-<!--                        <br/>-->
-<!--                      </h3>-->
-<!--                      <p>-->
-<!--                        <br/>-->
-<!--                      </p>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </section>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </t>-->
-<!--      </template>-->
 
     <!-- webpage Obtenir un compte -->
     <template id="o_formulaire_obtenir_un_compte">
@@ -94,7 +23,8 @@
                 <section class="s_text_block pt32 pb32 o_colored_level" data-snippet="s_text_block" data-name="Text" style="">
                     <div class="s_allow_columns container">
                         <p>
-                            <span style="font-family: Inter, &quot;Odoo Unicode Support Noto&quot;, serif; font-size: 18px;">e-Formulaire, en dehors de l’espace public accessible par tous les visiteurs, dispose d’un espace privé mis à la disposition non seulement des administrations publiques, mais aussi des opérateurs économiques. Pour accéder à cet espace privé l’utilisateur doit s’authentifier. Un Utilisateur désirant obtenir un compte d’accès à l’espace privé du e-Formulaire doit :</span><br/>
+                            <span style="font-family: Inter, &quot;Odoo Unicode Support Noto&quot;, serif; font-size: 18px;">e-Formulaire, en dehors de l’espace public accessible par tous les visiteurs, dispose d’un espace privé mis à la disposition non seulement des administrations publiques, mais aussi des opérateurs économiques. Pour accéder à cet espace privé l’utilisateur doit s’authentifier. Un Utilisateur désirant obtenir un compte d’accès à l’espace privé du e-Formulaire doit :</span>
+                            <br/>
                         </p>
                         <p style="font-family: Inter, &quot;Odoo Unicode Support Noto&quot;, serif; font-size: 14px;">
                             <font style="font-size: 18px;">1. Télécharger le formulaire de demande ci-dessous selon votre profil.</font>
@@ -106,14 +36,18 @@
                                 </a>
                             </span>
                             <a href="/web/content/469?unique=8acefa5198e8299815c192250a74d20ae2f1a31a&amp;download=true" class="o_image" title="Formulaire_obtenir_un_compte.pdf" alt="" data-mimetype="application/pdf"/>
-                            <span style="font-weight: bolder;"><br/></span><br/>
+                            <span style="font-weight: bolder;">
+                                <br/>
+                            </span>
+                            <br/>
                             <font style="font-size: 18px;">2. Remplir le formulaire de demande et le faire signer par le représentant légal de la société requérante.</font>
                         </p>
                         <p style="font-family: Inter, &quot;Odoo Unicode Support Noto&quot;, serif; font-size: 14px;">
                             <font style="font-size: 18px;">3. Par la suite, scanner et soumettre le formulaire par voie électronique à l’adresse&amp;nbsp;</font>
                             <a href="mailto:admin@gmail.com" class="btn btn-primary nowrap" data-original-title="" title="" aria-describedby="tooltip393741" style="background-color: rgb(17, 100, 102); border-color: rgb(17, 100, 102); font-size: 14px; border-radius: 2px; font-family: Inter, &quot;Odoo Unicode Support Noto&quot;, serif;">
                                 <font style="font-size: 18px;">admin@gmail.com</font>
-                            </a><br/>
+                            </a>
+                            <br/>
                         </p>
                         <p style="font-family: Inter, &quot;Odoo Unicode Support Noto&quot;, serif; font-size: 14px;">
                             <font style="font-size: 18px;">Cette partie est dédié aux sociétés externes que veulent&amp;nbsp;</font>
@@ -144,18 +78,16 @@
             <t t-call="portal.portal_searchbar">
                 <t t-set="title">Demandes</t>
                 <div class="col pl-sm-0">
-                    <a t-attf-href="/add/demande-autorisation-installationindustrielle"
-                     class="btn btn-primary" role="button" aria-disabled="true">Nouvelle demande</a>
+                    <a t-attf-href="/add/demande-autorisation-installationindustrielle" class="btn btn-primary" role="button" aria-disabled="true">Nouvelle demande</a>
                 </div>
             </t>
 
             <t t-if="not grouped_tasks">
                 <div class="alert alert-warning mt8" role="alert">
-                    Il n'a pas de demande!.
+                    Aucune demande en cours...
                 </div>
                 <div class="col pl-sm-0">
-                    <a t-attf-href="/add/demande-autorisation-installationindustrielle"
-                     class="btn btn-primary" role="button" aria-disabled="true">Ajouter une demande</a>
+                    <a t-attf-href="/add/demande-autorisation-installationindustrielle" class="btn btn-primary" role="button" aria-disabled="true">Ajouter une demande</a>
                 </div>
 
             </t>
@@ -164,9 +96,9 @@
                     <t t-foreach="grouped_tasks" t-as="tasks">
                         <thead>
                             <tr t-attf-class="{{'thead-light' if not groupby == 'none' else ''}}">
-                                <th class="text-left">Ref</th>
-                                <th class="text-left">Name</th>
-                                <th class="text-center">Status</th>
+                                <th class="text-left">Référence</th>
+                                <th class="text-left">Type de demande</th>
+                                <th class="text-center">Statut</th>
                                 <th class="text-center">Actions</th>
                             </tr>
                         </thead>
@@ -180,14 +112,23 @@
                                         <span t-field="task.name"/>
                                     </td>
                                     <td class="text-center">
-                                        <span class="badge badge-pill badge-info" t-esc="task.state" />
+                                        <span class="badge badge-pill badge-info" t-esc="task.stage_id.name" />
                                     </td>
-                                    <td class="text-center">
-                                        <a t-attf-href="/my/task/#{task.id}?{{ keep_query() }}"><p>Editer</p></a>
-                                        <div class="btn-group flex-grow-1 mb-1">
-                                            <a class="btn btn-secondary btn-block o_print_btn o_portal_invoice_print" t-att-href="task.get_portal_url(report_type='pdf')" id="print_invoice_report" title="Print" target="_blank"><i class="fa fa-print"/> Print</a>
+                                    <td>
+                                        <div class="text-center">
+                                            <t t-if="task.state == 'approuver'">
+                                                <div class="btn-group flex-grow-1 mb-1">
+                                                    <a class="btn btn-secondary btn-block o_print_btn o_portal_invoice_print" t-att-href="task.get_portal_url(report_type='pdf')" id="print_invoice_report" title="Print" target="_blank">
+                                                        <i class="fa fa-print"/>Imprimer</a>
+                                                </div>
+                                            </t>
+                                            <t t-if="task.state == 'suspendu'">
+                                                <div class="btn-group flex-grow-1 mb-1">
+                                                    <a class="btn btn-secondary btn-block o_print_btn o_portal_invoice_print" t-attf-href="/my/task/#{task.id}?{{ keep_query() }}" id="print_invoice_report" title="Edit" target="_blank">
+                                                        <i class="fa fa-pencil-square"/>Editer</a>
+                                                </div>
+                                            </t>
                                         </div>
-                                        <a t-attf-href="/my/demande/e_formulaire.dii_attestation_pdf_report/#{task.id}?"><p>Imprimer</p></a>
                                     </td>
                                 </tr>
                             </t>
@@ -198,7 +139,7 @@
         </t>
     </template>
 
-     <!-- Vue d'une demande -->
+    <!-- Vue d'une demande -->
     <template id="project.portal_my_task" name="My Task">
         <t t-call="portal.portal_layout">
             <t t-set="o_portal_fullwidth_alert" groups="project.group_project_user">
@@ -206,13 +147,14 @@
                     <t t-set="backend_url" t-value="'/web#model=project.task&amp;id=%s&amp;view_type=form' % (task.number)"/>
                 </t>
             </t>
+
             <t t-call="portal.portal_record_layout">
                 <t t-set="card_header">
                     <div class="row no-gutters">
                         <div class="col-12">
                             <h5 class="d-flex mb-1 mb-md-0 row">
                                 <span t-field="task.name" class="col-9 text-truncate"/>
-                                <small class="text-muted d-none d-md-inline"> (#<span t-field="task.number"/>)</small>
+                                <small class="text-muted d-none d-md-inline"> (# <span t-field="task.number"/>)</small>
                                 <div class="col-3 col-md-2 text-right">
                                     <small class="text-right">Status:</small>
                                     <span t-field="task.stage_id.name" class=" badge badge-pill badge-info" title="Current stage of this task"/>
@@ -223,18 +165,22 @@
                 </t>
                 <t t-set="card_body">
                     <div class="mb-1" t-if="user in task.sudo().project_id.allowed_user_ids">
-                        <strong>Project:</strong> <a t-attf-href="/my/project/#{task.project_id.id}" t-field="task.project_id.name"/>
+                        <strong>Demande:</strong>
+                        <a t-attf-href="/my/project/#{task.project_id.id}" t-field="task.project_id.name"/>
                     </div>
 
                     <div class="row mb-4">
                         <div class="col-12 col-md-6 mb-1">
-                            <strong>Date:</strong> <span t-field="task.date_request" t-options='{"widget": "date"}'/>
+                            <strong>Date:</strong>
+                            <span t-field="task.date_request" t-options='{"widget": "date"}'/>
                         </div>
-                         <div class="col-12 col-md-6" t-if="task.date_approbation">
-                            <strong>Dete d'approbation:</strong> <span t-field="task.date_approbation" t-options='{"widget": "date"}'/>
+                        <div class="col-12 col-md-6" t-if="task.date_approbation">
+                            <strong>Date d'approbation:</strong>
+                            <span t-field="task.date_approbation" t-options='{"widget": "date"}'/>
                         </div>
                         <div class="col-12 col-md-6" t-if="task.date_exper">
-                            <strong>Dete d'exoération:</strong> <span t-field="task.date_exper" t-options='{"widget": "date"}'/>
+                            <strong>Date d'expiration:</strong>
+                            <span t-field="task.date_exper" t-options='{"widget": "date"}'/>
                         </div>
                     </div>
 
@@ -264,14 +210,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row" t-if="task.description or task.attachment_ids">
-                        <div t-if="task.description" t-attf-class="col-12 col-lg-7 mb-4 mb-md-0 {{'col-lg-7' if task.attachment_ids else 'col-lg-12'}}">
+                    <div class="row" t-if="task.observation or task.attachment_ids">
+                        <div t-if="task.observation" t-attf-class="col-12 col-lg-7 mb-4 mb-md-0 {{'col-lg-7' if task.attachment_ids else 'col-lg-12'}}">
                             <hr class="mb-1"/>
                             <div class="d-flex my-2">
-                                <strong>Description</strong>
+                                <strong>Motif de Suspension.</strong>
                             </div>
-                            <div class="py-1 px-2 bg-100 small" t-field="task.description"/>
+                            <div class="py-1 px-2 bg-100 small" t-field="task.observation"/>
                         </div>
+
                         <div t-if="task.attachment_ids" t-attf-class="col-12 col-lg-5 o_project_portal_attachments {{'col-lg-5' if task.description else 'col-lg-12'}}">
                             <hr class="mb-1 d-none d-lg-block"/>
                             <strong class="d-block mb-2">Attachments</strong>
@@ -280,18 +227,23 @@
                                     <ul class="list-group">
                                         <a class="list-group-item list-group-item-action d-flex align-items-center oe_attachments py-1 px-2" t-foreach='task.attachment_ids' t-as='attachment' t-attf-href="/web/content/#{attachment.id}?download=true&amp;access_token=#{attachment.access_token}" target="_blank" data-no-post-process="">
                                             <div class='oe_attachment_embedded o_image o_image_small mr-2 mr-lg-3' t-att-title="attachment.name" t-att-data-mimetype="attachment.mimetype" t-attf-data-src="/web/image/#{attachment.id}/50x40?access_token=#{attachment.access_token}"/>
-                                            <div class='oe_attachment_name text-truncate'><t t-esc='attachment.name'/></div>
+                                            <div class='oe_attachment_name text-truncate'>
+                                                <t t-esc='attachment.name'/>
+                                            </div>
                                         </a>
                                     </ul>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </t>
             </t>
 
             <div class="mt32">
-                <h4><strong>Message and communication history</strong></h4>
+                <h4>
+                    <strong>Messagerie et historique de communication</strong>
+                </h4>
                 <t t-call="portal.message_thread">
                     <t t-set="object" t-value="task"/>
                     <t t-set="token" t-value="task.access_token"/>
@@ -310,13 +262,48 @@
                     <form action="/demande/website_submitted" method="post" class="form-horizontal mt32" enctype="multipart/form-data">
                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
 
+                        <input type="text" class="form-control" name="project_code" t-att-value="'DII'"/>
+
                         <group>
-                             <div t-attf-class="form-group #{error and 'name' in error and 'has-error' or ''}">
-                                <label class="col-md-3 col-sm-4 control-label" for="name">Type de formulaire</label>
-                                <div class="col-md-7 col-sm-8">
-                                    <input type="text" class="form-control" name="name" t-att-value="'Demande d\'autorisation d\'installation industrielle'" readonly="True"/>
+                           <div class="form-group col-12 s_website_form_field s_website_form_required">
+
+                                	<div class="form-group col-12 s_website_form_field s_website_form_required"
+                                     	data-type="text" data-name="Field">
+                                    	<div class="row s_col_no_resize s_col_no_bgcolor">
+                                        	<label class="col-form-label col-sm-auto s_website_form_label"
+                                               	style="width: 200px">
+                                            	<span class="s_website_form_label_content">Product</span>
+                                            	<span class="s_website_form_mark">*</span>
+                                        	</label>
+                                        	<div class="col-sm">
+                                            	<select name="project_id" id="project_id"
+                                                    	class="form-control link-style">
+                                                	<option value="">Type...</option>
+                                                	<t t-foreach="projects" t-as="project">
+                                                    	<option t-att-value="project.id">
+                                                        	<t t-esc="project.name" t-att-value="project.id"/>
+                                                    	</option>
+                                                	</t>
+                                            	</select>
+                                        	</div>
+                                    	</div>
+                                	</div>
+                           </div>
+
+                            <h1 t-attf-class="form-group #{error and 'name' in error and 'has-error' or ''}">
+
+                                <label class="form-group s_website_form_field col-12 col-lg-12 s_website_form_custom" for="name" style="font-size:1.5rem;">Demande d'autorisation d'installation industrielle</label>
+                                <div class="col-md-12 col-sm-12">
+                                    <input type="hidden" class="form-control" name="name" t-att-value="'Demande d\'autorisation d\'installation industrielle'" readonly="True"/>
                                 </div>
-                            </div>
+
+
+                                <label class="form-group s_website_form_field col-12 col-lg-12 s_website_form_custom" for="name" style="font-size:1.5rem;">Attestation tenant lieu de carte d'importateur</label>
+                                <div class="col-md-12 col-sm-12">
+                                    <input type="hidden" class="form-control" name="name" t-att-value="'Demande d\'Attestation tenant lieu de carte d\'importateur'" readonly="True"/>
+                                </div>
+
+                            </h1>
                             <div class="form-group ">
                                 <label class="col-md-3 col-sm-4 control-label" for="your_name">Entreprise</label>
                                 <div class="col-md-7 col-sm-8">
@@ -324,44 +311,39 @@
                                 </div>
                             </div>
                             <div t-attf-class="form-group #{error and 'ifu' in error and 'has-error' or ''}">
-                                <label class="col-md-3 col-sm-4 control-label" for="ifu">IFU</label>
+                                <label class="col-md-3 col-sm-4 control-label" for="ifu">IFU (Identifiant Fiscale Unique)</label>
                                 <div class="col-md-7 col-sm-8">
-                                        <input class="form-control" id="ifu" name="ifu" type="text" title="IFU" t-att-value="request.env.user.partner_id.vat" readonly="True"/>
+                                    <input class="form-control" id="ifu" name="ifu" type="text" title="IFU" t-att-value="request.env.user.partner_id.vat" readonly="True"/>
                                 </div>
                             </div>
-                             <div t-attf-class="form-group #{error and 'rccm' in error and 'has-error' or ''}">
-                                <label class="col-md-3 col-sm-4 control-label" for="rccm">RCCM</label>
+                            <div t-attf-class="form-group #{error and 'rccm' in error and 'has-error' or ''}">
+                                <label class="col-md-3 col-sm-4 control-label" for="rccm">RCCM (Registre du Commerce et du Crédit Mobilier)</label>
                                 <div class="col-md-7 col-sm-8">
-                                        <input class="form-control" id="rccm" name="rccm" type="text" title="RCCM" t-att-value="request.env.user.partner_id.rccm" readonly="True"/>
+                                    <input class="form-control" id="rccm" name="rccm" type="text" title="RCCM" t-att-value="request.env.user.partner_id.rccm" readonly="True"/>
                                 </div>
                             </div>
 
-                            <div t-attf-class="form-group #{error and 'project_code' in error and 'has-error' or ''}">
-                                <label class="col-md-3 col-sm-4 control-label" for="project_code">Code Formulaire</label>
-                                <div class="col-md-7 col-sm-8">
-                                    <input type="hidden" class="form-control" name="project_code" t-att-value="'DII'"/>
-                                </div>
-                            </div>
-                            <div  t-attf-class="form-group #{error and 'attachment' in error and 'has-error' or ''}">
-                                <label class="col-lg-3 col-md-4 col-form-label" for="atachment">Pièces joints</label>
+                            <div t-attf-class="form-group #{error and 'attachment' in error and 'has-error' or ''}">
+                                <label class="col-lg-3 col-md-4 col-form-label" for="atachment">Pièces jointes</label>
                                 <div class="col-lg-7 col-md-8">
-                                    <input   class="form-control o_website_form_input" name="attachment" id="attachment" type="file" multiple="multiple"/>
+                                    <input type="file" class=" o_website_form_input" name="attachment" multiple='multiple'/>
                                 </div>
                             </div>
 
-                             <div t-attf-class="form-group #{error and 'description' in error and 'has-error' or ''}">
-                                <label class="col-md-3 col-sm-4 control-label" for="description">Autres info</label>
+                            <div t-attf-class="form-group #{error and 'description' in error and 'has-error' or ''}">
+                                <label class="col-md-3 col-sm-4 control-label" for="description">Autres informations</label>
                                 <div class="col-md-7 col-sm-8">
-                                     <textarea class="form-control" cols="60" name="description" rows="6"></textarea>
+                                    <textarea class="form-control" cols="60" name="description" rows="6"></textarea>
                                 </div>
                             </div>
-                             <div class="form-group">
+                            <div class="form-group">
                                 <div class="col-sm-offset-5 col-sm-7 pull-right">
-                                  <button type="submit" class="btn btn-success">Soumettre</button>
+                                    <button type="submit" class="btn btn-success" style="position:relative; margin-bottom: 16px; right: 30px;">Soumettre</button>
 
-                                 <a t-attf-href="/add/demande-autorisation-installationindustrielle" class="btn btn-danger">
+                                    <a t-attf-href="/my/tasks" class="btn btn-danger" style="position:relative; margin-bottom: 16px; right:25px; ">
                                         Annuler
-                                    </a></div>
+                                    </a>
+                                </div>
                             </div>
                         </group>
                     </form>
@@ -373,52 +355,57 @@
 
     <!-- Page thank you DII demande -->
     <template id="website_thanks" name="Thanks">
-         <t t-call="website.layout">
-                 <div id="wrap">
-                     <div class="oe_structure"/>
-                     <div class="container">
-                        <h2 class="text-center">------------------------------</h2>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="alert alert-success text-center">
-                                    <h5>Votre demande Ref: "<t t-esc="order.number"/>" est créée avec succès.<br/></h5>
-                                    </div>
-                                </div>
-                            </div>
-                          <h2 class="text-center">Merci de régler les frais afin que nous puissions valider votre demande.</h2>
+        <t t-call="website.layout">
+            <div id="wrap">
+                <div class="oe_structure"/>
+                <div class="container">
+                    <h2 class="text-center">
+                        <br/>
+                    </h2>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="alert alert-success text-center">
+                                <h5>Votre demande Référence: "<t t-esc="order.number"/>
+" a été créée avec succès.<br/>
+                            </h5>
                         </div>
+                    </div>
+                </div>
+                <!--
+                          <h2 class="text-center">Merci de régler les frais afin que nous puissions valider votre demande.</h2> 
+                          -->
+            </div>
+            <!--
                         <div class="col-sm-offset-5 col-sm-7 pull-right">
-                            <button class="pay-btn btn btn-success"
-                                    data-transaction-amount="2000"
-                                    data-transaction-description="Payer ma demande"
-                                    data-customer-email="janetay@gmail.com"
-                                    data-customer-lastname="Tay">
+                            <button class="pay-btn btn btn-success" data-transaction-amount="2000" data-transaction-description="Payer ma demande" data-customer-email="janetay@gmail.com" data-customer-lastname="Tay">
                                 Payer 2000 FCFA
                             </button>
                         </div>
-                 </div>
-                 <div class="oe_structure"/>
-                <script type="text/javascript">
+                        -->
+        </div>
+        <div class="oe_structure"/>
+        <script type="text/javascript">
                     FedaPay.init('.pay-btn', { public_key: 'pk_live_wuYQvczK-QcPeJGftJdG1q3J' });
-                </script>
-         </t>
-    </template>
+        </script>
+    </t>
+</template>
 
-    <data>
-        <!-- Menu Nos Services-->
+<data>
+    <!-- Menu Nos Services
         <record id="website_menu_service_e_formulaire" model="website.menu">
               <field name="name">Nos Services</field>
               <field name="url">/nos-services</field>
               <field name="parent_id" ref="website.main_menu"/>
               <field name="sequence" type="int">50</field>
         </record>
+        -->
 
-        <!-- Menu Obtenir un compte -->
-        <record id="website_menu_obtenir_un_compte" model="website.menu">
-          <field name="name">Obtenir un compte</field>
-          <field name="url">/obtenir-un-compte</field>
-          <field name="parent_id" ref="website.main_menu"/>
-          <field name="sequence" type="int">60</field>
-        </record>
-    </data>
+    <!-- Menu Obtenir un compte -->
+    <record id="website_menu_obtenir_un_compte" model="website.menu">
+        <field name="name">Obtenir un compte</field>
+        <field name="url">/obtenir-un-compte</field>
+        <field name="parent_id" ref="website.main_menu"/>
+        <field name="sequence" type="int">60</field>
+    </record>
+</data>
 </odoo>

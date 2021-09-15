@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-
+<!--
         <record id="res_partner_view_search" model="ir.ui.view">
             <field name="name">res.partner.search.inherit</field>
             <field name="model">res.partner</field>
@@ -13,7 +13,7 @@
                 </xpath>
             </field>
         </record>
-
+-->
         <record id="e_formulaie_view_partner_tree_inherit" model="ir.ui.view">
             <field name="name">formulaire.res.partner.tree.view</field>
             <field name="model">res.partner</field>
@@ -72,7 +72,6 @@
                 <field name="name">Entreprise</field>
                 <field name="type">ir.actions.act_window</field>
                 <field name="res_model">res.partner</field>
-                <field name="context">{'search_default_customer': 1,'res_partner_search_mode': 'customer', 'default_is_company': True, 'default_entreprise': True}</field>
                 <field name="view_mode">tree,form</field>
             </record>
 

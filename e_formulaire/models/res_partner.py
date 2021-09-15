@@ -5,6 +5,7 @@
 
 from odoo import fields, models,api, _
 from odoo.addons.base.models.res_partner import WARNING_MESSAGE, WARNING_HELP
+from odoo.exceptions import UserError, AccessError, ValidationError, RedirectWarning
 
 
 class ResPartner(models.Model):
@@ -26,7 +27,17 @@ class ResPartner(models.Model):
                                        ('501', 'Investissement > 500')], default='20',
                             required=False, )
     cout = fields.Char(string='Coût', compute='_compute_cout', store=True, required=False)
+
     #resp = fields.Char(string='Responsable', required=False)
+
+    @api.constrains('formulaire_ids')
+    def _check_if_exsit(self):
+        for rec in self:
+            exist_task = []
+            for line in rec.formulaire_ids:
+                if line.name in exist_task:
+                    raise ValidationError(_('Demande should be one per type.'))
+                exist_task.append(line.name)
 
     @api.depends('invest')
     def _compute_cout(self):

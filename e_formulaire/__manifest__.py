@@ -26,11 +26,11 @@
     'data': [
         'security/ir.model.access.csv',
 
+        #'data/home_page_template.xml',
         'data/e_formulaire_data.xml',
-        #'data/email_template.xml',
+        'data/email_template.xml',
         'views/report_layout.xml',
         'report/e_demande_report.xml',
-
         #'views/form_assets.xml',
         'views/e_formulaire_template.xml',
         'views/e_demandes_view.xml',
