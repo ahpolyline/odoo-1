@@ -20,19 +20,20 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['project', 'hr', 'website', 'portal' ],
+    'depends': ['base','web','project', 'hr', 'website', 'portal','base_automation'],
 
     # always loaded
     'data': [
         'security/ir.model.access.csv',
+        #'wizard/be_message_wizard.xml',
 
         #'data/home_page_template.xml',
         'data/e_formulaire_data.xml',
-        'data/email_template.xml',
         'views/report_layout.xml',
+
         'report/e_demande_report.xml',
-        #'views/form_assets.xml',
         'views/e_formulaire_template.xml',
+        'data/email_template.xml',
         'views/e_demandes_view.xml',
         'views/e_formulaire_view.xml',
         'views/res_partner_view.xml',
@@ -41,6 +42,7 @@
         'views/res_partner_view.xml',
         'views/e_stages_view.xml',
         'views/res_config_settings_views.xml',
+        'views/templates.xml',
 
     ],
     # only loaded in demonstration mode

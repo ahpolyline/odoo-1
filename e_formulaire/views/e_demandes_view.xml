@@ -96,33 +96,30 @@
             <field name="inherit_id" ref="project.view_task_form2"/>
             <field name="arch" type="xml">
                   <xpath expr="/form" position="attributes">
-                     <attribute name="create">true</attribute>
+                     <attribute name="create">false</attribute>
                 </xpath>
-                <!--
-                 <xpath expr="//button[@name='attachment_tree_view']" position="attributes">
-                     <attribute name="invisible">1</attribute>
-                </xpath>
-                -->
                 <field name="stage_id" position="before">
-                    <field name="state" invisible="1"/>
-                    <button type="object" name="confirm1" class="oe_highlight" string="Confirmer"
+
+                    <button type="object" name="confirm1" class="oe_highlight" string="Approuver"
                             confirm="êtes-vous sûr de vouloir confirmer ?"
-                            attrs="{'invisible': [('state','not in',('encour_1', 'suspendu'))]}"
-                    />
-                    <button type="object" name="confirm2" class="oe_highlight" string="Confirmer"
-                            confirm="êtes-vous sûr de vouloir confirmer ?"
-                            attrs="{'invisible': [('state','not in',('encour_2'))]}"
+                            attrs="{'invisible': [('t1','=',False)]}"
                     />
                     <button type="object" name="action_approve" class="oe_highlight"
                             confirm="êtes-vous sûr de vouloir approuver la demande ?"
-                            string="Approuver" attrs="{'invisible': [('state','not in',('a_approuver'))]}"
+                            string="Approuver2"
+                            attrs="{'invisible': [('t2','=', False)]}"
+                    />
+                    <button type="object" name="action_traiter" class="oe_highlight"
+                            confirm="êtes-vous sûr de vouloir traiter la demande ?"
+                            string="Traiter" attrs="{'invisible': [('state','not in',('soumis','encour_1', 'a_approuver'))]}"
+
                     />
                     <button type="object" name="suspendre" class="oe_highlight"
                             confirm="êtes-vous sûr de vouloir suspendre la demande"
-                            string="Suspendre" attrs="{'invisible': [('state', 'in', ('cancelled','suspendu','revoque','approuver'))]}"
+                            string="Suspendre" attrs="{'invisible': [('state', 'not in', ('encour_1','en_traitement', 'a_approuver'))]}"
                     />
                      <button type="object" name="annuler" class="oe_highlight" string="Rejeté"
-                            invisible="0"
+                            attrs="{'invisible': [('state', 'not in', ('encour_1','suspendu','a_approuver'))]}"
                     />
                     <button type="object" name="retour_to_draft" class="oe_highlight" string="Retour"
                             invisible="1"
@@ -133,41 +130,29 @@
                     <button type="object" name="print_dii_report" class="oe_highlight" string="Imprimer"
                             attrs="{'invisible': [('state', '!=', 'approuver')]}"
                     />
-<!--
-                   <button type="object" name="action_send_mail" class="oe_highlight" string="Evoie par email"
-                            attrs="{'invisible': [('state', '!=', 'approuver')]}"
-                    />
--->
-                    <field name="state" widget="statusbar" statusbar_visible="encour_1, suspendu, a_approuver, approuver"
-                           attrs="{'invisible': [('project_id', '=', False)]}"
-                    />
-
                 </field>
-
+                <xpath expr="//field[@name='stage_id']" position="attributes">
+                    <attribute name="clickable">0</attribute>
+                    <attribute name="statusbar_visible">soumis,en_traitement,a_approuver,approuver</attribute>
+                </xpath>
                 <xpath expr="//field[@name='kanban_state']" position="replace">
                        <div class="float-right">
                         <field  name="qr_image" widget="image" width="100" height="100"/>
                     </div>
                 </xpath>
-
-
                 <button name="action_assign_to_me" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </button>
                 <xpath expr="//field[@name='name']" position="attributes">
-                     <attribute name="readonly">0</attribute>
+                     <attribute name="readonly">1</attribute>
                 </xpath>
                  <xpath expr="//field[@name='priority']" position="attributes">
                      <attribute name="invisible">1</attribute>
                 </xpath>
-                <xpath expr="//field[@name='stage_id']" position="attributes">
-                     <attribute name="invisible">1</attribute>
-                </xpath>
-
                 <xpath expr="/form/sheet/group/group" position="replace">
                    <group>
                        <field name="number" string="Ref:"/>
-                        <field name="project_id" readonly="0" string="Type de Formulaire"
+                        <field name="project_id" readonly="1" string="Type de Formulaire"
                                domain="[('active', '=', True), ('company_id', '=', company_id)]"/>
                        <field name="number" invisible="1"/>
                         <field
@@ -175,13 +160,14 @@
                             domain="[('parent_id', '=', False)]"
                             attrs="{'invisible' : [('allow_subtasks', '=', False)]}"
                         />
-                       <field name="renouvellement"/>
+                        <field name="type_form" invisible="1"/>
+                       <field name="renouvellement" attrs="{'invisible': [('type_form','=','4')]}"/>
                         <field name="date_deadline" invisible="1"/>
                         <field name="recurring_task" invisible="1"/>
                         <field name="tag_ids" invisible="1" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}"/>
                        <field name="date_request" readonly="1"/>
                        <field name="date_approbation" readonly="1"/>
-                       <field name="duree_validite" readonly="1"/>
+                       <field name="duree_validite" readonly="1" attrs="{'invisible': [('type_form','=','4')]}"/>
                        <field name="date_exper" readonly="1"/>
                        <field name="user_id" string="Créer par" invisible="1"
                             class="o_task_user_field"
@@ -193,12 +179,26 @@
                         <field name="secend_approver_id" widget="many2many_tags"
                                options="{'color_field': 'color', 'no_create_edit': True}" invisible="1"/>
                         <field name="multi" invisible="1"/>
+                        <field name="responsable_depart" invisible="1"/>
                    </group>
                 </xpath>
                  <xpath expr="/form/sheet/group" position="after">
-                      <group>
-                        <field name="observation" string="Motifs de suspendre" attrs="{'readonly': [('state','not in',('encour_1','encour_2'))]}"/>
-                    </group>
+                     <group>
+                        <group>
+                            <field name="observation" string="Motifs de suspendre" attrs="{'readonly': [('state','not in',('en_traitement','encour_1','encour_2','approuver'))]}"/>
+                            <field name="state" invisible="1"/>
+                            <field name="t1" invisible="1"/>
+                            <field name="t2" invisible="1"/>
+                            <field name="s1"/>
+                            <field name="s2"/>
+                        </group>
+                        <group string="autres infos" attrs="{'invisible': [('type_form', '!=', '4')]}">
+                            <field name="currency_id" invisible="1"/>
+                            <field name="produit" readonly="1"/>
+                            <field name="provenance" readonly="1"/>
+                            <field name="montant" widgat="monitary" options="{'currency_field': 'currency_id'}" readonly="1"/>
+                        </group>
+                     </group>
                  </xpath>
                  <xpath expr="//field[@name='partner_id']" position="replace">
 
@@ -208,10 +208,91 @@
                     <field name="rccm" />
                      <field name="ifu" />
                      <field name="national_societe" />
+                     <field name="capital" attrs="{'invisible': [('type_form', '!=', '3')]}"/>
+                     <field name="gerant" attrs="{'invisible': [('type_form', '!=', '3')]}"/>
+                     <field name="date_naissance" attrs="{'invisible': [('type_form', '!=', '3')]}"/>
+                     <field name="lieu_naissance" attrs="{'invisible': [('type_form', '!=', '3')]}"/>
+                     <field name="nationalie_gerant" attrs="{'invisible': [('type_form', '!=', '3')]}"/>
                 </xpath>
+                <xpath expr="//page[@name='description_page']" position="after">
+                    <page name="historique" string="Histoeique">
+                     <group readonly="1">
+                         <group>
+                             <label for="partner_id" string="Creée par :" attrs="{'invisible': [('partner_id','=', False)]}"/>
+                             <div class="o_row" name="partner_id" attrs="{'invisible': [('partner_id','=', False)]}">
+                                 <field name="partner_id"/>
+                                  date :
+                                 <field name="date_request"/>
+                             </div>
+                             <label for="confirmer_par" string="Confirmé par :" attrs="{'invisible': [('confirmer_par','=', False)]}"/>
+                             <div class="o_row" name="confirmer_par" attrs="{'invisible': [('confirmer_par','=', False)]}">
+                                  <field name="confirmer_par"/> Date :
+                                  <field name="date_confirm1"/>
+                             </div>
+                             <label for="approuver_par" string="Approuvé par :" attrs="{'invisible': [('approuver_par','=', False)]}"/>
+                             <div class="o_row" name="approuver_par" attrs="{'invisible': [('assign','=', False)]}">
+                                <field name="approuver_par"/> Date :
+                                <field name="date_approbation"/>
+                             </div>
+                         </group>
+                         <group>
+                             <label for="assign" string="Approuvé par :" attrs="{'invisible': [('assign','=', False)]}"/>
+                             <div class="o_row" name="assign" attrs="{'invisible': [('assign','=', False)]}">
+                                <field name="assign"/> Date :
+                                <field name="date_assigne"/>
+                             </div>
+                             <label for="suspendre_par" string="Suspenfre par :" attrs="{'invisible': [('suspendre_par','=', False)]}"/>
+                             <div class="o_row" name="suspendre_par" attrs="{'invisible': [('suspendre_par','=', False)]}">
+                                <field name="suspendre_par"/> Date :
+                                <field name="date_suspension"/>
+                             </div>
+                             <label for="rejeter_par" string="Rejeté par :" attrs="{'invisible': [('rejeter_par','=', False)]}"/>
+                             <div class="o_row" name="rejeter_par" attrs="{'invisible': [('rejeter_par','=', False)]}">
+                                <field name="rejeter_par"/> Date :
+                                <field name="date_reject"/>
+                             </div>
+                             <label for="revoquer_par" string="Révoqué par :" attrs="{'invisible': [('revoquer_par','=', False)]}"/>
+                             <div class="o_row" name="revoquer_par" attrs="{'invisible': [('revoquer_par','=', False)]}">
+                                <field name="revoquer_par"/> Date :
+                                <field name="date_revocation"/>
+                             </div>
+                         </group>
+                     </group>
+                    </page>
+                    <page name="documents" string="Documents">
+                        <field name="attachment_ids">
+                            <tree string="Documenyts">
+                                <field name="name"/>
+                                <field name="create_uid"/>
+                                <field name="create_date"/>
+                                <field name="description"/>
+                            </tree>
+                        </field>
+                        <!--
+                        <group>
+                            <group>
+                                <field name="doc1" filename="doc1_name"/>
+                                <field name="doc1_name" invisible="1"/>
+                                <field name="doc2" filename="doc2_name"/>
+                                <field name="doc2_name" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="doc3" filename="doc3_name"/>
+                                <field name="doc3_name" invisible="1"/>
+                                <field name="doc4" filename="doc4_name"/>
+                                <field name="doc4_name" invisible="1"/>
+
+                            </group>
+                        </group>
+                        -->
+                    </page>
+                 </xpath>
                  <xpath expr="//page[@name='extra_info']" position="attributes">
                      <attribute name="invisible">1</attribute>
                  </xpath>
+                <xpath expr="//field[@name='description']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
 
 
             </field>
@@ -225,7 +306,7 @@
             <field name="arch" type="xml">
 
                 <xpath expr="/tree" position="attributes">
-                    <attribute name="create">false</attribute>
+                    <attribute name="create">true</attribute>
                 </xpath>
 
                 <xpath expr="//field[@name='project_id']" position="attributes">
@@ -246,13 +327,29 @@
             </field>
         </record>
 
+        <record id="action_view_all_task" model="ir.actions.act_window">
+            <field name="name">Tasks</field>
+            <field name="res_model">project.task</field>
+            <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
+            <field name="context">{'search_default_my_tasks': 0, 'all_task': 1}</field>
+            <field name="search_view_id" ref="project.view_task_search_form"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face" >
+                    No tasks found. Let's create one!
+                </p><p>
+                     To get things done, use activities and status on tasks.<br/>
+                    Chat in real time or by email to collaborate efficiently.
+                </p>
+            </field>
+        </record>
+
          <!-- Change action name -->
          <record id="project.action_view_all_task" model="ir.actions.act_window">
             <field name="name">E-Demande</field>
         </record>
 
         <menuitem name="E-Demandes" id="project.menu_project_management" parent="project.menu_main_pm"
-            action="project.action_view_all_task" sequence="2" />
+            action="action_view_all_task" sequence="2" />
 
         <!-- rapport Attestation -->
 

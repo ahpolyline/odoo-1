@@ -1,24 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-<!--
-        <template id="listing">
-          <ul>
-            <li t-foreach="objects" t-as="object">
-              <a t-attf-href="#{ root }/objects/#{ object.id }">
-                <t t-esc="object.display_name"/>
-              </a>
-            </li>
-          </ul>
+        <template id="assets_backend" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                 <link rel="stylesheet" type="text/css" href="/e_formulaire/static/src/css/assets_backend.css"/>
+            </xpath>
         </template>
-        <template id="object">
-          <h1><t t-esc="object.display_name"/></h1>
-          <dl>
-            <t t-foreach="object._fields" t-as="field">
-              <dt><t t-esc="field"/></dt>
-              <dd><t t-esc="object[field]"/></dd>
-            </t>
-          </dl>
+         <template id="assets_common" inherit_id="web.assets_common">
+            <xpath expr="." position="inside">
+                <link type="text/css" rel="stylesheet" href="/e_formulaire/static/src/css/assets_common.css"/>
+            </xpath>
         </template>
--->
+         <template id="assets_frontend" name="im assets" inherit_id="web.assets_frontend">
+        <xpath expr="." position="inside">
+            <link type="text/css" rel="stylesheet" href="/e_formulaire/static/src/css/assets_frontend.css"/>
+        </xpath>
+    </template>
+
+
     </data>
 </odoo>

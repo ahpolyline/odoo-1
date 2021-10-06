@@ -1,7 +1,7 @@
 <odoo>
   <data>
 
-    <!-- Frm veiew commande materiel-->
+    <!-- Form veiew commande materiel-->
     <record id="commande_materiel_form_view_view_form" model="ir.ui.view">
         <field name="name">commande_materiel_form_view_view_form</field>
         <field name="model">commande.materiel</field>

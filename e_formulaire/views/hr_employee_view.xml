@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <!--
+
        <record id="e_formulaire_employee_form_view" model="ir.ui.view">
             <field name="name">hr.employee.form.view</field>
             <field name="model">hr.employee</field>
@@ -10,19 +10,21 @@
 
 
                 <xpath expr="//group[@name='managers']" position="replace">
-                     <group name="managers" string="Approvers" >
-
-                    <field name="assigne_to1"/>
-                         <tree string="Assigné niveau 1" editable="bottom" mode="tree">
-
-
-
-                         </tree>
-                    <field name="assigne_to2" widget="one2many"/>
+                     <group name="managers" string="Approbation par type de Formulaire" >
+                    <field name="form_type1_ids"  widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}" placeholder="Type de formulaire..."
+                            string="Approbation Niveau 1"/>
+                    <field name="form_type2_ids"  widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}" placeholder="Type de formulaire..."
+                            string="Approbation Niveau 2"/>
                      </group>
+                    <group string="Assigné pour confirmer les demandes suivantes:">
+                        <field name="assigne_to1"  widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}" placeholder="Demandes..."
+                            string="Approbation Niveau 1"/>
+                        <field name="assigne_to2"  widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}" placeholder="Demande..."
+                            string="Approbation Niveau 2"/>
+                    </group>
                 </xpath>
             </field>
         </record>
-        -->
+
     </data>
 </odoo>

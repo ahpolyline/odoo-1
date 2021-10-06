@@ -18,7 +18,7 @@ class ResPartner(models.Model):
     ifu = fields.Char(
         string='numéro ifu',
         required=False)
-    entreprise = fields.Boolean( string='Entreprise', default=True, required=False)
+    entreprise = fields.Boolean(string='Entreprise', default=True, required=False)
 
     formulaire_ids = fields.One2many('project.task', 'partner_id', 'e-Formulaire')
     invest = fields.Selection(string='Investisseement',
@@ -27,17 +27,20 @@ class ResPartner(models.Model):
                                        ('501', 'Investissement > 500')], default='20',
                             required=False, )
     cout = fields.Char(string='Coût', compute='_compute_cout', store=True, required=False)
+    resp = fields.Char(string='Responsabe', required=False)
+    date_naissance = fields.Date('Date de naissance', required=False)
+    lieu_naissance = fields.Char('Lieu de naissance', required=False)
+    nationality = fields.Char('Nationnalité', required=False )
+    capital = fields.Float('Capital social', required=False)
 
-    #resp = fields.Char(string='Responsable', required=False)
-
-    @api.constrains('formulaire_ids')
-    def _check_if_exsit(self):
-        for rec in self:
-            exist_task = []
-            for line in rec.formulaire_ids:
-                if line.name in exist_task:
-                    raise ValidationError(_('Demande should be one per type.'))
-                exist_task.append(line.name)
+    # @api.constrains('formulaire_ids')
+    # def _check_if_exsit(self):
+    #     for rec in self:
+    #         exist_task = []
+    #         for line in rec.formulaire_ids:
+    #             if line.name in exist_task:
+    #                 raise ValidationError(_('Demande should be one per type.'))
+    #             exist_task.append(line.name)
 
     @api.depends('invest')
     def _compute_cout(self):

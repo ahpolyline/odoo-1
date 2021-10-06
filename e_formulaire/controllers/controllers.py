@@ -9,7 +9,7 @@ from operator import itemgetter
 from odoo.addons.portal.controllers.web import Home
 from odoo import http, _
 from odoo.exceptions import AccessError, MissingError
-from odoo.http import request
+from odoo.http import request, route
 from odoo.addons.portal.controllers.portal import CustomerPortal, pager as portal_pager
 from odoo.tools import groupby as groupbyelem
 
@@ -28,20 +28,19 @@ class InheritHome(Home):
                 redirect = '/my/tasks'
         return super(InheritHome, self)._login_redirect(uid, redirect=redirect)
 
+    # @http.route('/', type='http', auth="public", website=True, sitemap=True)
+    # def new_homepage(self):
+    #     return request.render('e_formulaire.new_homepage', {})
+
 
 class InheritCustomerPortal(CustomerPortal):
 
-    def _prepare_home_portal_values(self):
-        values = super(InheritCustomerPortal, self)._prepare_home_portal_values()
-        partner = request.env.user.partner_id
-        project_count = request.env['project.project'].sudo().search_count([])
-        task_count = request.env['project.task'].sudo(
-        ).search_count([('partner_id', '=', partner.id)])
-        values.update({
-            'project_count': project_count,
-            'task_count': task_count,
-        })
-
+    def _prepare_home_portal_values(self, counters):
+        values = super()._prepare_home_portal_values(counters)
+        if 'project_count' in counters:
+            values['project_count'] = request.env['project.project'].search_count([])
+        if 'task_count' in counters:
+            values['task_count'] = request.env['project.task'].search_count([])
         return values
 
     # ------------------------------------------------------------
@@ -54,103 +53,59 @@ class InheritCustomerPortal(CustomerPortal):
         }
         return self._get_page_view_values(project, access_token, values, 'my_projects_history', False, **kwargs)
 
-    # @http.route(['/nos-services'], type='http', auth="user", website=True)
-    # def nos_services(self):
-    #     return request.render('e_formulaire.e_formulair_nos_service', {})
+    @http.route(['/my/formulaire-types', '/my/formulaire-types/page/<int:page>'], type='http', auth="user", website=True)
+    def portal_my_projects(self, page=1, date_begin=None, date_end=None, sortby=None, **kw):
+        values = self._prepare_portal_layout_values()
+        Project = request.env['project.project']
+        domain = []
 
-    @http.route(['/obtenir-un-compte'], type='http', auth="public", website=True)
-    def nos_services(self):
-        return request.render('e_formulaire.o_formulaire_obtenir_un_compte', {})
-
-    @http.route(['/add/demande-autorisation-installationindustrielle'], type='http', auth="user", website=True)
-    def show_formulaure1(self):
-
-        return request.render("e_formulaire.demande_autorisation_installationindustrielle", {})
-
-    @http.route(['/demande/website_submitted'], type='http', auth="user", methods=['POST'], website=True)
-    def demande_submitted(self, **post):
-        partner = request.env.user.partner_id
-        projects = request.env['project.project'].search([])
-
-        vals = {
-            #'project_id': projects,
-            'partner_id': partner.id,
-            'name': post.get('name'),
-            'raison_sociale': post.get('entreprise'),
-            'ifu': post.get('IFU'),
-            'rccm': post.get('rccm'),
-            'project_id': post.get('Type_formulaire'),
-            "attachment_ids": False,
-            'description': post.get('description'),
+        searchbar_sortings = {
+            'date': {'label': _('Newest'), 'order': 'create_date desc'},
+            'name': {'label': _('Name'), 'order': 'name'},
         }
-        partner_id = request.env['res.partner'].sudo().search(
-            [('name', '=', post.get('entreprise'))])
-        if partner_id:
-            vals.update({
-                'partner_id': partner_id.id,
-            })
-        project_id = request.env['project.project'].sudo().search([('custome_code', '=', post.get('project_code'))], limit=1)
-        if project_id:
-            vals.update({
-                'project_id': project_id.id,
-            })
-        demande_id = request.env['project.task'].sudo().create(vals)
-        local_context = http.request.env.context.copy()
-        local_context.update({
-            'raison_sociale': post.get('entreprise'),
-            'ifu': post.get('IFU'),
-            'rccm': post.get('rccm'),
-            'subject': demande_id.name,
-            'number': demande_id.number,
+        if not sortby:
+            sortby = 'date'
+        order = searchbar_sortings[sortby]['order']
+
+        if date_begin and date_end:
+            domain += [('create_date', '>', date_begin), ('create_date', '<=', date_end)]
+
+        # projects count
+        project_count = Project.search_count(domain)
+        # pager
+        pager = portal_pager(
+            url="/my/formulaire-types",
+            url_args={'date_begin': date_begin, 'date_end': date_end, 'sortby': sortby},
+            total=project_count,
+            page=page,
+            step=self._items_per_page
+        )
+
+        # content according to pager and archive selected
+        projects = Project.search(domain, order=order, limit=self._items_per_page, offset=pager['offset'])
+        request.session['my_projects_history'] = projects.ids[:100]
+
+        values.update({
+            'date': date_begin,
+            'date_end': date_end,
+            'projects': projects,
+            'page_name': 'project',
+            'default_url': '/my/formulaire-types',
+            'pager': pager,
+            'searchbar_sortings': searchbar_sortings,
+            'sortby': sortby
         })
+        return request.render("e_formulaire.portal_my_projects", values)
 
-        if post.get("attachment"):
-            for files in request.httprequest.files.getlist("attachment"):
-                data = files.read()
-                if files.filename:
-                    request.env["ir.attachment"].sudo().create({
-                        "name": files.filename,
-                        "datas": base64.b64encode(data),
-                        "res_model": "project.task",
-                        "res_id": demande_id.id
-                    })
+    @http.route(['/my/formulaire/<int:project_id>'], type='http', auth="public", website=True)
+    def portal_my_project(self, project_id=None, access_token=None, **kw):
+        try:
+            project_sudo = self._document_check_access('project.project', project_id, access_token)
+        except (AccessError, MissingError):
+            return request.redirect('/my')
 
-        values = {
-            'order': demande_id
-        }
-
-        return request.render('e_formulaire.website_thanks', values)
-
-    # @http.route(['/my/projects', '/my/projects/page/<int:page>'], type='http', auth="user", website=True)
-    # def portal_my_projects(self, page=1, date_begin=None, date_end=None, sortby=None, **kw):
-    #     values = self._prepare_portal_layout_values()
-    #     partner = request.env.user.partner_id
-    #     Project = request.env['project.project']
-    #     domain1 = []
-    #
-    #     if date_begin and date_end:
-    #         domain1 += [('create_date', '>', date_begin), ('create_date', '<=', date_end)]
-    #     project_count = Project.search_count(domain1)
-    #     pager = request.website.pager(
-    #         url="/my/projects",
-    #         url_args={'date_begin': date_begin, 'date_end': date_end, 'sortby': sortby},
-    #         total=project_count,
-    #         page=page,
-    #         step=self._items_per_page
-    #     )
-    #
-    #     domain = [('partner_id', '=', partner.id)]
-    #     job_order_ids = Project.search(domain, limit=self._items_per_page, offset=pager['offset'])
-    #     values.update({
-    #         'date': date_begin,
-    #         'date_end': date_end,
-    #         'sortby': sortby,
-    #         'job_orders': job_order_ids,
-    #         'page_name': 'project',
-    #         'default_url': '/my/projects',
-    #         'pager': pager
-    #     })
-    #     return request.render("project.portal_my_projects", values)
+        values = self._project_get_page_view_values(project_sudo, access_token, **kw)
+        return request.render("e_formulaire.portal_my_project", values)
 
         # ------------------------------------------------------------
         # My Task
@@ -164,7 +119,6 @@ class InheritCustomerPortal(CustomerPortal):
         }
         return self._get_page_view_values(task, access_token, values, 'my_tasks_history', False, **kwargs)
 
-
     @http.route(['/my/tasks', '/my/tasks/page/<int:page>'], type='http', auth="user", website=True)
     def portal_my_tasks(self, page=1, date_begin=None, date_end=None, sortby=None, filterby=None, search=None,
                         search_in='content', groupby=None, **kw):
@@ -172,7 +126,7 @@ class InheritCustomerPortal(CustomerPortal):
         partner = request.env.user.partner_id
 
         searchbar_filters = {
-            'all': {'label': _('Demande d\'autorisation d\'installation industrielle'), 'domain': []},
+            'all': {'label': _('All'), 'domain': [('partner_id', '=', partner.id)]},
         }
 
         # extends filterby criteria with project the customer has access to
@@ -195,8 +149,7 @@ class InheritCustomerPortal(CustomerPortal):
             })
 
         # # task count
-        task_count = request.env['project.task'].search_count(
-            [('partner_id', '=', partner.id)])
+        task_count = request.env['project.task'].search_count([('partner_id', '=', partner.id)])
         # # pager
         pager = request.website.pager(
             url="/my/tasks",
@@ -238,6 +191,96 @@ class InheritCustomerPortal(CustomerPortal):
 
         values = self._task_get_page_view_values(task_sudo, access_token, **kw)
 
+
         return request.render("project.portal_my_task", values)
 
+    # ___________________________________________________
+    # Obtenir un compte
 
+    @http.route(['/obtenir-un-compte'], type='http', auth="public", website=True)
+    def nos_services(self):
+        return request.render('e_formulaire.o_formulaire_obtenir_un_compte', {})
+
+    # Demande de carte d'importateur DGC
+    @http.route(['/formulaire/demande-carte-importateur'], type='http', auth="user", website=True)
+    def demande_carte_importateur(self):
+        return request.render("e_formulaire.attestation_tenant_lieu_carte_importateur_dgc", {
+            'countries': request.env['res.country'].sudo().search([]),
+        })
+
+    # Demande d'installation industrielle DII
+    @http.route(['/formulaire/demande-autorisation-installation-industrielle'], type='http', auth="user", website=True)
+    def demande_installation_industrielle(self):
+
+        return request.render("e_formulaire.demande_autorisation_installationindustrielle_dii", {})
+
+    # Demande d'autorisation de prorogation de succursale DPS
+    @http.route(['/formulaire/Demande-autorisation-prorogation-succursale'], type='http', auth="user", website=True)
+    def demande_autorisation_prorogation_succursale(self):
+
+        return request.render("e_formulaire.demande_autorisation_prorogation_succursale_dps", {})
+
+    # Attestation tenant lieu de carte d'importateur ATLI
+    @http.route(['/formulaire/attestation-tenant-lieu-carte-importateur'], type='http', auth="user", website=True)
+    def attestation_tenant_lieu_carte_importateur(self, **kw):
+
+        return request.render("e_formulaire.attestation_tenant_lieu_carte_importateur_atli", {})
+
+    @http.route(['/demande/website_submitted'], type='http', auth="user", methods=['POST'], website=True)
+    def demande_submitted(self, **post):
+        partner = request.env.user.partner_id
+
+        values = {
+            'partner_id': partner.id,
+            'name': post.get('name'),
+            'raison_sociale': post.get('entreprise'),
+            'ifu': post.get('IFU'),
+            'rccm': post.get('rccm'),
+            'project_id': post.get('Type_formulaire'),
+            'produit': post.get('produit'),
+            'provenance': post.get('provenance'),
+            'montant': post.get('montant'),
+            'gerant': post.get('gerant'),
+            'date_naissance': post.get('date_naissance'),
+            'lieu_naissance': post.get('lieu_naissance'),
+            'nationalie_gerant': post.get('nationalie_gerant'),
+            "attachment_ids": False,
+            'description': post.get('description'),
+        }
+        partner_id = request.env['res.partner'].sudo().search(
+            [('name', '=', post.get('entreprise'))])
+        if partner_id:
+            values.update({
+                'partner_id': partner_id.id,
+            })
+        project_id = request.env['project.project'].sudo().search([('custome_code', '=', post.get('project_code'))], limit=1)
+        if project_id:
+            values.update({
+                'project_id': project_id.id,
+            })
+        demande_id = request.env['project.task'].sudo().create(values)
+        local_context = http.request.env.context.copy()
+        local_context.update({
+            'raison_sociale': post.get('entreprise'),
+            'ifu': post.get('IFU'),
+            'rccm': post.get('rccm'),
+            'subject': demande_id.name,
+            'number': demande_id.number,
+        })
+
+        if post.get("attachment"):
+            for files in request.httprequest.files.getlist("attachment"):
+                data = files.read()
+                if files.filename:
+                    request.env["ir.attachment"].sudo().create({
+                        "name": files.filename,
+                        "datas": base64.b64encode(data),
+                        "res_model": "project.task",
+                        "res_id": demande_id.id
+                    })
+
+        values = {
+            'order': demande_id
+        }
+
+        return request.render('e_formulaire.website_thanks', values)

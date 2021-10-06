@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
+    <data noupdate="0">
 
-          <!-- Sequences for Task Order Info -->
+        <!-- Sequences for Task Order Info -->
         <record id="job_order_seq" model = "ir.sequence">
             <field name="name">Demande Sequence</field>
             <field name="code">task.order.seq</field>
@@ -13,28 +13,37 @@
         <!-- Stages or status -->
         <record id="project_stage_new" model="project.task.type">
             <field name="sequence">1</field>
-            <field name="name">Nouveau</field>
+            <field name="name">Draft</field>
             <field name="state">draft</field>
             <field name="case_default" eval="False"/>
-
+        </record>
+        <record id="project_stage_soumis" model="project.task.type">
+            <field name="sequence">4</field>
+            <field name="name">Soumis</field>
+            <field name="state">soumis</field>
+            <field name="case_default" eval="True"/>
+        </record>
+        <record id="project_stage_en_traitement" model="project.task.type">
+            <field name="sequence">5</field>
+            <field name="name">En Traitement</field>
+            <field name="state">en_traitement</field>
+            <field name="case_default" eval="False"/>
         </record>
         <record id="project_stage_en_cours" model="project.task.type">
             <field name="sequence">10</field>
-            <field name="name">En Cours Niveau 1</field>
+            <field name="name">En traitement 1</field>
             <field name="state">encour_1</field>
-            <field name="case_default" eval="True"/>
-
+            <field name="case_default" eval="False"/>
         </record>
          <record id="project_stage_en_cours2" model="project.task.type">
             <field name="sequence">15</field>
-            <field name="name">En Cours Nivedau 2</field>
+            <field name="name">Traitement 2</field>
              <field name="state">encour_2</field>
              <field name="case_default" eval="False"/>
-
         </record>
         <record id="project_stage_a_approuver" model="project.task.type">
             <field name="sequence">20</field>
-            <field name="name">A Approuver</field>
+            <field name="name">En traitement 2</field>
             <field name="state">a_approuver</field>
             <field name="case_default" eval="False"/>
         </record>
@@ -54,7 +63,7 @@
         </record>
          <record id="project_stage_approuver" model="project.task.type">
             <field name="sequence">30</field>
-            <field name="name">Approuver</field>
+            <field name="name">Approuvé</field>
              <field name="state">approuver</field>
             <field name="fold" eval="True"/>
             <field name="is_closed" eval="True"/>
@@ -68,7 +77,7 @@
             <field name="is_closed" eval="True"/>
             <field name="case_default" eval="False"/>
         </record>
-        <record id="project_stage_3" model="project.task.type">
+        <record id="project_stage_rejeter" model="project.task.type">
             <field name="sequence">40</field>
             <field name="name">Rejeté</field>
             <field name="state">cancelled</field>
@@ -77,6 +86,99 @@
             <field name="is_closed" eval="True"/>
             <field name="case_default" eval="False"/>
         </record>
+    </data>
+    <data noupdate="1">
 
+        <!-- Types de Formulaire-->
+         <record id="e_formulaire_dii" model="project.project">
+            <field name="name">Demande d'autorisation d'installation industrielle</field>
+            <field name="color">3</field>
+             <field name="label_tasks">Demandes</field>
+            <field name="custome_code">DII</field>
+            <field name="type_form">1</field>
+             <field name="user_id" ref="base.user_admin"/>
+            <field name="duree_validite">90</field>
+            <field name="duration_unit">jours</field>
+            <field name="renouvellement">oui</field>
+            <field name="type_ids" eval="[(4, ref('project_stage_soumis')),
+                                           (4, ref('project_stage_en_cours')),
+                                         (4, ref('project_stage_en_traitement')),
+                                         (4, ref('project_stage_a_approuver')),
+                                         (4, ref('project_stage_suspendu')),
+                                         (4, ref('project_stage_renouv')),
+                                         (4, ref('project_stage_approuver')),
+                                         (4, ref('project_stage_revoque')),
+                                         (4, ref('project_stage_rejeter'))]"/>
+            <field name="privacy_visibility">portal</field>
+            <field name="favorite_user_ids" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+
+         <record id="e_formulaire_dps" model="project.project">
+            <field name="name">Demande d'autorisation de prorogation de succursale</field>
+            <field name="color">3</field>
+             <field name="label_tasks">Demandes</field>
+            <field name="custome_code">DPS</field>
+            <field name="type_form">2</field>
+             <field name="user_id" ref="base.user_admin"/>
+            <field name="duree_validite">90</field>
+            <field name="duration_unit">jours</field>
+            <field name="renouvellement">oui</field>
+            <field name="type_ids" eval="[(4, ref('project_stage_soumis')),(4, ref('project_stage_en_cours')),
+                                        (4, ref('project_stage_en_traitement')),
+                                         (4, ref('project_stage_a_approuver')),
+                                         (4, ref('project_stage_suspendu')),
+                                         (4, ref('project_stage_renouv')),
+                                         (4, ref('project_stage_approuver')),
+                                         (4, ref('project_stage_revoque')),
+                                         (4, ref('project_stage_rejeter'))]"/>
+            <field name="privacy_visibility">portal</field>
+            <field name="favorite_user_ids" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+
+        <record id="e_formulaire_atli" model="project.project">
+            <field name="name">Attestation tenant lieu de carte d'importateur</field>
+            <field name="color">3</field>
+            <field name="label_tasks">Demandes</field>
+            <field name="custome_code">ATLI</field>
+            <field name="type_form">3</field>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="duree_validite">90</field>
+            <field name="duration_unit">jours</field>
+            <field name="renouvellement">non</field>
+            <field name="type_ids" eval="[(4, ref('project_stage_soumis')),(4, ref('project_stage_en_cours')),
+                                        (4, ref('project_stage_en_traitement')),
+                                         (4, ref('project_stage_a_approuver')),
+                                         (4, ref('project_stage_suspendu')),
+                                         (4, ref('project_stage_renouv')),
+                                         (4, ref('project_stage_approuver')),
+                                         (4, ref('project_stage_revoque')),
+                                         (4, ref('project_stage_rejeter'))]"/>
+            <field name="privacy_visibility">portal</field>
+            <field name="favorite_user_ids" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+
+        <record id="e_formulaire_dgc" model="project.project">
+            <field name="name">Demande de carte d'importateur</field>
+            <field name="color">3</field>
+            <field name="label_tasks">Demandes</field>
+            <field name="custome_code">DGC</field>
+            <field name="type_form">4</field>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="duree_validite">2</field>
+            <field name="duration_unit">ans</field>
+            <field name="renouvellement">oui</field>
+            <field name="type_ids" eval="[
+                (4, ref('project_stage_soumis')),
+                (4, ref('project_stage_en_cours')),
+                (4, ref('project_stage_en_traitement')),
+                (4, ref('project_stage_a_approuver')),
+                                         (4, ref('project_stage_suspendu')),
+                                         (4, ref('project_stage_renouv')),
+                                         (4, ref('project_stage_approuver')),
+                                         (4, ref('project_stage_revoque')),
+                                         (4, ref('project_stage_rejeter'))]"/>
+            <field name="privacy_visibility">portal</field>
+            <field name="favorite_user_ids" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
     </data>
 </odoo>
